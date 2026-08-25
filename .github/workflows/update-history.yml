@@ -1,0 +1,43 @@
+name: Atualizar histórico eleitoral
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "43 8 * * 1"
+  push:
+    branches: ["main"]
+    paths:
+      - "scripts/update_history.py"
+      - ".github/workflows/update-history.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  update-history:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Dependências
+        run: pip install requests
+      - name: Atualizar candidatos e patrimônio primeiro
+        run: python scripts/update_tse.py
+      - name: Cruzar eleições 2022 e 2024
+        run: python scripts/update_history.py
+      - name: Publicar alterações
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add official-data.json election-history.json
+          if git diff --cached --quiet; then
+            echo "Sem alterações."
+          else
+            git commit -m "Atualiza patrimônio e histórico eleitoral"
+            git push
+          fi

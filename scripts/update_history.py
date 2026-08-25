@@ -2,8 +2,8 @@
 """Cruza candidatos atuais de MG com candidaturas e votação nominal de 2022 e 2024.
 
 O processamento usa streaming dos ZIPs/CSVs para evitar MemoryError em arquivos grandes.
-Se arquivos históricos estiverem em imports/, eles são priorizados; caso contrário, são
-baixados temporariamente do TSE.
+Além dos votos e principais municípios, calcula concentração territorial e participação
+em dois recortes operacionais do painel: Noroeste de MG e Alto Paranaíba.
 """
 import csv, json, re, tempfile, unicodedata, zipfile
 from collections import defaultdict
@@ -14,7 +14,7 @@ import requests
 
 ROOT=Path(__file__).resolve().parents[1]
 OFFICIAL=ROOT/'official-data.json'; OUT=ROOT/'election-history.json'; IMPORTS=ROOT/'imports'
-UA={'User-Agent':'painel-eleicoes-2026/2.2'}
+UA={'User-Agent':'painel-eleicoes-2026/2.3'}
 CAND_URL={
   2022:'https://cdn.tse.jus.br/estatistica/sead/odsele/consulta_cand/consulta_cand_2022.zip',
   2024:'https://cdn.tse.jus.br/estatistica/sead/odsele/consulta_cand/consulta_cand_2024.zip'
@@ -22,6 +22,21 @@ CAND_URL={
 VOTE_URL={
   2022:'https://cdn.tse.jus.br/estatistica/sead/odsele/votacao_candidato_munzona/votacao_candidato_munzona_2022.zip',
   2024:'https://cdn.tse.jus.br/estatistica/sead/odsele/votacao_candidato_munzona/votacao_candidato_munzona_2024.zip'
+}
+
+# Recortes operacionais usados para a análise territorial do painel. Eles não pretendem
+# substituir regionalizações oficiais do IBGE; servem para comparação eleitoral consistente.
+REGIONS={
+ 'Noroeste de MG':{
+  'ARINOS','BONFINOPOLIS DE MINAS','BRASILANDIA DE MINAS','BURITIS','CABECEIRA GRANDE','DOM BOSCO','FORMOSO',
+  'GUARDA MOR','JOAO PINHEIRO','LAGAMAR','LAGOA GRANDE','NATALANDIA','PARACATU','PRESIDENTE OLEGARIO',
+  'RIACHINHO','URUANA DE MINAS','URUCUIA','VAZANTE','VARJAO DE MINAS','UNAI'
+ },
+ 'Alto Paranaiba':{
+  'ARAXA','CAMPOS ALTOS','CARMO DO PARANAIBA','COROMANDEL','CRUZEIRO DA FORTALEZA','GUIMARANIA','IBIA',
+  'LAGOA FORMOSA','MATUTINA','MONTE CARMELO','PATOS DE MINAS','PATROCINIO','PEDRINOPOLIS','PERDIZES',
+  'PRATINHA','RIO PARANAIBA','SANTA JULIANA','SERRA DO SALITRE','SAO GOTARDO','TIROS'
+ }
 }
 
 def norm(v):
@@ -33,9 +48,14 @@ def pick(r,*ks):
         if r.get(k) not in (None,''):return str(r[k]).strip()
     return ''
 
+def region_of(municipio):
+    m=norm(municipio)
+    for name,cities in REGIONS.items():
+        if m in cities:return name
+    return None
+
 def current_db():
     db=json.loads(OFFICIAL.read_text(encoding='utf-8')).get('database',[])
-    # Histórico desta rotina é focado em candidatos atuais de Minas Gerais.
     return [x for x in db if norm(x.get('uf'))=='MG']
 
 def current_indexes(current):
@@ -84,12 +104,10 @@ def iter_rows(zip_path,year):
         print(f'{year}: processando {len(members)} CSV(s) relevante(s)')
         for name in members:
             with z.open(name) as raw:
-                # Arquivos eleitorais do TSE usam ';' e normalmente Latin-1/Windows-1252.
                 import io
                 text=io.TextIOWrapper(raw,encoding='latin-1',errors='replace',newline='')
                 reader=csv.DictReader(text,delimiter=';')
-                for row in reader:
-                    yield row
+                for row in reader:yield row
 
 def prior_candidates(year,current):
     exact,loose=current_indexes(current); by_current={}
@@ -107,7 +125,7 @@ def prior_candidates(year,current):
 
 def votes(year,prior):
     wanted={v['priorSq']:k for k,v in prior.items() if v.get('priorSq')}
-    totals=defaultdict(int); muni=defaultdict(lambda:defaultdict(int))
+    totals=defaultdict(int); muni=defaultdict(lambda:defaultdict(int)); regional=defaultdict(lambda:defaultdict(int))
     if not wanted:return {}
     with resource(year,'vote') as path:
         for r in iter_rows(path,year):
@@ -118,11 +136,25 @@ def votes(year,prior):
             except (TypeError,ValueError):q=0
             totals[cur]+=q
             m=pick(r,'NM_MUNICIPIO')
-            if m:muni[cur][m]+=q
+            if m:
+                muni[cur][m]+=q
+                reg=region_of(m)
+                if reg:regional[cur][reg]+=q
     out={}
     for cur,meta in prior.items():
-        top=sorted(muni[cur].items(),key=lambda kv:kv[1],reverse=True)[:8]
-        out[cur]={**meta,'votos':totals[cur],'topMunicipios':[{'municipio':m,'votos':v} for m,v in top]}
+        all_muni=sorted(muni[cur].items(),key=lambda kv:kv[1],reverse=True)
+        top=all_muni[:8]; total=totals[cur]
+        top1=top[0][1] if top else 0; top3=sum(v for _,v in top[:3])
+        region_data={}
+        for reg in REGIONS:
+            rv=regional[cur].get(reg,0)
+            region_data[reg]={'votos':rv,'percentual':round((rv/total*100),2) if total else 0.0}
+        out[cur]={**meta,'votos':total,
+          'topMunicipios':[{'municipio':m,'votos':v} for m,v in top],
+          'municipiosComVotos':sum(1 for _,v in all_muni if v>0),
+          'concentracaoTop1':round((top1/total*100),2) if total else 0.0,
+          'concentracaoTop3':round((top3/total*100),2) if total else 0.0,
+          'regioes':region_data}
     return out
 
 def main():
@@ -135,7 +167,8 @@ def main():
         for cur,h in hist.items():result.setdefault(cur,{})[str(year)]=h
         print(f'{year}: {len(hist)} candidaturas históricas localizadas')
     payload={'source':'Tribunal Superior Eleitoral — Dados Abertos','checkedAt':datetime.now(timezone.utc).isoformat().replace('+00:00','Z'),
-      'years':[2022,2024],'scope':'MG','sources':sources,'byCandidate':result}
+      'years':[2022,2024],'scope':'MG','regionalization':{'type':'recorte operacional do painel','regions':{k:sorted(v) for k,v in REGIONS.items()}},
+      'sources':sources,'byCandidate':result}
     OUT.write_text(json.dumps(payload,ensure_ascii=False,separators=(',',':'))+'\n',encoding='utf-8')
     print(f'Histórico concluído para {len(result)} candidatos atuais')
 if __name__=='__main__':main()

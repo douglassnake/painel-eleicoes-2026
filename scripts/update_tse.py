@@ -25,6 +25,7 @@ UA={'User-Agent':'Mozilla/5.0 Chrome/151 Safari/537.36','Accept':'application/js
 # As aliases só complementam o matching normal; não alteram o cadastro oficial.
 MONITORED_ALIASES={
     'Cleitinho Azevedo':['Cleitinho','Cleiton Gontijo de Azevedo'],
+    'Gabriel Azevedo':['Gabriel Sousa Marques de Azevedo'],
     'Ana Luiza do MLB':['Ana Luiza Cardoso de Macedo','Ana Luiza'],
     'Marco Antonio Superman':['Marco Antonio Moreira da Costa','Marco Antonio'],
     'Wilson Grassi':['Veterinario Wilson Grassi'],

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Sincroniza candidatos 2026 e patrimônio declarado com os Dados Abertos do TSE."""
+"""Sincroniza candidatos 2026 e, quando disponível, patrimônio declarado no TSE."""
 import csv, io, json, re, unicodedata, zipfile
 from collections import defaultdict
 from datetime import datetime, timezone
@@ -11,7 +11,7 @@ DATA_JS=ROOT/'data.js'; OUT=ROOT/'official-data.json'
 DATASET='https://dadosabertos.tse.jus.br/dataset/candidatos-2026'
 CAND_URL='https://cdn.tse.jus.br/estatistica/sead/odsele/consulta_cand/consulta_cand_2026.zip'
 BENS_URL='https://cdn.tse.jus.br/estatistica/sead/odsele/bem_candidato/bem_candidato_2026.zip'
-UA={'User-Agent':'painel-eleicoes-2026/2.1'}
+UA={'User-Agent':'Mozilla/5.0 painel-eleicoes-2026/2.2','Accept':'*/*'}
 
 def norm(v):
     v=unicodedata.normalize('NFKD',str(v or ''))
@@ -64,22 +64,37 @@ def in_scope(x):
     return any(k in c for k in ('GOVERNADOR','SENADOR','DEPUTADO FEDERAL','DEPUTADO ESTADUAL')) and 'VICE' not in c and 'SUPLENTE' not in c
 
 def get(url,timeout=240):
-    r=requests.get(url,headers=UA,timeout=timeout);r.raise_for_status()
+    r=requests.get(url,headers=UA,timeout=timeout,allow_redirects=True)
+    r.raise_for_status()
     if not r.content:raise RuntimeError(f'Recurso vazio: {url}')
     return r.content
 
+def load_assets():
+    assets=defaultdict(float); counts=defaultdict(int)
+    try:
+        for txt in csv_texts(get(BENS_URL)):
+            for r in rows(txt):
+                sq=pick(r,'SQ_CANDIDATO','SQ_CANDIDATA')
+                if sq:
+                    assets[sq]+=nfloat(pick(r,'VR_BEM_CANDIDATO','VR_BEM'))
+                    counts[sq]+=1
+        return assets,counts,'ok',None
+    except Exception as e:
+        print(f'AVISO: patrimônio indisponível nesta execução: {e}')
+        return assets,counts,'unavailable',str(e)
+
 def main():
-    assets=defaultdict(float);asset_count=defaultdict(int)
-    for txt in csv_texts(get(BENS_URL)):
-      for r in rows(txt):
-        sq=pick(r,'SQ_CANDIDATO','SQ_CANDIDATA')
-        if sq:assets[sq]+=nfloat(pick(r,'VR_BEM_CANDIDATO','VR_BEM'));asset_count[sq]+=1
+    assets,asset_count,asset_status,asset_error=load_assets()
     database=[];total_rows=0
-    for txt in csv_texts(get(CAND_URL)):
+    cand_blob=get(CAND_URL)
+    for txt in csv_texts(cand_blob):
       for r in rows(txt):
         total_rows+=1;x=rec(r)
         if not in_scope(x):continue
-        x['patrimonio']=round(assets.get(x['sqCandidato'],0.0),2);x['qtdBens']=asset_count.get(x['sqCandidato'],0);database.append(x)
+        sq=x['sqCandidato']
+        x['patrimonio']=round(assets[sq],2) if asset_status=='ok' and sq in assets else None
+        x['qtdBens']=asset_count.get(sq) if asset_status=='ok' else None
+        database.append(x)
     database.sort(key=lambda x:(norm(x['cargo']),norm(x['partido']),norm(x['nomeUrna'] or x['nomeCompleto'])))
     mon=monitored_names();targets={norm(n):n for n in mon};found={}
     for x in database:
@@ -91,7 +106,8 @@ def main():
     for x in database:counts[x['cargo']]+=1
     payload={'source':'Tribunal Superior Eleitoral — Dados Abertos','dataset':DATASET,'candidateResource':CAND_URL,'assetsResource':BENS_URL,
       'checkedAt':datetime.now(timezone.utc).isoformat().replace('+00:00','Z'),'rowsRead':total_rows,'databaseCount':len(database),
-      'countsByCargo':dict(sorted(counts.items())),'database':database,'matched':len(found),'monitored':len(mon),'candidates':found,'notFound':[n for n in mon if n not in found]}
+      'countsByCargo':dict(sorted(counts.items())),'database':database,'matched':len(found),'monitored':len(mon),'candidates':found,
+      'notFound':[n for n in mon if n not in found],'syncStatus':'ok','assetsSyncStatus':asset_status,'assetsError':asset_error}
     OUT.write_text(json.dumps(payload,ensure_ascii=False,separators=(',',':'))+'\n',encoding='utf-8')
-    print(f'TSE: {len(database)} candidatos; patrimônio agregado; {len(found)}/{len(mon)} monitorados')
+    print(f'TSE: {len(database)} candidatos; patrimônio={asset_status}; {len(found)}/{len(mon)} monitorados')
 if __name__=='__main__':main()

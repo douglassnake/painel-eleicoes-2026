@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+"""Sincroniza a camada oficial do painel com o conjunto Candidatos 2026 do TSE."""
 import csv
 import io
 import json
@@ -110,7 +111,6 @@ def main():
             for key, display in targets.items():
                 if key == urna or key == full or (len(key) >= 8 and (key in urna or key in full)):
                     rec = make_record(row)
-                    # Prefer MG for state races and BR for president when duplicate names occur.
                     prev = found.get(display)
                     preferred = rec["uf"] in {"MG", "BR"}
                     if prev is None or preferred:

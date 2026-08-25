@@ -1,0 +1,6 @@
+.venv/
+imports/
+*.zip
+Codigo_erro.txt
+__pycache__/
+*.pyc

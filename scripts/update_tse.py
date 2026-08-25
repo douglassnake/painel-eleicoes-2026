@@ -21,6 +21,16 @@ SCOPES=[('BR',1),('MG',3),('MG',5),('MG',6),('MG',7)]
 CARGO_FALLBACK={1:'PRESIDENTE',3:'GOVERNADOR',5:'SENADOR',6:'DEPUTADO FEDERAL',7:'DEPUTADO ESTADUAL'}
 UA={'User-Agent':'Mozilla/5.0 Chrome/151 Safari/537.36','Accept':'application/json, text/plain, */*','Referer':'https://divulgacandcontas.tse.jus.br/divulga/'}
 
+# Apelidos do painel que podem diferir do nome de urna/nome civil publicado pelo TSE.
+# As aliases só complementam o matching normal; não alteram o cadastro oficial.
+MONITORED_ALIASES={
+    'Cleitinho Azevedo':['Cleitinho','Cleiton Gontijo de Azevedo'],
+    'Ana Luiza do MLB':['Ana Luiza Cardoso de Macedo','Ana Luiza'],
+    'Marco Antonio Superman':['Marco Antonio Moreira da Costa','Marco Antonio'],
+    'Wilson Grassi':['Veterinario Wilson Grassi'],
+    'Augusto Cury':['Escritor Augusto Cury'],
+}
+
 def norm(v):
     v=unicodedata.normalize('NFKD',str(v or ''))
     return re.sub(r'[^A-Z0-9]+',' ',''.join(c for c in v if not unicodedata.combining(c)).upper()).strip()
@@ -125,13 +135,27 @@ def load_api():
     if not db:raise RuntimeError('TSE bloqueou a API e não há arquivo local em imports/')
     return db,len(db),'api',False
 
+def names_for_target(display):
+    vals=[display,*MONITORED_ALIASES.get(display,[])]
+    return [norm(v) for v in vals if norm(v)]
+
 def match_monitored(database,names):
-    targets={norm(n):n for n in names};found={}
-    for x in database:
-        urna,full=norm(x['nomeUrna']),norm(x['nomeCompleto'])
-        for k,d in targets.items():
-            if k==urna or k==full or (len(k)>=8 and (k in urna or k in full)):
-                if d not in found or x['uf']=='MG':found[d]=x
+    found={}
+    for display in names:
+        keys=names_for_target(display)
+        candidates=[]
+        for x in database:
+            urna,full=norm(x.get('nomeUrna')),norm(x.get('nomeCompleto'))
+            score=0
+            for k in keys:
+                if k==urna or k==full:score=max(score,4)
+                elif len(k)>=8 and (k in urna or k in full):score=max(score,3)
+                elif len(urna)>=8 and urna in k:score=max(score,2)
+            if score:candidates.append((score,x))
+        if candidates:
+            # Maior qualidade do match; em empate prioriza MG.
+            candidates.sort(key=lambda p:(p[0],1 if norm(p[1].get('uf'))=='MG' else 0),reverse=True)
+            found[display]=candidates[0][1]
     return found
 
 def main():
@@ -142,10 +166,12 @@ def main():
     database.sort(key=lambda x:(norm(x['cargo']),norm(x['partido']),norm(x['nomeUrna'] or x['nomeCompleto'])))
     names=monitored_names();found=match_monitored(database,names);counts=defaultdict(int)
     for x in database:counts[x['cargo']]+=1
+    not_found=[n for n in names if n not in found]
     payload={'source':'Tribunal Superior Eleitoral — Dados Abertos/DivulgaCand','dataset':DATASET,'checkedAt':datetime.now(timezone.utc).isoformat().replace('+00:00','Z'),
       'syncMode':mode,'rowsRead':rows_read,'databaseCount':len(database),'countsByCargo':dict(sorted(counts.items())),'database':database,
-      'matched':len(found),'monitored':len(names),'candidates':found,'notFound':[n for n in names if n not in found],
+      'matched':len(found),'monitored':len(names),'candidates':found,'notFound':not_found,
       'syncStatus':'ok','assetsSyncStatus':'ok' if assets_ok else 'indisponivel'}
     OUT.write_text(json.dumps(payload,ensure_ascii=False,separators=(',',':'))+'\n',encoding='utf-8')
     print(f'Banco gerado: {len(database)} candidatos; {len(found)}/{len(names)} monitorados; modo={mode}')
+    if not_found:print('Monitorados não localizados:', ' | '.join(not_found))
 if __name__=='__main__':main()

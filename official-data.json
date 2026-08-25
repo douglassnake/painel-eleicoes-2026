@@ -1,0 +1,12 @@
+{
+  "source": "Tribunal Superior Eleitoral — Dados Abertos, Candidatos 2026",
+  "dataset": "https://dadosabertos.tse.jus.br/dataset/candidatos-2026",
+  "resource": "https://cdn.tse.jus.br/estatistica/sead/odsele/consulta_cand/consulta_cand_2026.zip",
+  "checkedAt": null,
+  "rowsRead": 0,
+  "matched": 0,
+  "monitored": 58,
+  "candidates": {},
+  "notFound": [],
+  "syncStatus": "pending"
+}

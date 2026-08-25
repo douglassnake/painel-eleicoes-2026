@@ -1,29 +1,25 @@
 #!/usr/bin/env python3
-"""Sincroniza o banco 2026 via API oficial DivulgaCandContas do TSE.
+"""Sincroniza candidatos 2026.
 
-O CDN de Dados Abertos bloqueia alguns IPs de GitHub Actions (HTTP 403).
-Por isso a carga principal usa a API REST consumida pelo próprio DivulgaCand.
-A lista completa é carregada para MG + Presidência; detalhes e bens são
-consultados apenas para o conjunto monitorado, evitando sobrecarga no TSE.
+Prioridade:
+1) arquivos oficiais baixados manualmente em imports/;
+2) API DivulgaCand como fallback.
+Isso contorna bloqueios HTTP 403 do TSE em acessos automatizados.
 """
-import json, re, time, unicodedata
+import csv, io, json, re, time, unicodedata, zipfile
 from collections import defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
 import requests
 
 ROOT=Path(__file__).resolve().parents[1]
-DATA_JS=ROOT/'data.js'; OUT=ROOT/'official-data.json'
+DATA_JS=ROOT/'data.js'; OUT=ROOT/'official-data.json'; IMPORTS=ROOT/'imports'
 DATASET='https://dadosabertos.tse.jus.br/dataset/candidatos-2026'
-API='https://divulgacandcontas.tse.jus.br/divulga/rest/v1'
-ELECTION_ID='20322002026'
+CAND_FILE=IMPORTS/'consulta_cand_2026.zip'; BENS_FILE=IMPORTS/'bem_candidato_2026.zip'
+API='https://divulgacandcontas.tse.jus.br/divulga/rest/v1'; ELECTION_ID='20322002026'
 SCOPES=[('BR',1),('MG',3),('MG',5),('MG',6),('MG',7)]
 CARGO_FALLBACK={1:'PRESIDENTE',3:'GOVERNADOR',5:'SENADOR',6:'DEPUTADO FEDERAL',7:'DEPUTADO ESTADUAL'}
-UA={
- 'User-Agent':'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/151 Safari/537.36',
- 'Accept':'application/json, text/plain, */*',
- 'Referer':'https://divulgacandcontas.tse.jus.br/divulga/'
-}
+UA={'User-Agent':'Mozilla/5.0 Chrome/151 Safari/537.36','Accept':'application/json, text/plain, */*','Referer':'https://divulgacandcontas.tse.jus.br/divulga/'}
 
 def norm(v):
     v=unicodedata.normalize('NFKD',str(v or ''))
@@ -33,32 +29,71 @@ def monitored_names():
     t=DATA_JS.read_text(encoding='utf-8')
     return sorted(set(re.findall(r"nome:'([^']+)'",t)))
 
+def decode(b):
+    for e in ('utf-8-sig','latin-1','cp1252'):
+        try:return b.decode(e)
+        except UnicodeDecodeError:pass
+    return b.decode('latin-1',errors='replace')
+
+def csv_texts(path):
+    blob=path.read_bytes()
+    if blob[:2]==b'PK':
+        with zipfile.ZipFile(io.BytesIO(blob)) as z:
+            for n in z.namelist():
+                if n.lower().endswith('.csv'):yield decode(z.read(n))
+    else:yield decode(blob)
+
+def rows(text):
+    d=';' if text[:10000].count(';')>=text[:10000].count(',') else ','
+    return csv.DictReader(io.StringIO(text),delimiter=d)
+
+def pick(r,*ks):
+    for k in ks:
+        if r.get(k) not in (None,''):return str(r[k]).strip()
+    return ''
+
+def nfloat(v):
+    s=str(v or '').strip().replace('.','').replace(',','.')
+    try:return float(s)
+    except:return 0.0
+
 def iso_from_epoch(v):
     try:return datetime.fromtimestamp(int(v)/1000,timezone.utc).isoformat().replace('+00:00','Z')
     except:return None
 
-def session():
-    s=requests.Session();s.headers.update(UA);return s
+def in_scope_csv(r):
+    cargo=norm(pick(r,'DS_CARGO')); uf=norm(pick(r,'SG_UF'))
+    if cargo=='PRESIDENTE':return True
+    if uf!='MG':return False
+    return cargo in ('GOVERNADOR','SENADOR','DEPUTADO FEDERAL','DEPUTADO ESTADUAL')
 
-def get_json(s,url,tries=4):
-    last=None
-    for i in range(tries):
-        try:
-            r=s.get(url,timeout=90,allow_redirects=True)
-            if r.status_code==429:
-                time.sleep(2.0*(i+1));continue
-            r.raise_for_status()
-            return r.json()
-        except Exception as e:
-            last=e
-            time.sleep(0.8*(i+1))
-    raise RuntimeError(f'Falha ao consultar {url}: {last}')
+def csv_record(r,assets,asset_count):
+    sq=pick(r,'SQ_CANDIDATO','SQ_CANDIDATA')
+    return {'nomeUrna':pick(r,'NM_URNA_CANDIDATO','NM_URNA_CANDIDATA'),'nomeCompleto':pick(r,'NM_CANDIDATO','NM_CANDIDATA'),
+      'numero':pick(r,'NR_CANDIDATO','NR_CANDIDATA'),'partido':pick(r,'SG_PARTIDO'),'federacao':pick(r,'NM_FEDERACAO','DS_COMPOSICAO_FEDERACAO'),
+      'cargo':pick(r,'DS_CARGO'),'uf':pick(r,'SG_UF'),'situacao':pick(r,'DS_SITUACAO_CANDIDATURA','DS_SITUACAO_CANDIDATO','DS_SITUACAO') or 'Não informado',
+      'detalhe':pick(r,'DS_SITUACAO_CANDIDATO_URNA','DS_DETALHE_SITUACAO_CAND'),'sqCandidato':sq,'genero':pick(r,'DS_GENERO'),
+      'dataNascimento':pick(r,'DT_NASCIMENTO'),'idadePosse':pick(r,'NR_IDADE_DATA_POSSE'),'ocupacao':pick(r,'DS_OCUPACAO'),
+      'instrucao':pick(r,'DS_GRAU_INSTRUCAO'),'municipioNascimento':pick(r,'NM_MUNICIPIO_NASCIMENTO'),'ufNascimento':pick(r,'SG_UF_NASCIMENTO'),
+      'corRaca':pick(r,'DS_COR_RACA'),'estadoCivil':pick(r,'DS_ESTADO_CIVIL'),'patrimonio':round(assets.get(sq,0.0),2) if sq in assets else None,
+      'qtdBens':asset_count.get(sq) if sq in asset_count else None,'fotoUrl':'','ultimaAtualizacao':None,'eleicoesAnteriores':[]}
 
-def list_url(uf,cargo):
-    return f'{API}/candidatura/listar/2026/{uf}/{ELECTION_ID}/{cargo}/candidatos'
-
-def detail_url(uf,candidate_id):
-    return f'{API}/candidatura/buscar/2026/{uf}/{ELECTION_ID}/candidato/{candidate_id}'
+def load_local():
+    if not CAND_FILE.exists():return None
+    assets=defaultdict(float);asset_count=defaultdict(int)
+    if BENS_FILE.exists():
+        for txt in csv_texts(BENS_FILE):
+            for r in rows(txt):
+                sq=pick(r,'SQ_CANDIDATO','SQ_CANDIDATA')
+                if sq:
+                    assets[sq]+=nfloat(pick(r,'VR_BEM_CANDIDATO','VR_BEM'));asset_count[sq]+=1
+    db=[];read=0
+    for txt in csv_texts(CAND_FILE):
+        for r in rows(txt):
+            read+=1
+            if in_scope_csv(r):db.append(csv_record(r,assets,asset_count))
+    print(f'Arquivos locais TSE: {len(db)} candidatos em escopo; {read} linhas lidas')
+    return db,read,'arquivo-local',BENS_FILE.exists()
 
 def val(d,*keys):
     for k in keys:
@@ -66,104 +101,51 @@ def val(d,*keys):
         if v not in (None,''):return v
     return None
 
-def record(c,uf,cargo_code):
+def api_record(c,uf,cargo_code):
     partido=c.get('partido') or {}; cargo=c.get('cargo') or {}
-    return {
-      'nomeUrna':val(c,'nomeUrna','nm_URNA') or '',
-      'nomeCompleto':val(c,'nomeCompleto','nm_CANDIDATO') or '',
-      'numero':str(val(c,'numero','nr_CANDIDATO') or ''),
-      'partido':val(partido,'sigla') or val(c,'sg_PARTIDO') or '',
-      'federacao':val(c,'nomeColigacao') or '',
-      'cargo':val(cargo,'nome') or val(c,'ds_CARGO') or CARGO_FALLBACK[cargo_code],
-      'uf':val(c,'ufCandidatura') or uf,
-      'situacao':val(c,'descricaoSituacao','descricaoSituacaoCandidato','situacaoCandidato','stRegistro') or 'Não informado',
-      'detalhe':val(c,'descricaoTotalizacao') or '',
-      'sqCandidato':str(val(c,'id','sq_CANDIDATO') or ''),
-      'genero':val(c,'descricaoSexo') or '',
-      'dataNascimento':iso_from_epoch(val(c,'dataDeNascimento')),
-      'idadePosse':None,
-      'ocupacao':val(c,'ocupacao') or '',
-      'instrucao':val(c,'grauInstrucao') or '',
-      'municipioNascimento':val(c,'nomeMunicipioNascimento') or '',
-      'ufNascimento':val(c,'sgUfNascimento') or '',
-      'corRaca':val(c,'descricaoCorRaca') or '',
-      'estadoCivil':val(c,'descricaoEstadoCivil') or '',
-      'patrimonio':None,'qtdBens':None,'fotoUrl':val(c,'fotoUrl') or '',
-      'ultimaAtualizacao':iso_from_epoch(val(c,'dataUltimaAtualizacao')),
-      'eleicoesAnteriores':[]
-    }
+    return {'nomeUrna':val(c,'nomeUrna','nm_URNA') or '','nomeCompleto':val(c,'nomeCompleto','nm_CANDIDATO') or '',
+      'numero':str(val(c,'numero','nr_CANDIDATO') or ''),'partido':val(partido,'sigla') or val(c,'sg_PARTIDO') or '',
+      'federacao':val(c,'nomeColigacao') or '','cargo':val(cargo,'nome') or val(c,'ds_CARGO') or CARGO_FALLBACK[cargo_code],
+      'uf':val(c,'ufCandidatura') or uf,'situacao':val(c,'descricaoSituacao','descricaoSituacaoCandidato','situacaoCandidato','stRegistro') or 'Não informado',
+      'detalhe':val(c,'descricaoTotalizacao') or '','sqCandidato':str(val(c,'id','sq_CANDIDATO') or ''),'genero':val(c,'descricaoSexo') or '',
+      'dataNascimento':iso_from_epoch(val(c,'dataDeNascimento')),'idadePosse':None,'ocupacao':val(c,'ocupacao') or '',
+      'instrucao':val(c,'grauInstrucao') or '','municipioNascimento':val(c,'nomeMunicipioNascimento') or '','ufNascimento':val(c,'sgUfNascimento') or '',
+      'corRaca':val(c,'descricaoCorRaca') or '','estadoCivil':val(c,'descricaoEstadoCivil') or '','patrimonio':None,'qtdBens':None,
+      'fotoUrl':val(c,'fotoUrl') or '','ultimaAtualizacao':iso_from_epoch(val(c,'dataUltimaAtualizacao')),'eleicoesAnteriores':[]}
 
-def enrich(rec,d):
-    rec.update({
-      'genero':val(d,'descricaoSexo') or rec['genero'],
-      'ocupacao':val(d,'ocupacao') or rec['ocupacao'],
-      'instrucao':val(d,'grauInstrucao') or rec['instrucao'],
-      'municipioNascimento':val(d,'nomeMunicipioNascimento') or rec['municipioNascimento'],
-      'ufNascimento':val(d,'sgUfNascimento') or rec['ufNascimento'],
-      'corRaca':val(d,'descricaoCorRaca') or rec['corRaca'],
-      'estadoCivil':val(d,'descricaoEstadoCivil') or rec['estadoCivil'],
-      'fotoUrl':val(d,'fotoUrl') or rec['fotoUrl'],
-      'detalhe':val(d,'descricaoTotalizacao') or rec['detalhe'],
-      'situacao':val(d,'descricaoSituacao','descricaoSituacaoCandidato') or rec['situacao'],
-    })
-    bens=d.get('bens') or []
-    total=d.get('totalDeBens')
-    if total is None and bens:
-        try:total=sum(float(b.get('valor') or 0) for b in bens)
-        except:total=None
-    rec['patrimonio']=round(float(total),2) if total is not None else None
-    rec['qtdBens']=len(bens) if isinstance(bens,list) else None
-    rec['eleicoesAnteriores']=d.get('eleicoesAnteriores') or []
-    rec['reeleicao']=d.get('st_REELEICAO')
-    rec['cnpjCampanha']=d.get('cnpjcampanha')
-    return rec
+def load_api():
+    s=requests.Session();s.headers.update(UA);db=[];errors=[]
+    for uf,cargo in SCOPES:
+        url=f'{API}/candidatura/listar/2026/{uf}/{ELECTION_ID}/{cargo}/candidatos'
+        try:
+            r=s.get(url,timeout=40);r.raise_for_status();p=r.json();cand=p.get('candidatos',[]) if isinstance(p,dict) else []
+            db.extend(api_record(c,uf,cargo) for c in cand);print(f'{uf}/{cargo}: {len(cand)} candidatos')
+        except Exception as e:errors.append(f'{uf}/{cargo}: {e}');print('ERRO',errors[-1])
+        time.sleep(.2)
+    if not db:raise RuntimeError('TSE bloqueou a API e não há arquivo local em imports/')
+    return db,len(db),'api',False
 
 def match_monitored(database,names):
     targets={norm(n):n for n in names};found={}
     for x in database:
         urna,full=norm(x['nomeUrna']),norm(x['nomeCompleto'])
-        for k,display in targets.items():
+        for k,d in targets.items():
             if k==urna or k==full or (len(k)>=8 and (k in urna or k in full)):
-                if display not in found or x['uf']=='MG':found[display]=x
+                if d not in found or x['uf']=='MG':found[d]=x
     return found
 
 def main():
-    s=session();database=[];errors=[]
-    for uf,cargo in SCOPES:
-        try:
-            payload=get_json(s,list_url(uf,cargo))
-            cand=payload.get('candidatos',[]) if isinstance(payload,dict) else []
-            database.extend(record(c,uf,cargo) for c in cand)
-            print(f'{uf}/{cargo}: {len(cand)} candidatos')
-        except Exception as e:
-            errors.append(f'{uf}/{cargo}: {e}')
-            print('ERRO',errors[-1])
-        time.sleep(.35)
-    if not database:
-        raise RuntimeError('Nenhuma lista de candidatos pôde ser carregada pela API do DivulgaCand')
-
-    names=monitored_names();found=match_monitored(database,names)
-    # Detalhes/bens somente do conjunto monitorado: reduz carga e risco de bloqueio.
-    enriched=0
-    for display,x in list(found.items()):
-        if not x.get('sqCandidato'):continue
-        try:
-            d=get_json(s,detail_url(x['uf'] or 'MG',x['sqCandidato']),tries=3)
-            enrich(x,d);enriched+=1
-        except Exception as e:
-            errors.append(f'detalhe {display}: {e}')
-        time.sleep(.18)
-
+    IMPORTS.mkdir(exist_ok=True)
+    loaded=load_local()
+    if loaded is None:loaded=load_api()
+    database,rows_read,mode,assets_ok=loaded
     database.sort(key=lambda x:(norm(x['cargo']),norm(x['partido']),norm(x['nomeUrna'] or x['nomeCompleto'])))
-    counts=defaultdict(int)
+    names=monitored_names();found=match_monitored(database,names);counts=defaultdict(int)
     for x in database:counts[x['cargo']]+=1
-    payload={
-      'source':'Tribunal Superior Eleitoral — DivulgaCandContas','dataset':DATASET,'apiBase':API,'electionId':ELECTION_ID,
-      'checkedAt':datetime.now(timezone.utc).isoformat().replace('+00:00','Z'),'databaseCount':len(database),
-      'countsByCargo':dict(sorted(counts.items())),'database':database,'matched':len(found),'monitored':len(names),
-      'enrichedMonitored':enriched,'candidates':found,'notFound':[n for n in names if n not in found],
-      'syncStatus':'ok' if not errors else 'partial','assetsSyncStatus':'monitorados','errors':errors[:30]
-    }
+    payload={'source':'Tribunal Superior Eleitoral — Dados Abertos/DivulgaCand','dataset':DATASET,'checkedAt':datetime.now(timezone.utc).isoformat().replace('+00:00','Z'),
+      'syncMode':mode,'rowsRead':rows_read,'databaseCount':len(database),'countsByCargo':dict(sorted(counts.items())),'database':database,
+      'matched':len(found),'monitored':len(names),'candidates':found,'notFound':[n for n in names if n not in found],
+      'syncStatus':'ok','assetsSyncStatus':'ok' if assets_ok else 'indisponivel'}
     OUT.write_text(json.dumps(payload,ensure_ascii=False,separators=(',',':'))+'\n',encoding='utf-8')
-    print(f'DivulgaCand: {len(database)} candidatos; {len(found)}/{len(names)} monitorados; {enriched} detalhados; erros={len(errors)}')
+    print(f'Banco gerado: {len(database)} candidatos; {len(found)}/{len(names)} monitorados; modo={mode}')
 if __name__=='__main__':main()

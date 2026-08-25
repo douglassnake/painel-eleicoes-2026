@@ -1,4 +1,10 @@
 window.DASH_DATA = {
+  meta: {
+    updatedAt: '25 ago 2026',
+    model: 'Monte Carlo v2',
+    simulations: 200000,
+    region: 'Noroeste de Minas, Alto Paranaíba e entorno'
+  },
   regional: [
     {nome:'Greyce Elias',cargo:'Deputada Federal',partido:'PL',numero:'2270',base:'Patrocínio / Alto Paranaíba',patrimonio:2110000,ultimaVotacao:110346,ultimaEleicao:'Federal 2022',prob:92.2},
     {nome:'Lud Falcão',cargo:'Deputada Estadual',partido:'Republicanos',numero:'10000',base:'Patos de Minas / Alto Paranaíba',patrimonio:10479.34,ultimaVotacao:59381,ultimaEleicao:'Estadual 2022',prob:87.3},
@@ -65,6 +71,11 @@ window.DASH_DATA = {
     {nome:'Hertz Dias',numero:'16',partido:'PSTU',poll:0},
     {nome:'Veterinário Wilson Grassi',numero:'35',partido:'Democrata',poll:0}
   ],
+  pollSources: {
+    governador:'Datafolha, 21 ago 2026 — 1.204 eleitores, margem de erro ±3 p.p.',
+    senado:'Datafolha, 21 ago 2026 — 1.204 eleitores, margem de erro ±3 p.p.',
+    presidente:'BTG/Nexus, 24 ago 2026 — 2.006 eleitores, margem de erro ±2 p.p.'
+  },
   fontes: {
     tse:'https://dadosabertos.tse.jus.br/dataset/candidatos-2026',
     gov:'https://noticias.uol.com.br/eleicoes/2026/08/24/veja-lista-dos-candidatos-a-governador-de-minas-gerais-em-2026.ghtm',

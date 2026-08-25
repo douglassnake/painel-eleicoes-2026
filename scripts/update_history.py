@@ -1,14 +1,20 @@
 #!/usr/bin/env python3
-"""Cruza candidatos atuais com candidaturas e votação nominal de 2022 e 2024."""
-import csv, io, json, re, unicodedata, zipfile
+"""Cruza candidatos atuais de MG com candidaturas e votação nominal de 2022 e 2024.
+
+O processamento usa streaming dos ZIPs/CSVs para evitar MemoryError em arquivos grandes.
+Se arquivos históricos estiverem em imports/, eles são priorizados; caso contrário, são
+baixados temporariamente do TSE.
+"""
+import csv, json, re, tempfile, unicodedata, zipfile
 from collections import defaultdict
+from contextlib import contextmanager
 from datetime import datetime, timezone
 from pathlib import Path
 import requests
 
 ROOT=Path(__file__).resolve().parents[1]
-OFFICIAL=ROOT/'official-data.json'; OUT=ROOT/'election-history.json'
-UA={'User-Agent':'painel-eleicoes-2026/2.1'}
+OFFICIAL=ROOT/'official-data.json'; OUT=ROOT/'election-history.json'; IMPORTS=ROOT/'imports'
+UA={'User-Agent':'painel-eleicoes-2026/2.2'}
 CAND_URL={
   2022:'https://cdn.tse.jus.br/estatistica/sead/odsele/consulta_cand/consulta_cand_2022.zip',
   2024:'https://cdn.tse.jus.br/estatistica/sead/odsele/consulta_cand/consulta_cand_2024.zip'
@@ -22,49 +28,73 @@ def norm(v):
     v=unicodedata.normalize('NFKD',str(v or ''))
     return re.sub(r'[^A-Z0-9]+',' ',''.join(c for c in v if not unicodedata.combining(c)).upper()).strip()
 
-def decode(b):
-    for e in ('utf-8-sig','latin-1','cp1252'):
-        try:return b.decode(e)
-        except UnicodeDecodeError:pass
-    return b.decode('latin-1',errors='replace')
-
-def csv_texts(blob):
-    if blob[:2]!=b'PK':raise RuntimeError('O TSE não retornou o ZIP esperado')
-    with zipfile.ZipFile(io.BytesIO(blob)) as z:
-        for n in z.namelist():
-            if n.lower().endswith('.csv'):yield decode(z.read(n))
-
-def rows(text):
-    d=';' if text[:10000].count(';')>=text[:10000].count(',') else ','
-    return csv.DictReader(io.StringIO(text),delimiter=d)
-
 def pick(r,*ks):
     for k in ks:
         if r.get(k) not in (None,''):return str(r[k]).strip()
     return ''
 
-def download(url,timeout=900):
-    r=requests.get(url,headers=UA,timeout=timeout);r.raise_for_status()
-    if not r.content:raise RuntimeError(f'Recurso vazio: {url}')
-    return r.content
-
 def current_db():
-    return json.loads(OFFICIAL.read_text(encoding='utf-8')).get('database',[])
+    db=json.loads(OFFICIAL.read_text(encoding='utf-8')).get('database',[])
+    # Histórico desta rotina é focado em candidatos atuais de Minas Gerais.
+    return [x for x in db if norm(x.get('uf'))=='MG']
 
 def current_indexes(current):
     exact=defaultdict(list); loose=defaultdict(list)
     for x in current:
-        name=norm(x.get('nomeCompleto')); birth=x.get('dataNascimento','')
+        name=norm(x.get('nomeCompleto')); birth=str(x.get('dataNascimento') or '').strip()
         if not name:continue
         exact[(name,birth)].append(x.get('sqCandidato'))
         loose[name].append(x.get('sqCandidato'))
     return exact,loose
 
+def local_path(year,kind):
+    if kind=='cand': return IMPORTS/f'consulta_cand_{year}.zip'
+    return IMPORTS/f'votacao_candidato_munzona_{year}.zip'
+
+@contextmanager
+def resource(year,kind):
+    local=local_path(year,kind)
+    if local.exists():
+        print(f'{year} {kind}: usando arquivo local {local.name}')
+        yield local
+        return
+    url=CAND_URL[year] if kind=='cand' else VOTE_URL[year]
+    print(f'{year} {kind}: baixando recurso oficial do TSE...')
+    tmp=tempfile.NamedTemporaryFile(prefix=f'tse_{year}_{kind}_',suffix='.zip',delete=False)
+    tmp_path=Path(tmp.name); tmp.close()
+    try:
+        with requests.get(url,headers=UA,timeout=1200,stream=True) as r:
+            r.raise_for_status()
+            with tmp_path.open('wb') as f:
+                for chunk in r.iter_content(chunk_size=1024*1024):
+                    if chunk:f.write(chunk)
+        yield tmp_path
+    finally:
+        try:tmp_path.unlink(missing_ok=True)
+        except:pass
+
+def relevant_members(z,year):
+    names=[n for n in z.namelist() if n.lower().endswith('.csv')]
+    mg=[n for n in names if re.search(fr'_{year}_MG\.csv$',n,re.I)]
+    return mg or names
+
+def iter_rows(zip_path,year):
+    with zipfile.ZipFile(zip_path) as z:
+        members=relevant_members(z,year)
+        print(f'{year}: processando {len(members)} CSV(s) relevante(s)')
+        for name in members:
+            with z.open(name) as raw:
+                # Arquivos eleitorais do TSE usam ';' e normalmente Latin-1/Windows-1252.
+                import io
+                text=io.TextIOWrapper(raw,encoding='latin-1',errors='replace',newline='')
+                reader=csv.DictReader(text,delimiter=';')
+                for row in reader:
+                    yield row
+
 def prior_candidates(year,current):
     exact,loose=current_indexes(current); by_current={}
-    blob=download(CAND_URL[year])
-    for txt in csv_texts(blob):
-        for r in rows(txt):
+    with resource(year,'cand') as path:
+        for r in iter_rows(path,year):
             full=norm(pick(r,'NM_CANDIDATO','NM_CANDIDATA')); birth=pick(r,'DT_NASCIMENTO')
             if not full:continue
             matches=exact.get((full,birth),[])
@@ -79,9 +109,8 @@ def votes(year,prior):
     wanted={v['priorSq']:k for k,v in prior.items() if v.get('priorSq')}
     totals=defaultdict(int); muni=defaultdict(lambda:defaultdict(int))
     if not wanted:return {}
-    blob=download(VOTE_URL[year])
-    for txt in csv_texts(blob):
-        for r in rows(txt):
+    with resource(year,'vote') as path:
+        for r in iter_rows(path,year):
             if pick(r,'NR_TURNO') not in ('','1'):continue
             cur=wanted.get(pick(r,'SQ_CANDIDATO'))
             if not cur:continue
@@ -97,14 +126,16 @@ def votes(year,prior):
     return out
 
 def main():
+    IMPORTS.mkdir(exist_ok=True)
     current=current_db(); result={}; sources={}
+    print(f'Histórico: {len(current)} candidatos atuais de MG em análise')
     for year in (2022,2024):
         prior=prior_candidates(year,current); hist=votes(year,prior)
-        sources[str(year)]={'candidatos':CAND_URL[year],'votacao':VOTE_URL[year]}
+        sources[str(year)]={'candidatos':CAND_URL[year],'votacao':VOTE_URL[year],'scope':'MG'}
         for cur,h in hist.items():result.setdefault(cur,{})[str(year)]=h
         print(f'{year}: {len(hist)} candidaturas históricas localizadas')
     payload={'source':'Tribunal Superior Eleitoral — Dados Abertos','checkedAt':datetime.now(timezone.utc).isoformat().replace('+00:00','Z'),
-      'years':[2022,2024],'sources':sources,'byCandidate':result}
+      'years':[2022,2024],'scope':'MG','sources':sources,'byCandidate':result}
     OUT.write_text(json.dumps(payload,ensure_ascii=False,separators=(',',':'))+'\n',encoding='utf-8')
     print(f'Histórico concluído para {len(result)} candidatos atuais')
 if __name__=='__main__':main()

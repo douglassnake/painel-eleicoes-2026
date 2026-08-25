@@ -1,118 +1,37 @@
 (() => {
-  const view = document.querySelector('#view');
-  const safe = v => String(v ?? '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-  const fmtDate = iso => {
-    if (!iso) return '—';
-    const d = new Date(iso);
-    return Number.isNaN(d.getTime()) ? iso : new Intl.DateTimeFormat('pt-BR',{dateStyle:'short',timeStyle:'short',timeZone:'America/Sao_Paulo'}).format(d);
-  };
-  const statusClass = s => {
-    const x = String(s||'').toUpperCase();
-    if (x.includes('DEFERID') || x.includes('APTO')) return 'tse-ok';
-    if (x.includes('INDEFER') || x.includes('CANCEL') || x.includes('RENÚNCIA') || x.includes('RENUNCIA')) return 'tse-bad';
-    return 'tse-warn';
-  };
-  const normalize = s => String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+  const view=document.querySelector('#view');
+  const safe=v=>String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+  const money=v=>Number(v||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL',maximumFractionDigits:0});
+  const fmtDate=iso=>{if(!iso)return '—';const d=new Date(iso);return Number.isNaN(d.getTime())?iso:new Intl.DateTimeFormat('pt-BR',{dateStyle:'short',timeStyle:'short',timeZone:'America/Sao_Paulo'}).format(d)};
+  const statusClass=s=>{const x=String(s||'').toUpperCase();if(x.includes('DEFERID')||x.includes('APTO'))return'tse-ok';if(x.includes('INDEFER')||x.includes('CANCEL')||x.includes('RENUNC'))return'tse-bad';return'tse-warn'};
+  const fetchJson=async p=>{const r=await fetch(p,{cache:'no-store'});if(!r.ok)throw new Error(`${p} indisponível`);return r.json()};
+  const norm=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+  let PAGE=1; const PER=50;
 
-  async function loadOfficial(){
-    const r = await fetch('official-data.json', {cache:'no-store'});
-    if (!r.ok) throw new Error('Arquivo official-data.json ainda não foi gerado.');
-    return r.json();
-  }
-
-  function monitoredSet(o){
-    const set = new Set();
-    Object.values(o.candidates||{}).forEach(x=>x?.sqCandidato && set.add(String(x.sqCandidato)));
-    return set;
-  }
-
-  function renderBrowser(o){
-    const source = Array.isArray(o.database) ? o.database : [];
-    const monitored = monitoredSet(o);
-    const cargos = [...new Set(source.map(x=>x.cargo).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'pt-BR'));
-    const partidos = [...new Set(source.map(x=>x.partido).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'pt-BR'));
-    let page = 1;
-    const perPage = 50;
-
-    view.innerHTML = `
-      <div class="section-title"><div><h2>Banco de candidatos</h2><p>Presidência nacional e todas as candidaturas de Minas Gerais aos cargos majoritários e proporcionais monitorados pelo painel.</p></div><span class="model-pill">${Number(o.totalCandidates||source.length).toLocaleString('pt-BR')} registros</span></div>
-      <div class="official-summary">
-        <div class="kpi"><div class="label">Candidaturas no banco</div><div class="value">${Number(o.totalCandidates||source.length).toLocaleString('pt-BR')}</div><div class="hint">TSE 2026</div></div>
-        <div class="kpi"><div class="label">Última consulta</div><div class="value small-value">${safe(fmtDate(o.checkedAt))}</div><div class="hint">Horário de Brasília</div></div>
-        <div class="kpi"><div class="label">Monitorados encontrados</div><div class="value">${safe(o.matched||0)}</div><div class="hint">de ${safe(o.monitored||0)} nomes analíticos</div></div>
-      </div>
-      <div class="card bank-stats"><h3>Distribuição por cargo</h3><div class="bank-counts">${Object.entries(o.countsByCargo||{}).map(([k,v])=>`<span><strong>${Number(v).toLocaleString('pt-BR')}</strong>${safe(k)}</span>`).join('')}</div></div>
-      <div class="toolbar bank-toolbar">
-        <input id="tse-q" placeholder="Buscar nome, número, partido ou ocupação…">
-        <select id="tse-cargo"><option value="">Todos os cargos</option>${cargos.map(x=>`<option>${safe(x)}</option>`).join('')}</select>
-        <select id="tse-partido"><option value="">Todos os partidos</option>${partidos.map(x=>`<option>${safe(x)}</option>`).join('')}</select>
-        <select id="tse-status"><option value="">Todas as situações</option><option value="defer">Deferido/apto</option><option value="pend">Em análise/outros</option><option value="bad">Indeferido/cancelado/renúncia</option></select>
-        <label class="bank-check"><input type="checkbox" id="tse-monitored"> Só monitorados</label>
-      </div>
-      <div class="bank-result-head"><span id="tse-result-count"></span><span id="tse-page-label"></span></div>
-      <div class="table-wrap"><table><thead><tr><th>Candidato</th><th>Cargo</th><th>Nº</th><th>Partido</th><th>Situação</th><th>Ocupação</th><th>Idade</th></tr></thead><tbody id="tse-body"></tbody></table></div>
-      <div class="bank-pagination"><button id="tse-prev" class="text-btn">← Anterior</button><button id="tse-next" class="text-btn">Próxima →</button></div>
-      ${o.notFound?.length ? `<div class="note"><strong>Monitorados não localizados automaticamente:</strong> ${o.notFound.map(safe).join(', ')}. Diferenças de nome eleitoral podem exigir conferência manual.</div>` : ''}
-      <div class="note"><strong>Fonte:</strong> Tribunal Superior Eleitoral, Dados Abertos — Candidatos 2026. Esta camada é oficial e independente do Monte Carlo e das pesquisas eleitorais.</div>`;
-
-    const q = document.querySelector('#tse-q');
-    const cargo = document.querySelector('#tse-cargo');
-    const partido = document.querySelector('#tse-partido');
-    const status = document.querySelector('#tse-status');
-    const onlyMon = document.querySelector('#tse-monitored');
-
-    const isMonitored = x => x.sqCandidato && monitored.has(String(x.sqCandidato));
-    const statusGroup = s => {
-      const x = String(s||'').toUpperCase();
-      if (x.includes('DEFERID') || x.includes('APTO')) return 'defer';
-      if (x.includes('INDEFER') || x.includes('CANCEL') || x.includes('RENÚNCIA') || x.includes('RENUNCIA')) return 'bad';
-      return 'pend';
-    };
-
-    const draw = () => {
-      const term = normalize(q.value.trim());
-      let rows = source.filter(x => {
-        const hay = normalize(`${x.nomeUrna} ${x.nomeCompleto} ${x.numero} ${x.partido} ${x.ocupacao} ${x.municipioNascimento}`);
-        return (!term || hay.includes(term)) &&
-          (!cargo.value || x.cargo===cargo.value) &&
-          (!partido.value || x.partido===partido.value) &&
-          (!status.value || statusGroup(x.situacao)===status.value) &&
-          (!onlyMon.checked || isMonitored(x));
-      });
-      rows.sort((a,b)=>(a.cargo||'').localeCompare(b.cargo||'','pt-BR') || (a.nomeUrna||a.nomeCompleto||'').localeCompare(b.nomeUrna||b.nomeCompleto||'','pt-BR'));
-      const totalPages = Math.max(1, Math.ceil(rows.length/perPage));
-      page = Math.min(page,totalPages);
-      const slice = rows.slice((page-1)*perPage,page*perPage);
-      document.querySelector('#tse-result-count').textContent = `${rows.length.toLocaleString('pt-BR')} candidato${rows.length===1?'':'s'} encontrado${rows.length===1?'':'s'}`;
-      document.querySelector('#tse-page-label').textContent = `Página ${page} de ${totalPages}`;
-      document.querySelector('#tse-body').innerHTML = slice.map(x=>`<tr class="${isMonitored(x)?'monitored-row':''}"><td><strong>${safe(x.nomeUrna||x.nomeCompleto)}</strong><small class="bank-fullname">${safe(x.nomeCompleto)}</small>${isMonitored(x)?'<span class="monitor-tag">Monitorado</span>':''}</td><td>${safe(x.cargo)}</td><td><strong>${safe(x.numero)}</strong></td><td>${safe(x.partido)}</td><td><span class="tse-status ${statusClass(x.situacao)}">${safe(x.situacao||'Não informado')}</span>${x.detalhe?`<small class="bank-fullname">${safe(x.detalhe)}</small>`:''}</td><td>${safe(x.ocupacao||'—')}</td><td>${x.idadePosse??'—'}</td></tr>`).join('') || '<tr><td colspan="7">Nenhum candidato encontrado.</td></tr>';
-      document.querySelector('#tse-prev').disabled = page<=1;
-      document.querySelector('#tse-next').disabled = page>=totalPages;
-    };
-
-    [q,cargo,partido,status,onlyMon].forEach(el=>el.addEventListener('input',()=>{page=1;draw();}));
-    document.querySelector('#tse-prev').addEventListener('click',()=>{if(page>1){page--;draw();window.scrollTo({top:view.offsetTop,behavior:'smooth'});}});
-    document.querySelector('#tse-next').addEventListener('click',()=>{page++;draw();window.scrollTo({top:view.offsetTop,behavior:'smooth'});});
-    draw();
-  }
+  function historyText(h){if(!h)return'—';return [2022,2024].map(y=>{const z=h[String(y)];return z?`${y}: ${Number(z.votos||0).toLocaleString('pt-BR')} votos • ${safe(z.cargo)} (${safe(z.partido)})`:null}).filter(Boolean).join('<br>')||'—'}
+  function topMunicipios(h){const p=[];for(const y of [2022,2024]){const z=h?.[String(y)];if(z?.topMunicipios?.length)p.push(`<strong>${y}</strong>: `+z.topMunicipios.slice(0,3).map(m=>`${safe(m.municipio)} (${Number(m.votos).toLocaleString('pt-BR')})`).join(', '))}return p.join('<br>')||'—'}
 
   async function render(){
     document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.view==='oficial'));
-    view.innerHTML = '<div class="card"><h2>Banco de candidatos</h2><p class="muted">Consultando a base oficial do TSE...</p></div>';
-    try {
-      const o = await loadOfficial();
-      renderBrowser(o);
-    } catch (err) {
-      view.innerHTML = `<div class="section-title"><div><h2>Banco de candidatos</h2><p>Camada automática de conferência.</p></div></div><div class="note"><strong>Aguardando sincronização.</strong> ${safe(err.message)}</div>`;
-    }
+    view.innerHTML='<div class="card"><h2>Banco de candidatos</h2><p class="muted">Carregando dados oficiais do TSE...</p></div>';
+    try{
+      const [o,h]=await Promise.all([fetchJson('official-data.json'),fetchJson('election-history.json').catch(()=>({byCandidate:{}}))]);
+      const monitorados=new Set(Object.values(o.candidates||{}).map(x=>String(x.sqCandidato||'')));
+      const source=o.database||[], cargos=[...new Set(source.map(x=>x.cargo))].sort((a,b)=>a.localeCompare(b,'pt-BR')), partidos=[...new Set(source.map(x=>x.partido).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'pt-BR')), situacoes=[...new Set(source.map(x=>x.situacao).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'pt-BR'));
+      view.innerHTML=`<div class="section-title"><div><h2>Banco de candidatos</h2><p>Cadastro oficial de 2026, patrimônio declarado e histórico eleitoral de 2022/2024.</p></div><span class="model-pill">${Number(o.databaseCount||source.length).toLocaleString('pt-BR')} candidatos</span></div>
+      <div class="official-summary"><div class="kpi"><div class="label">Última consulta TSE</div><div class="value small-value">${safe(fmtDate(o.checkedAt))}</div><div class="hint">Candidaturas e bens</div></div><div class="kpi"><div class="label">Banco atual</div><div class="value">${Number(o.databaseCount||source.length).toLocaleString('pt-BR')}</div><div class="hint">MG + Presidência</div></div><div class="kpi"><div class="label">Histórico</div><div class="value small-value">${h.checkedAt?safe(fmtDate(h.checkedAt)):'Aguardando'}</div><div class="hint">Eleições 2022 e 2024</div></div></div>
+      <div class="cargo-counts">${Object.entries(o.countsByCargo||{}).map(([k,v])=>`<span><strong>${Number(v).toLocaleString('pt-BR')}</strong> ${safe(k)}</span>`).join('')}</div>
+      <div class="toolbar official-toolbar"><input id="oq" placeholder="Buscar nome, número, partido, ocupação…"><select id="ocargo"><option value="">Todos os cargos</option>${cargos.map(x=>`<option>${safe(x)}</option>`).join('')}</select><select id="opartido"><option value="">Todos os partidos</option>${partidos.map(x=>`<option>${safe(x)}</option>`).join('')}</select><select id="osit"><option value="">Todas as situações</option>${situacoes.map(x=>`<option>${safe(x)}</option>`).join('')}</select><select id="oord"><option value="nome">Ordenar por nome</option><option value="pat">Maior patrimônio</option><option value="v2022">Mais votos em 2022</option><option value="v2024">Mais votos em 2024</option></select><label class="check"><input id="omon" type="checkbox"> Só monitorados</label></div><div id="officialResult"></div>`;
+      const hv=x=>h.byCandidate?.[x.sqCandidato]||{};
+      const draw=()=>{let a=[...source];const q=norm(document.querySelector('#oq').value),cargo=document.querySelector('#ocargo').value,part=document.querySelector('#opartido').value,sit=document.querySelector('#osit').value,only=document.querySelector('#omon').checked,ord=document.querySelector('#oord').value;
+        a=a.filter(x=>(!q||norm(`${x.nomeUrna} ${x.nomeCompleto} ${x.numero} ${x.partido} ${x.ocupacao}`).includes(q))&&(!cargo||x.cargo===cargo)&&(!part||x.partido===part)&&(!sit||x.situacao===sit)&&(!only||monitorados.has(String(x.sqCandidato))));
+        if(ord==='pat')a.sort((x,y)=>(y.patrimonio||0)-(x.patrimonio||0));else if(ord==='v2022')a.sort((x,y)=>(hv(y)['2022']?.votos||0)-(hv(x)['2022']?.votos||0));else if(ord==='v2024')a.sort((x,y)=>(hv(y)['2024']?.votos||0)-(hv(x)['2024']?.votos||0));else a.sort((x,y)=>(x.nomeUrna||x.nomeCompleto).localeCompare(y.nomeUrna||y.nomeCompleto,'pt-BR'));
+        const pages=Math.max(1,Math.ceil(a.length/PER));PAGE=Math.min(PAGE,pages);const sub=a.slice((PAGE-1)*PER,PAGE*PER);
+        document.querySelector('#officialResult').innerHTML=`<div class="result-meta"><strong>${a.length.toLocaleString('pt-BR')}</strong> candidatos encontrados</div><div class="table-wrap"><table><thead><tr><th>Candidato</th><th>Cargo</th><th>Partido</th><th>Situação</th><th>Patrimônio 2026</th><th>Histórico eleitoral</th><th>Principais municípios</th></tr></thead><tbody>${sub.map(x=>{const hx=hv(x);return `<tr><td><strong>${safe(x.nomeUrna||x.nomeCompleto)}</strong><br><small>${safe(x.nomeCompleto)}</small><br><span class="number-chip">${safe(x.numero)}</span>${monitorados.has(String(x.sqCandidato))?'<span class="monitored-chip">Monitorado</span>':''}</td><td>${safe(x.cargo)}</td><td>${safe(x.partido)}${x.federacao?`<br><small>${safe(x.federacao)}</small>`:''}</td><td><span class="tse-status ${statusClass(x.situacao)}">${safe(x.situacao||'Não informado')}</span></td><td><strong>${money(x.patrimonio)}</strong><br><small>${Number(x.qtdBens||0)} bem(ns)</small></td><td>${historyText(hx)}</td><td class="status">${topMunicipios(hx)}</td></tr>`}).join('')}</tbody></table></div><div class="pager"><button id="prev" ${PAGE<=1?'disabled':''}>← Anterior</button><span>Página ${PAGE} de ${pages}</span><button id="next" ${PAGE>=pages?'disabled':''}>Próxima →</button></div><div class="note"><strong>Critério histórico:</strong> votos do 1º turno agregados dos arquivos oficiais de votação nominal por município e zona do TSE. O cruzamento usa nome completo e data de nascimento quando disponíveis.</div>`;
+        document.querySelector('#prev')?.addEventListener('click',()=>{PAGE--;draw()});document.querySelector('#next')?.addEventListener('click',()=>{PAGE++;draw()});};
+      ['oq','ocargo','opartido','osit','oord','omon'].forEach(id=>document.querySelector('#'+id).addEventListener('input',()=>{PAGE=1;draw()}));draw();
+    }catch(err){view.innerHTML=`<div class="section-title"><div><h2>Banco de candidatos</h2><p>Camada automática de dados oficiais.</p></div></div><div class="note"><strong>Sincronização pendente.</strong> ${safe(err.message)}</div>`}
     window.scrollTo({top:0,behavior:'smooth'});
   }
-
-  document.addEventListener('click', e => {
-    const btn = e.target.closest('.tab[data-view="oficial"]');
-    if (!btn) return;
-    e.preventDefault();
-    e.stopImmediatePropagation();
-    render();
-  }, true);
+  document.addEventListener('click',e=>{const btn=e.target.closest('.tab[data-view="oficial"]');if(!btn)return;e.preventDefault();e.stopImmediatePropagation();render()},true);
 })();

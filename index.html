@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Dashboard independente de acompanhamento das Eleições 2026 com foco em Minas Gerais, Noroeste e Alto Paranaíba." />
+  <title>Painel Eleições 2026 — Minas Gerais</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">ELEIÇÕES 2026 • MINAS GERAIS</p>
+      <h1>Painel Eleitoral</h1>
+      <p class="subtitle">Presidência, Governo de MG, Senado e candidaturas regionais do Noroeste e Alto Paranaíba.</p>
+    </div>
+    <div class="update-box">
+      <span>Base atualizada</span>
+      <strong>25 ago 2026</strong>
+      <small>Dados sujeitos a atualização no TSE</small>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="kpis" id="kpis"></section>
+
+    <nav class="tabs" aria-label="Seções do painel">
+      <button class="tab active" data-view="regional">Deputados regionais</button>
+      <button class="tab" data-view="governador">Governo de MG</button>
+      <button class="tab" data-view="senado">Senado por MG</button>
+      <button class="tab" data-view="presidente">Presidência</button>
+      <button class="tab" data-view="metodo">Metodologia</button>
+    </nav>
+
+    <section id="view"></section>
+  </main>
+
+  <footer>
+    <p><strong>Painel independente.</strong> Não representa candidato, partido, Justiça Eleitoral ou instituto de pesquisa. Probabilidades são estimativas de modelo e não intenção de voto.</p>
+  </footer>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

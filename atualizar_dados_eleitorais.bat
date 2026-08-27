@@ -27,22 +27,22 @@ if not errorlevel 1 (
 )
 
 if not exist ".venv\Scripts\python.exe" (
-  echo [1/8] Criando ambiente virtual...
+  echo [1/9] Criando ambiente virtual...
   %PYBASE% -m venv .venv
   if errorlevel 1 goto :erro
 ) else (
-  echo [1/8] Ambiente virtual ja existe.
+  echo [1/9] Ambiente virtual ja existe.
 )
 
 set "PY=.venv\Scripts\python.exe"
 set "PIP=.venv\Scripts\pip.exe"
 
-echo [2/8] Atualizando dependencias...
+echo [2/9] Atualizando dependencias...
 "%PY%" -m pip install --upgrade pip >nul
 "%PIP%" install requests
 if errorlevel 1 goto :erro
 
-echo [3/8] Sincronizando codigo com GitHub antes de gerar dados...
+echo [3/9] Sincronizando codigo com GitHub antes de gerar dados...
 git --version >nul 2>nul
 if errorlevel 1 (
   echo [AVISO] Git nao encontrado. A atualizacao seguira somente localmente.
@@ -52,7 +52,7 @@ if errorlevel 1 (
   git diff --quiet
   if errorlevel 1 (
     echo [ERRO] Existem alteracoes rastreadas locais antes do git pull.
-    echo Execute: git restore official-data.json election-history.json
+    echo Execute: git restore official-data.json election-history.json governadores-data.json
     echo Depois rode este BAT novamente.
     pause
     exit /b 3
@@ -72,24 +72,29 @@ if errorlevel 1 (
   )
 )
 
-echo [4/8] Atualizando candidaturas 2026...
+echo [4/9] Atualizando candidaturas 2026...
 "%PY%" scripts\update_tse.py
 if errorlevel 1 goto :manual
 
-echo [5/8] Atualizando historico eleitoral 2022 e 2024...
+echo [5/9] Atualizando governadores de todas as UFs...
+"%PY%" scripts\update_governadores.py
+if errorlevel 1 goto :erro
+
+echo [6/9] Atualizando historico eleitoral 2022 e 2024...
 "%PY%" scripts\update_history.py
 if errorlevel 1 echo [AVISO] Historico nao atualizado nesta execucao.
 
-echo [6/8] Conferindo arquivos gerados...
+echo [7/9] Conferindo arquivos gerados...
 if not exist official-data.json goto :erro
+if not exist governadores-data.json goto :erro
 
 if "%GITOK%"=="0" goto :fim_local
 
-echo [7/8] Preparando publicacao...
-git add official-data.json election-history.json 2>nul
+echo [8/9] Preparando publicacao...
+git add official-data.json election-history.json governadores-data.json 2>nul
 git diff --cached --quiet
 if not errorlevel 1 (
-  echo [8/8] Nenhuma alteracao para publicar.
+  echo [9/9] Nenhuma alteracao para publicar.
   goto :fim
 )
 
@@ -99,7 +104,7 @@ if errorlevel 1 goto :fim_local
 git push
 if errorlevel 1 goto :fim_local
 
-echo [8/8] Dados publicados no GitHub com sucesso.
+echo [9/9] Dados publicados no GitHub com sucesso.
 goto :fim
 
 :manual

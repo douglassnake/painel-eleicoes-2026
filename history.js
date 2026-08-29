@@ -213,5 +213,60 @@ window.DASH_HISTORY = [
       "Hertz Dias": 0,
       "Veterinário Wilson Grassi": 0
     }
+  },
+  {
+    "date": "2026-08-29",
+    "label": "29 de ago de 2026",
+    "model": "Monte Carlo v2",
+    "simulations": 200000,
+    "regional": {
+      "Greyce Elias": 92.2,
+      "Lud Falcão": 87.3,
+      "Bosco": 87.1,
+      "Igor Santos": 71.4,
+      "José Eustáquio": 50.4,
+      "Marli Ribeiro": 45.4,
+      "Dr. Julio Mundim": 44.7,
+      "Gladston Gabriel": 43.9,
+      "Maria Clara Marra": 43.7,
+      "Fernando Breno": 39.9,
+      "Cabo Santana": 14.6,
+      "Ju Almeida": 9.7,
+      "Clesle Siqueira": 5.3,
+      "Silva Brasil": 6.4,
+      "João Paulo Nagashi": 0.9,
+      "Elismar Prado": 94.1,
+      "Raul Belém": 88.2
+    },
+    "governador": {
+      "Cleitinho Azevedo": 32,
+      "Patrus Ananias": 12,
+      "Alexandre Kalil": 12,
+      "Mateus Simões": 4,
+      "Flávio Roscoe": 4,
+      "Gabriel Azevedo": 4
+    },
+    "senado": {
+      "Marília Campos": 11,
+      "Carlos Viana": 8,
+      "Domingos Sávio": 6,
+      "Marcelo Aro": 5,
+      "Ana Luiza do MLB": 4,
+      "Marco Antônio Superman": 3
+    },
+    "presidente": {
+      "Lula": 41,
+      "Flávio Bolsonaro": 37,
+      "Ronaldo Caiado": 5,
+      "Renan Santos": 3,
+      "Romeu Zema": 3,
+      "Augusto Cury": 2,
+      "Samara Martins": 1,
+      "Clariana Barão": 0,
+      "Rui Costa Pimenta": 0,
+      "Edmilson Costa": 0,
+      "Hertz Dias": 0,
+      "Veterinário Wilson Grassi": 0
+    }
   }
 ];

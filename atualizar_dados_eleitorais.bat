@@ -55,7 +55,7 @@ if errorlevel 1 (
     echo [ERRO] Existem alteracoes rastreadas locais antes do git pull.
     echo Execute: git status
     echo Se forem apenas arquivos gerados pelo painel, use:
-    echo git restore official-data.json election-history.json governadores-data.json data.js model-results.json
+    echo git restore official-data.json election-history.json governadores-data.json data.js
     pause
     exit /b 3
   )
@@ -84,7 +84,7 @@ if errorlevel 1 goto :erro
 
 echo [6/10] Atualizando historico eleitoral 2022 e 2024...
 "%PY%" scripts\update_history.py
-if errorlevel 1 echo [AVISO] Historico nao atualizado nesta execucao.
+if errorlevel 1 goto :erro
 
 echo [7/10] Recalculando Ranking Territorial e Monte Carlo v3...
 "%PY%" scripts\update_model.py
@@ -126,7 +126,7 @@ echo    consulta_cand_2026.zip
 echo    bem_candidato_2026.zip
 echo.
 echo Salve em Downloads. Na proxima execucao o BAT substitui automaticamente
- echo os ZIPs antigos da pasta imports pelos arquivos mais recentes.
+echo os ZIPs antigos da pasta imports pelos arquivos mais recentes.
 echo.
 start "" "https://dadosabertos.tse.jus.br/dataset/candidatos-2026"
 pause
@@ -134,7 +134,7 @@ exit /b 2
 
 :erro
 echo.
-echo A atualizacao terminou com erro.
+echo A atualizacao terminou com erro. Nenhum recálculo parcial deve ser publicado.
 pause
 exit /b 1
 

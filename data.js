@@ -1,6 +1,6 @@
 window.DASH_DATA = {
   meta: {
-    updatedAt: '25 ago 2026',
+    updatedAt: '7 set 2026',
     model: 'Monte Carlo v2',
     simulations: 200000,
     region: 'Noroeste de Minas, Alto Paranaíba e entorno'
@@ -25,61 +25,62 @@ window.DASH_DATA = {
     {nome:'Raul Belém',cargo:'Deputado Estadual',partido:'PSD',numero:'55700',base:'Araguari / Triângulo',patrimonio:1663000,ultimaVotacao:76329,ultimaEleicao:'Estadual 2022',prob:88.2}
   ],
   governador: [
-    {nome:'Cleitinho Azevedo',numero:'10',partido:'Republicanos',poll:32},
-    {nome:'Patrus Ananias',numero:'13',partido:'PT',poll:12},
-    {nome:'Alexandre Kalil',numero:'12',partido:'PDT',poll:12},
-    {nome:'Mateus Simões',numero:'55',partido:'PSD',poll:4},
-    {nome:'Flávio Roscoe',numero:'22',partido:'PL',poll:4},
-    {nome:'Gabriel Azevedo',numero:'15',partido:'MDB',poll:4},
-    {nome:'Rafael Ribeiro de Ávila',numero:'16',partido:'PSTU',poll:null},
-    {nome:'Benoni Benjamin Cardoso Mendes',numero:'14',partido:'Missão',poll:null},
-    {nome:'Tulio Cesar Dias Lopes',numero:'21',partido:'PCB',poll:null},
-    {nome:'Henrique Areas de Araujo',numero:'29',partido:'PCO',poll:null},
-    {nome:'Indira Ivanise Xavier',numero:'80',partido:'UP',poll:null}
+    {nome:'Cleitinho Azevedo',numero:'10',partido:'Republicanos',poll:33,status:'Deferido'},
+    {nome:'Patrus Ananias',numero:'13',partido:'PT',poll:15,status:'Deferido'},
+    {nome:'Alexandre Kalil',numero:'12',partido:'PDT',poll:13,status:'Deferido'},
+    {nome:'Mateus Simões',numero:'55',partido:'PSD',poll:11,status:'Deferido'},
+    {nome:'Gabriel',numero:'15',partido:'MDB',poll:7,status:'Deferido'},
+    {nome:'Flávio Roscoe',numero:'22',partido:'PL',poll:5,status:'Deferido'},
+    {nome:'Ben Mendes',numero:'14',partido:'Missão',poll:3,status:'Aguardando julgamento'},
+    {nome:'Indira Xavier',numero:'80',partido:'UP',poll:1,status:'Deferido'},
+    {nome:'Professor Túlio Lopes',numero:'21',partido:'PCB',poll:null,status:'Deferido'},
+    {nome:'Rafael Duda',numero:'16',partido:'PSTU',poll:null,status:'Deferido'},
+    {nome:'Henrique Áreas',numero:'29',partido:'PCO',poll:null,status:'Indeferido em prazo recursal ou com recurso'}
   ],
   senado: [
-    {nome:'Marília Campos',numero:'131',partido:'PT',poll:11},
-    {nome:'Carlos Viana',numero:'555',partido:'PSD',poll:8},
-    {nome:'Domingos Sávio',numero:'222',partido:'PL',poll:6},
-    {nome:'Marcelo Aro',numero:'111',partido:'PP',poll:5},
-    {nome:'Ana Luiza do MLB',numero:'808',partido:'UP',poll:4},
-    {nome:'Marco Antônio Superman',numero:'300',partido:'Novo',poll:3},
-    {nome:'Áurea Carolina',numero:'500',partido:'PSOL',poll:null},
-    {nome:'Ramon Moreira',numero:'277',partido:'DC',poll:null},
-    {nome:'Gustavo Galassi',numero:'456',partido:'PSDB',poll:null},
-    {nome:'Fidelis Oliveira Alcantara',numero:'800',partido:'UP',poll:null},
-    {nome:'Arcanjo Carlos Pimenta',numero:'155',partido:'MDB',poll:null},
-    {nome:'Sebastião de Oliveira Pessoa',numero:'290',partido:'PCO',poll:null},
-    {nome:'Marcelo Heringer',numero:'123',partido:'PDT',poll:null},
-    {nome:'Jordano Carvalho dos Santos',numero:'160',partido:'PSTU',poll:null},
-    {nome:'Victoria de Fátima de Mello',numero:'161',partido:'PSTU',poll:null},
-    {nome:'Carlos Magno de Moura Soares',numero:'700',partido:'Avante',poll:null},
-    {nome:'Manoel Teodoro Pereira de Carvalho Filho',numero:'150',partido:'MDB',poll:null}
+    {nome:'Marília Campos',numero:'131',partido:'PT',poll:24,status:'Deferido'},
+    {nome:'Carlos Viana',numero:'555',partido:'PSD',poll:13,status:'Deferido'},
+    {nome:'Domingos Sávio',numero:'222',partido:'PL',poll:13,status:'Deferido'},
+    {nome:'Marcelo Aro',numero:'111',partido:'PP',poll:12,status:'Deferido'},
+    {nome:'Áurea Carolina',numero:'500',partido:'PSOL',poll:9,status:'Deferido'},
+    {nome:'Marco Antônio Superman',numero:'300',partido:'Novo',poll:4,status:'Deferido'},
+    {nome:'Carlin Moura',numero:'700',partido:'Avante',poll:1,status:'Deferido'},
+    {nome:'Gustavo Galassi',numero:'456',partido:'PSDB',poll:1,status:'Renúncia'},
+    {nome:'Marcelo Heringer',numero:'123',partido:'PDT',poll:1,status:'Renúncia'},
+    {nome:'Ana Luiza do MLB',numero:'808',partido:'UP',poll:1,status:'Deferido'},
+    {nome:'Manoel Carvalho',numero:'150',partido:'MDB',poll:1,status:'Deferido'},
+    {nome:'Arcanjo Pimenta',numero:'155',partido:'MDB',poll:1,status:'Deferido'},
+    {nome:'Aécio Neves',numero:'456',partido:'PSDB',poll:null,status:'Aguardando julgamento'},
+    {nome:'Fidélis Alcântara',numero:'800',partido:'UP',poll:null,status:'Deferido'},
+    {nome:'Jordano Metalúrgico',numero:'160',partido:'PSTU',poll:null,status:'Deferido'},
+    {nome:'Juíz Ramon Moreira',numero:'277',partido:'DC',poll:null,status:'Deferido'},
+    {nome:'Tião Pessoa',numero:'290',partido:'PCO',poll:null,status:'Indeferido em prazo recursal ou com recurso'},
+    {nome:'Victória Mello Vic',numero:'161',partido:'PSTU',poll:null,status:'Deferido'}
   ],
   presidente: [
-    {nome:'Lula',numero:'13',partido:'PT',poll:41},
-    {nome:'Flávio Bolsonaro',numero:'22',partido:'PL',poll:37},
-    {nome:'Ronaldo Caiado',numero:'55',partido:'PSD',poll:5},
+    {nome:'Lula',numero:'13',partido:'PT',poll:38},
+    {nome:'Flávio Bolsonaro',numero:'22',partido:'PL',poll:33},
+    {nome:'Augusto Cury',numero:'70',partido:'Avante',poll:8},
+    {nome:'Ronaldo Caiado',numero:'55',partido:'PSD',poll:4},
     {nome:'Renan Santos',numero:'14',partido:'Missão',poll:3},
-    {nome:'Romeu Zema',numero:'30',partido:'Novo',poll:3},
-    {nome:'Augusto Cury',numero:'70',partido:'Avante',poll:2},
-    {nome:'Samara Martins',numero:'80',partido:'UP',poll:1},
-    {nome:'Clariana Barão',numero:'27',partido:'DC',poll:0},
-    {nome:'Pablo Marçal',numero:'28',partido:'PRTB',poll:null,status:'Registro sob análise; inelegibilidade é objeto de disputa judicial.'},
-    {nome:'Rui Costa Pimenta',numero:'29',partido:'PCO',poll:0},
-    {nome:'Edmilson Costa',numero:'21',partido:'PCB',poll:0},
-    {nome:'Hertz Dias',numero:'16',partido:'PSTU',poll:0},
-    {nome:'Veterinário Wilson Grassi',numero:'35',partido:'Democrata',poll:0}
+    {nome:'Romeu Zema',numero:'30',partido:'Novo',poll:2},
+    {nome:'Samara Martins',numero:'80',partido:'UP',poll:null},
+    {nome:'Clariana Barão',numero:'27',partido:'DC',poll:null},
+    {nome:'Pablo Marçal',numero:'28',partido:'PRTB',poll:null,status:'Situação sujeita às decisões da Justiça Eleitoral.'},
+    {nome:'Rui Costa Pimenta',numero:'29',partido:'PCO',poll:null},
+    {nome:'Edmilson Costa',numero:'21',partido:'PCB',poll:null},
+    {nome:'Hertz Dias',numero:'16',partido:'PSTU',poll:null},
+    {nome:'Veterinário Wilson Grassi',numero:'35',partido:'Democrata',poll:null}
   ],
   pollSources: {
-    governador:'Datafolha, 21 ago 2026 — 1.204 eleitores, margem de erro ±3 p.p.',
-    senado:'Datafolha, 21 ago 2026 — 1.204 eleitores, margem de erro ±3 p.p.',
-    presidente:'BTG/Nexus, 24 ago 2026 — 2.006 eleitores, margem de erro ±2 p.p.'
+    governador:'Real Time Big Data, 27 ago 2026 — 2.000 eleitores, margem de erro ±2 p.p., registro MG-07972/2026.',
+    senado:'Real Time Big Data, 27 ago 2026 — 2.000 eleitores, margem de erro ±2 p.p., registro MG-07972/2026.',
+    presidente:'Datafolha, 3 set 2026 — 2.002 eleitores, margem de erro ±2 p.p., registro BR-03669/2026.'
   },
   fontes: {
     tse:'https://dadosabertos.tse.jus.br/dataset/candidatos-2026',
-    gov:'https://noticias.uol.com.br/eleicoes/2026/08/24/veja-lista-dos-candidatos-a-governador-de-minas-gerais-em-2026.ghtm',
-    sen:'https://noticias.uol.com.br/eleicoes/2026/08/24/veja-lista-dos-candidatos-ao-senado-por-minas-gerais-em-2026.ghtm',
-    pres:'https://noticias.uol.com.br/eleicoes/2026/08/18/lula-13-flavio-22-veja-numeros-dos-candidatos-a-presidente-em-2026.ghtm'
+    gov:'https://noticias.uol.com.br/eleicoes/2026/09/07/veja-lista-dos-candidatos-a-governador-de-minas-gerais-em-2026.ghtm',
+    sen:'https://noticias.uol.com.br/eleicoes/2026/09/07/veja-lista-dos-candidatos-ao-senado-por-minas-gerais-em-2026.ghtm',
+    pres:'https://www1.folha.uol.com.br/poder/2026/09/datafolha-lula-tem-38-e-flavio-bolsonaro-33-no-1o-turno-cury-vai-a-8.shtml'
   }
 };

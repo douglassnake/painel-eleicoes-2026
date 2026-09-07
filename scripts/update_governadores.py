@@ -52,19 +52,28 @@ def nfloat(v):
     try:return float(s)
     except:return 0.0
 
+def asset_key(r,sq):
+    return (sq,
+            pick(r,'NR_ORDEM_BEM_CANDIDATO','NR_ORDEM_BEM'),
+            pick(r,'DS_BEM_CANDIDATO','DS_BEM'),
+            clean(r.get('VR_BEM_CANDIDATO') or r.get('VR_BEM')))
+
 def main():
     if not CAND.exists():
         raise SystemExit('Arquivo imports/consulta_cand_2026.zip não encontrado')
 
-    assets=defaultdict(float); qtd=defaultdict(int)
+    assets=defaultdict(float); qtd=defaultdict(int); seen_assets=set()
     if BENS.exists():
         for txt in csv_texts(BENS):
             for r in rows(txt):
                 sq=pick(r,'SQ_CANDIDATO','SQ_CANDIDATA')
-                if sq:
-                    valor=clean(r.get('VR_BEM_CANDIDATO') or r.get('VR_BEM'))
-                    if valor:
-                        assets[sq]+=nfloat(valor);qtd[sq]+=1
+                if not sq:continue
+                key=asset_key(r,sq)
+                if key in seen_assets:continue
+                seen_assets.add(key)
+                valor=clean(r.get('VR_BEM_CANDIDATO') or r.get('VR_BEM'))
+                if valor:
+                    assets[sq]+=nfloat(valor);qtd[sq]+=1
 
     # O ZIP do TSE pode conter arquivos consolidados e arquivos por UF.
     # SQ_CANDIDATO é a chave oficial usada para eliminar registros repetidos.

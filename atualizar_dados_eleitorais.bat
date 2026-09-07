@@ -1,17 +1,18 @@
 @echo off
 setlocal
 cd /d "%~dp0"
-title Painel Eleicoes 2026 - Atualizacao TSE
+title Painel Eleicoes 2026 - Atualizacao TSE e Modelo
 
 echo ============================================================
-echo   PAINEL ELEICOES 2026 - ATUALIZACAO DE DADOS ELEITORAIS
+echo   PAINEL ELEICOES 2026 - ATUALIZACAO DE DADOS E CALCULOS
 echo ============================================================
 echo.
 
 if not exist imports mkdir imports
 
-if exist "%USERPROFILE%\Downloads\consulta_cand_2026.zip" if not exist "imports\consulta_cand_2026.zip" copy /Y "%USERPROFILE%\Downloads\consulta_cand_2026.zip" "imports\consulta_cand_2026.zip" >nul
-if exist "%USERPROFILE%\Downloads\bem_candidato_2026.zip" if not exist "imports\bem_candidato_2026.zip" copy /Y "%USERPROFILE%\Downloads\bem_candidato_2026.zip" "imports\bem_candidato_2026.zip" >nul
+REM Sempre prioriza o ZIP mais recente baixado pelo usuario.
+if exist "%USERPROFILE%\Downloads\consulta_cand_2026.zip" copy /Y "%USERPROFILE%\Downloads\consulta_cand_2026.zip" "imports\consulta_cand_2026.zip" >nul
+if exist "%USERPROFILE%\Downloads\bem_candidato_2026.zip" copy /Y "%USERPROFILE%\Downloads\bem_candidato_2026.zip" "imports\bem_candidato_2026.zip" >nul
 
 where py >nul 2>nul
 if not errorlevel 1 (
@@ -27,22 +28,22 @@ if not errorlevel 1 (
 )
 
 if not exist ".venv\Scripts\python.exe" (
-  echo [1/9] Criando ambiente virtual...
+  echo [1/10] Criando ambiente virtual...
   %PYBASE% -m venv .venv
   if errorlevel 1 goto :erro
 ) else (
-  echo [1/9] Ambiente virtual ja existe.
+  echo [1/10] Ambiente virtual ja existe.
 )
 
 set "PY=.venv\Scripts\python.exe"
 set "PIP=.venv\Scripts\pip.exe"
 
-echo [2/9] Atualizando dependencias...
+echo [2/10] Atualizando dependencias...
 "%PY%" -m pip install --upgrade pip >nul
 "%PIP%" install requests
 if errorlevel 1 goto :erro
 
-echo [3/9] Sincronizando codigo com GitHub antes de gerar dados...
+echo [3/10] Sincronizando codigo com GitHub antes de gerar dados...
 git --version >nul 2>nul
 if errorlevel 1 (
   echo [AVISO] Git nao encontrado. A atualizacao seguira somente localmente.
@@ -52,8 +53,9 @@ if errorlevel 1 (
   git diff --quiet
   if errorlevel 1 (
     echo [ERRO] Existem alteracoes rastreadas locais antes do git pull.
-    echo Execute: git restore official-data.json election-history.json governadores-data.json
-    echo Depois rode este BAT novamente.
+    echo Execute: git status
+    echo Se forem apenas arquivos gerados pelo painel, use:
+    echo git restore official-data.json election-history.json governadores-data.json data.js model-results.json
     pause
     exit /b 3
   )
@@ -72,39 +74,45 @@ if errorlevel 1 (
   )
 )
 
-echo [4/9] Atualizando candidaturas 2026...
+echo [4/10] Atualizando candidaturas 2026...
 "%PY%" scripts\update_tse.py
 if errorlevel 1 goto :manual
 
-echo [5/9] Atualizando governadores de todas as UFs...
+echo [5/10] Atualizando governadores de todas as UFs...
 "%PY%" scripts\update_governadores.py
 if errorlevel 1 goto :erro
 
-echo [6/9] Atualizando historico eleitoral 2022 e 2024...
+echo [6/10] Atualizando historico eleitoral 2022 e 2024...
 "%PY%" scripts\update_history.py
 if errorlevel 1 echo [AVISO] Historico nao atualizado nesta execucao.
 
-echo [7/9] Conferindo arquivos gerados...
+echo [7/10] Recalculando Ranking Territorial e Monte Carlo v3...
+"%PY%" scripts\update_model.py
+if errorlevel 1 goto :erro
+
+echo [8/10] Conferindo arquivos gerados...
 if not exist official-data.json goto :erro
 if not exist governadores-data.json goto :erro
+if not exist election-history.json goto :erro
+if not exist model-results.json goto :erro
 
 if "%GITOK%"=="0" goto :fim_local
 
-echo [8/9] Preparando publicacao...
-git add official-data.json election-history.json governadores-data.json 2>nul
+echo [9/10] Preparando publicacao...
+git add official-data.json election-history.json governadores-data.json model-results.json data.js 2>nul
 git diff --cached --quiet
 if not errorlevel 1 (
-  echo [9/9] Nenhuma alteracao para publicar.
+  echo [10/10] Nenhuma alteracao para publicar.
   goto :fim
 )
 
-git commit -m "Atualiza base eleitoral oficial do TSE"
+git commit -m "Atualiza dados eleitorais e recalcula Monte Carlo v3"
 if errorlevel 1 goto :fim_local
 
 git push
 if errorlevel 1 goto :fim_local
 
-echo [9/9] Dados publicados no GitHub com sucesso.
+echo [10/10] Dados e calculos publicados no GitHub com sucesso.
 goto :fim
 
 :manual
@@ -113,11 +121,12 @@ echo ============================================================
 echo   TSE BLOQUEOU A CONSULTA AUTOMATICA (HTTP 403)
 echo ============================================================
 echo.
-echo O painel aceita os arquivos oficiais baixados pelo navegador.
+echo Baixe novamente os arquivos oficiais mais recentes pelo navegador:
+echo    consulta_cand_2026.zip
+echo    bem_candidato_2026.zip
 echo.
-echo Salve/mova para a pasta imports com os nomes:
-echo    imports\consulta_cand_2026.zip
-echo    imports\bem_candidato_2026.zip
+echo Salve em Downloads. Na proxima execucao o BAT substitui automaticamente
+ echo os ZIPs antigos da pasta imports pelos arquivos mais recentes.
 echo.
 start "" "https://dadosabertos.tse.jus.br/dataset/candidatos-2026"
 pause
@@ -139,6 +148,7 @@ exit /b 0
 echo.
 echo ============================================================
 echo   ATUALIZACAO CONCLUIDA
+echo   TSE + HISTORICO + ITR + MONTE CARLO V3 ATUALIZADOS
 echo   O GitHub Pages fara novo deploy automaticamente.
 echo ============================================================
 pause

@@ -20,21 +20,35 @@ API='https://divulgacandcontas.tse.jus.br/divulga/rest/v1'; ELECTION_ID='2032200
 SCOPES=[('BR',1),('MG',3),('MG',5),('MG',6),('MG',7)]
 CARGO_FALLBACK={1:'PRESIDENTE',3:'GOVERNADOR',5:'SENADOR',6:'DEPUTADO FEDERAL',7:'DEPUTADO ESTADUAL'}
 UA={'User-Agent':'Mozilla/5.0 Chrome/151 Safari/537.36','Accept':'application/json, text/plain, */*','Referer':'https://divulgacandcontas.tse.jus.br/divulga/'}
+MISSING={'#NE','#NULO','#N/A','N/A','NA','-1','-3','NULL','NONE'}
 
 # Apelidos do painel que podem diferir do nome de urna/nome civil publicado pelo TSE.
-# As aliases só complementam o matching normal; não alteram o cadastro oficial.
 MONITORED_ALIASES={
     'Cleitinho Azevedo':['Cleitinho','Cleiton Gontijo de Azevedo'],
-    'Gabriel Azevedo':['Gabriel Sousa Marques de Azevedo'],
+    'Gabriel':['Gabriel Sousa Marques de Azevedo','Gabriel Azevedo'],
     'Ana Luiza do MLB':['Ana Luiza Cardoso de Macedo','Ana Luiza'],
-    'Marco Antonio Superman':['Marco Antonio Moreira da Costa','Marco Antonio'],
-    'Wilson Grassi':['Veterinario Wilson Grassi'],
+    'Marco Antônio Superman':['Marco Antonio Moreira da Costa','Marco Antonio'],
+    'Veterinário Wilson Grassi':['Wilson Grassi'],
     'Augusto Cury':['Escritor Augusto Cury'],
+    'Ben Mendes':['Benoni Benjamin Cardoso Mendes'],
+    'Professor Túlio Lopes':['Tulio Cesar Dias Lopes'],
+    'Rafael Duda':['Rafael Ribeiro de Avila'],
+    'Tião Pessoa':['Sebastiao de Oliveira Pessoa'],
+    'Victória Mello Vic':['Victoria de Fatima de Mello'],
+    'Jordano Metalúrgico':['Jordano Carvalho dos Santos'],
+    'Fidélis Alcântara':['Fidelis Oliveira Alcantara'],
+    'Juíz Ramon Moreira':['Ramon Moreira'],
+    'Manoel Carvalho':['Manoel Teodoro Pereira de Carvalho Filho'],
+    'Carlin Moura':['Carlos Magno de Moura Soares'],
 }
 
 def norm(v):
     v=unicodedata.normalize('NFKD',str(v or ''))
     return re.sub(r'[^A-Z0-9]+',' ',''.join(c for c in v if not unicodedata.combining(c)).upper()).strip()
+
+def clean(v):
+    s=str(v or '').strip()
+    return '' if s.upper() in MISSING else s
 
 def monitored_names():
     t=DATA_JS.read_text(encoding='utf-8')
@@ -60,11 +74,14 @@ def rows(text):
 
 def pick(r,*ks):
     for k in ks:
-        if r.get(k) not in (None,''):return str(r[k]).strip()
+        v=clean(r.get(k))
+        if v:return v
     return ''
 
 def nfloat(v):
-    s=str(v or '').strip().replace('.','').replace(',','.')
+    s=clean(v)
+    if not s:return 0.0
+    s=s.replace('.','').replace(',','.')
     try:return float(s)
     except:return 0.0
 
@@ -89,21 +106,35 @@ def csv_record(r,assets,asset_count):
       'corRaca':pick(r,'DS_COR_RACA'),'estadoCivil':pick(r,'DS_ESTADO_CIVIL'),'patrimonio':round(assets.get(sq,0.0),2) if sq in assets else None,
       'qtdBens':asset_count.get(sq) if sq in asset_count else None,'fotoUrl':'','ultimaAtualizacao':None,'eleicoesAnteriores':[]}
 
+def asset_key(r,sq):
+    return (sq,
+            pick(r,'NR_ORDEM_BEM_CANDIDATO','NR_ORDEM_BEM'),
+            pick(r,'DS_BEM_CANDIDATO','DS_BEM'),
+            clean(r.get('VR_BEM_CANDIDATO') or r.get('VR_BEM')))
+
 def load_local():
     if not CAND_FILE.exists():return None
-    assets=defaultdict(float);asset_count=defaultdict(int)
+    assets=defaultdict(float);asset_count=defaultdict(int);seen_assets=set()
     if BENS_FILE.exists():
         for txt in csv_texts(BENS_FILE):
             for r in rows(txt):
                 sq=pick(r,'SQ_CANDIDATO','SQ_CANDIDATA')
-                if sq:
-                    assets[sq]+=nfloat(pick(r,'VR_BEM_CANDIDATO','VR_BEM'));asset_count[sq]+=1
-    db=[];read=0
+                if not sq:continue
+                key=asset_key(r,sq)
+                if key in seen_assets:continue
+                seen_assets.add(key)
+                valor=clean(r.get('VR_BEM_CANDIDATO') or r.get('VR_BEM'))
+                if valor:
+                    assets[sq]+=nfloat(valor);asset_count[sq]+=1
+    db_by_sq={};read=0
     for txt in csv_texts(CAND_FILE):
         for r in rows(txt):
             read+=1
-            if in_scope_csv(r):db.append(csv_record(r,assets,asset_count))
-    print(f'Arquivos locais TSE: {len(db)} candidatos em escopo; {read} linhas lidas')
+            if not in_scope_csv(r):continue
+            rec=csv_record(r,assets,asset_count);sq=rec.get('sqCandidato')
+            if sq:db_by_sq[sq]=rec
+    db=list(db_by_sq.values())
+    print(f'Arquivos locais TSE: {len(db)} candidatos únicos em escopo; {read} linhas lidas')
     return db,read,'arquivo-local',BENS_FILE.exists()
 
 def val(d,*keys):
@@ -125,15 +156,19 @@ def api_record(c,uf,cargo_code):
       'fotoUrl':val(c,'fotoUrl') or '','ultimaAtualizacao':iso_from_epoch(val(c,'dataUltimaAtualizacao')),'eleicoesAnteriores':[]}
 
 def load_api():
-    s=requests.Session();s.headers.update(UA);db=[];errors=[]
+    s=requests.Session();s.headers.update(UA);db_by_sq={};errors=[]
     for uf,cargo in SCOPES:
         url=f'{API}/candidatura/listar/2026/{uf}/{ELECTION_ID}/{cargo}/candidatos'
         try:
             r=s.get(url,timeout=40);r.raise_for_status();p=r.json();cand=p.get('candidatos',[]) if isinstance(p,dict) else []
-            db.extend(api_record(c,uf,cargo) for c in cand);print(f'{uf}/{cargo}: {len(cand)} candidatos')
+            for c in cand:
+                rec=api_record(c,uf,cargo);sq=rec.get('sqCandidato')
+                if sq:db_by_sq[sq]=rec
+            print(f'{uf}/{cargo}: {len(cand)} candidatos')
         except Exception as e:errors.append(f'{uf}/{cargo}: {e}');print('ERRO',errors[-1])
         time.sleep(.2)
-    if not db:raise RuntimeError('TSE bloqueou a API e não há arquivo local em imports/')
+    if not db_by_sq:raise RuntimeError('TSE bloqueou a API e não há arquivo local em imports/')
+    db=list(db_by_sq.values())
     return db,len(db),'api',False
 
 def names_for_target(display):
@@ -154,7 +189,6 @@ def match_monitored(database,names):
                 elif len(urna)>=8 and urna in k:score=max(score,2)
             if score:candidates.append((score,x))
         if candidates:
-            # Maior qualidade do match; em empate prioriza MG.
             candidates.sort(key=lambda p:(p[0],1 if norm(p[1].get('uf'))=='MG' else 0),reverse=True)
             found[display]=candidates[0][1]
     return found
@@ -173,6 +207,6 @@ def main():
       'matched':len(found),'monitored':len(names),'candidates':found,'notFound':not_found,
       'syncStatus':'ok','assetsSyncStatus':'ok' if assets_ok else 'indisponivel'}
     OUT.write_text(json.dumps(payload,ensure_ascii=False,separators=(',',':'))+'\n',encoding='utf-8')
-    print(f'Banco gerado: {len(database)} candidatos; {len(found)}/{len(names)} monitorados; modo={mode}')
+    print(f'Banco gerado: {len(database)} candidatos únicos; {len(found)}/{len(names)} monitorados; modo={mode}')
     if not_found:print('Monitorados não localizados:', ' | '.join(not_found))
 if __name__=='__main__':main()

@@ -879,5 +879,62 @@ window.DASH_HISTORY = [
       "Renan Santos": 3,
       "Romeu Zema": 2
     }
+  },
+  {
+    "date": "2026-09-10",
+    "label": "10 de set de 2026",
+    "model": "Monte Carlo v2",
+    "simulations": 200000,
+    "regional": {
+      "Greyce Elias": 92.2,
+      "Lud Falcão": 87.3,
+      "Bosco": 87.1,
+      "Igor Santos": 71.4,
+      "José Eustáquio": 50.4,
+      "Marli Ribeiro": 45.4,
+      "Dr. Julio Mundim": 44.7,
+      "Gladston Gabriel": 43.9,
+      "Maria Clara Marra": 43.7,
+      "Fernando Breno": 39.9,
+      "Cabo Santana": 14.6,
+      "Ju Almeida": 9.7,
+      "Clesle Siqueira": 5.3,
+      "Silva Brasil": 6.4,
+      "João Paulo Nagashi": 0.9,
+      "Elismar Prado": 94.1,
+      "Raul Belém": 88.2
+    },
+    "governador": {
+      "Cleitinho Azevedo": 33,
+      "Patrus Ananias": 15,
+      "Alexandre Kalil": 13,
+      "Mateus Simões": 11,
+      "Gabriel": 7,
+      "Flávio Roscoe": 5,
+      "Ben Mendes": 3,
+      "Indira Xavier": 1
+    },
+    "senado": {
+      "Marília Campos": 24,
+      "Carlos Viana": 13,
+      "Domingos Sávio": 13,
+      "Marcelo Aro": 12,
+      "Áurea Carolina": 9,
+      "Marco Antônio Superman": 4,
+      "Carlin Moura": 1,
+      "Gustavo Galassi": 1,
+      "Marcelo Heringer": 1,
+      "Ana Luiza do MLB": 1,
+      "Manoel Carvalho": 1,
+      "Arcanjo Pimenta": 1
+    },
+    "presidente": {
+      "Lula": 38,
+      "Flávio Bolsonaro": 33,
+      "Augusto Cury": 8,
+      "Ronaldo Caiado": 4,
+      "Renan Santos": 3,
+      "Romeu Zema": 2
+    }
   }
 ];

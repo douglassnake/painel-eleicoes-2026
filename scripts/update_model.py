@@ -5,7 +5,7 @@ Monte Carlo v3 (ITR):
 - preserva a estrutura probabilística simplificada do v2;
 - usa parâmetros-base de voto e corte por partido/cargo;
 - incorpora um ajuste territorial conservador derivado do ITR;
-- atualiza patrimônio/partido/número dos monitorados a partir da base TSE;
+- usa o snapshot regional TSE mais recente quando disponível;
 - grava model-results.json com auditoria dos parâmetros e atualiza data.js.
 
 IMPORTANTE: este modelo NÃO simula integralmente o sistema proporcional brasileiro.
@@ -87,7 +87,8 @@ def read_regional(text):
             return mm.group(1) if mm else default
         def num(key, default=None):
             mm = re.search(rf"{re.escape(key)}:([0-9.]+|null)", obj)
-            if not mm or mm.group(1) == 'null': return default
+            if not mm or mm.group(1) == 'null':
+                return default
             return float(mm.group(1))
         rows.append({
             'raw': obj,
@@ -106,21 +107,47 @@ def choose_history(hist):
     return None, None
 
 
+def merge_latest_regional_snapshot(official):
+    snapshots = sorted(ROOT.glob('regional-official-*.json'))
+    if not snapshots:
+        return None, None
+    path = snapshots[-1]
+    snapshot = json.loads(path.read_text(encoding='utf-8'))
+    target = official.setdefault('candidates', {})
+    for name, current in snapshot.get('candidates', {}).items():
+        previous = target.get(name) or {}
+        merged = {**previous, **current}
+        previous_sq = previous.get('sqCandidato')
+        current_sq = current.get('sqCandidato')
+        # O histórico foi calculado sobre um snapshot 2026 anterior. Se o TSE
+        # recriou o registro da candidatura e mudou SQ_CANDIDATO, preservamos a
+        # chave anterior somente para localizar o histórico 2022/2024.
+        if previous_sq and current_sq and str(previous_sq) != str(current_sq):
+            merged['_historySqCandidato'] = str(previous_sq)
+        target[name] = merged
+    return snapshot, path
+
+
 def compute_itr(rows, official, history):
     prelim = []
     monitored = official.get('candidates', {})
     by_cand = history.get('byCandidate', {})
     for r in rows:
         off = monitored.get(r['nome'])
-        hist = None; year = None
+        hist = None
+        year = None
         if off:
-            year, hist = choose_history(by_cand.get(str(off.get('sqCandidato')), {}))
+            hist_map = by_cand.get(str(off.get('sqCandidato')), {})
+            if not hist_map and off.get('_historySqCandidato'):
+                hist_map = by_cand.get(str(off.get('_historySqCandidato')), {})
+            year, hist = choose_history(hist_map)
         nr = (hist or {}).get('regioes', {}).get('Noroeste de MG', {'votos': 0, 'percentual': 0})
         ap = (hist or {}).get('regioes', {}).get('Alto Paranaiba', {'votos': 0, 'percentual': 0})
-        prelim.append({**r, 'official': off, 'hist': hist, 'year': year,
-                       'nr': nr, 'ap': ap,
-                       'regional_votes': float(nr.get('votos', 0) or 0) + float(ap.get('votos', 0) or 0),
-                       'regional_share': float(nr.get('percentual', 0) or 0) + float(ap.get('percentual', 0) or 0)})
+        prelim.append({
+            **r, 'official': off, 'hist': hist, 'year': year, 'nr': nr, 'ap': ap,
+            'regional_votes': float(nr.get('votos', 0) or 0) + float(ap.get('votos', 0) or 0),
+            'regional_share': float(nr.get('percentual', 0) or 0) + float(ap.get('percentual', 0) or 0),
+        })
     with_hist = [x for x in prelim if x['hist']]
     max_regional = max([1.0] + [x['regional_votes'] for x in with_hist])
     max_muni = max([1.0] + [float(x['hist'].get('municipiosComVotos', 0) or 0) for x in with_hist])
@@ -140,10 +167,12 @@ def cutoff_for(cargo, partido):
     p = norm(partido)
     if 'FEDERAL' in norm(cargo):
         for k, v in FEDERAL_CUTOFF.items():
-            if norm(k) in p: return (*v, 12)
+            if norm(k) in p:
+                return (*v, 12)
         return 70, 18, 12
     for k, v in STATE_CUTOFF.items():
-        if norm(k) in p: return (*v, 8)
+        if norm(k) in p:
+            return (*v, 8)
     return 45, 12, 8
 
 
@@ -212,6 +241,7 @@ def main():
     text = DATA_JS.read_text(encoding='utf-8')
     official = json.loads(OFFICIAL.read_text(encoding='utf-8'))
     history = json.loads(HISTORY.read_text(encoding='utf-8'))
+    snapshot, snapshot_path = merge_latest_regional_snapshot(official)
     rows = compute_itr(read_regional(text), official, history)
     rng = random.Random(SEED)
 
@@ -222,10 +252,13 @@ def main():
         replacements[row['raw']] = update_object(row['raw'], row, p)
         off = row.get('official') or {}
         results.append({
-            'nome': row['nome'], 'cargo': row['cargo'], 'partido': off.get('partido') or row['partido'],
-            'numero': str(off.get('numero') or row['numero']), 'situacaoTSE': off.get('situacao'),
+            'nome': row['nome'], 'cargo': row['cargo'],
+            'partido': off.get('partido') or row['partido'],
+            'numero': str(off.get('numero') or row['numero']),
+            'situacaoTSE': off.get('situacao'),
             'probV2': round(float(row['prob_old'] or 0), 1), 'probV3': round(p, 1),
-            'itr': None if row['itr'] is None else round(row['itr'], 2), 'historicoUsado': row['year'],
+            'itr': None if row['itr'] is None else round(row['itr'], 2),
+            'historicoUsado': row['year'],
             'muBaseMil': round(mu, 3), 'muAjustadoMil': round(mu_adj, 3), 'desvioMil': sd,
             'corteMedioMil': c_mu, 'corteDesvioMil': c_sd, 'minimoMil': min_v,
             'pesoTerritorial': tw,
@@ -241,8 +274,12 @@ def main():
     DATA_JS.write_text(text, encoding='utf-8')
 
     payload = {
-        'model': 'Monte Carlo v3 (ITR)', 'generatedAt': now.isoformat(), 'simulations': SIMULATIONS,
+        'model': 'Monte Carlo v3 (ITR)',
+        'generatedAt': now.isoformat(),
+        'simulations': SIMULATIONS,
         'seed': SEED,
+        'officialRegionalSnapshot': snapshot_path.name if snapshot_path else None,
+        'officialRegionalSourceGeneratedAt': (snapshot or {}).get('sourceGeneratedAt'),
         'disclaimer': 'Modelo simplificado por limiar. Não simula integralmente a distribuição proporcional de cadeiras, quociente eleitoral, sobras ou posição real na lista/federação.',
         'itrFormula': {'participacaoRegional': 0.45, 'volumeRegional': 0.30, 'alcanceMunicipal': 0.15, 'dispersao': 0.10},
         'territorialAdjustment': {'2022': 'até ±15% na média de votos', '2024': 'até ±9% na média de votos', 'semHistorico': 'sem ajuste'},
@@ -250,6 +287,7 @@ def main():
     }
     OUT.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
     print(f'Monte Carlo v3 concluído: {len(results)} candidatos, {SIMULATIONS:,} simulações por candidato.')
+
 
 if __name__ == '__main__':
     main()

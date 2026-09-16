@@ -1,0 +1,39 @@
+name: Atualizar modelo regional
+
+on:
+  push:
+    paths:
+      - '.github/workflows/update-model.yml'
+      - 'regional-official-*.json'
+      - 'scripts/update_model.py'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  model:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Recalcular Monte Carlo v3
+        run: python scripts/update_model.py
+
+      - name: Publicar resultados
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data.js model-results.json
+          if git diff --cached --quiet; then
+            echo "Sem alterações no modelo."
+            exit 0
+          fi
+          git commit -m "Atualiza Monte Carlo v3 com snapshot TSE"
+          git push

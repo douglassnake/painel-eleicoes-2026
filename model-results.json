@@ -1,10 +1,10 @@
 {
   "model": "Monte Carlo v3 (ITR)",
-  "generatedAt": "2026-09-16T15:06:45.914387",
+  "generatedAt": "2026-09-16T14:01:41.779922",
   "simulations": 200000,
   "seed": 20261004,
-  "officialRegionalSnapshot": "regional-official-2026-09-16.json",
-  "officialRegionalSourceGeneratedAt": "16/09/2026 08:30",
+  "officialRegionalSnapshot": null,
+  "officialRegionalSourceGeneratedAt": null,
   "disclaimer": "Modelo simplificado por limiar. Não simula integralmente a distribuição proporcional de cadeiras, quociente eleitoral, sobras ou posição real na lista/federação.",
   "itrFormula": {
     "participacaoRegional": 0.45,

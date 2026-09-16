@@ -126,16 +126,20 @@ def load_local():
                 valor=clean(r.get('VR_BEM_CANDIDATO') or r.get('VR_BEM'))
                 if valor:
                     assets[sq]+=nfloat(valor);asset_count[sq]+=1
-    db_by_sq={};read=0
+    db_by_sq={};read=0;source_generated_at=None
     for txt in csv_texts(CAND_FILE):
         for r in rows(txt):
             read+=1
+            if source_generated_at is None:
+                dt=pick(r,'DT_GERACAO'); hh=pick(r,'HH_GERACAO')
+                if dt:source_generated_at=f'{dt} {hh}'.strip()
             if not in_scope_csv(r):continue
             rec=csv_record(r,assets,asset_count);sq=rec.get('sqCandidato')
             if sq:db_by_sq[sq]=rec
     db=list(db_by_sq.values())
     print(f'Arquivos locais TSE: {len(db)} candidatos únicos em escopo; {read} linhas lidas')
-    return db,read,'arquivo-local',BENS_FILE.exists()
+    if source_generated_at:print(f'Geração do arquivo TSE: {source_generated_at}')
+    return db,read,'arquivo-local',BENS_FILE.exists(),source_generated_at
 
 def val(d,*keys):
     for k in keys:
@@ -169,7 +173,7 @@ def load_api():
         time.sleep(.2)
     if not db_by_sq:raise RuntimeError('TSE bloqueou a API e não há arquivo local em imports/')
     db=list(db_by_sq.values())
-    return db,len(db),'api',False
+    return db,len(db),'api',False,None
 
 def names_for_target(display):
     vals=[display,*MONITORED_ALIASES.get(display,[])]
@@ -197,13 +201,13 @@ def main():
     IMPORTS.mkdir(exist_ok=True)
     loaded=load_local()
     if loaded is None:loaded=load_api()
-    database,rows_read,mode,assets_ok=loaded
+    database,rows_read,mode,assets_ok,source_generated_at=loaded
     database.sort(key=lambda x:(norm(x['cargo']),norm(x['partido']),norm(x['nomeUrna'] or x['nomeCompleto'])))
     names=monitored_names();found=match_monitored(database,names);counts=defaultdict(int)
     for x in database:counts[x['cargo']]+=1
     not_found=[n for n in names if n not in found]
     payload={'source':'Tribunal Superior Eleitoral — Dados Abertos/DivulgaCand','dataset':DATASET,'checkedAt':datetime.now(timezone.utc).isoformat().replace('+00:00','Z'),
-      'syncMode':mode,'rowsRead':rows_read,'databaseCount':len(database),'countsByCargo':dict(sorted(counts.items())),'database':database,
+      'sourceGeneratedAt':source_generated_at,'syncMode':mode,'rowsRead':rows_read,'databaseCount':len(database),'countsByCargo':dict(sorted(counts.items())),'database':database,
       'matched':len(found),'monitored':len(names),'candidates':found,'notFound':not_found,
       'syncStatus':'ok','assetsSyncStatus':'ok' if assets_ok else 'indisponivel'}
     OUT.write_text(json.dumps(payload,ensure_ascii=False,separators=(',',':'))+'\n',encoding='utf-8')

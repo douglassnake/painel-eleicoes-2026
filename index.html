@@ -4,24 +4,75 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="Dashboard independente das Eleições 2026 com foco em Minas Gerais, Noroeste e Alto Paranaíba." />
-  <meta name="theme-color" content="#07111f" />
+  <meta name="theme-color" content="#061625" />
   <title>Painel Eleições 2026 — Minas Gerais</title>
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="official.css" />
   <link rel="stylesheet" href="territorial.css" />
 </head>
 <body>
-  <header class="topbar">
-    <div class="brand-block">
+  <div class="page-atmosphere" aria-hidden="true">
+    <span class="ambient-orb orb-green"></span>
+    <span class="ambient-orb orb-blue"></span>
+    <span class="ambient-grid"></span>
+  </div>
+
+  <header class="topbar hero-shell">
+    <div class="hero-band hero-band-top" aria-hidden="true"></div>
+
+    <div class="brand-block hero-copy">
       <p class="eyebrow">ELEIÇÕES 2026 • MINAS GERAIS</p>
       <h1>Painel Eleitoral</h1>
       <p class="subtitle">Dados, pesquisas e modelagem probabilística com foco no Noroeste de Minas e Alto Paranaíba.</p>
+
+      <div class="hero-badges" aria-label="Características do painel">
+        <span class="hero-badge badge-tse"><i></i>Dados oficiais do TSE</span>
+        <span class="hero-badge badge-model"><i></i>Monte Carlo v3</span>
+        <span class="hero-badge badge-territory"><i></i>Análise territorial</span>
+      </div>
     </div>
-    <div class="update-box">
-      <span>Base do painel</span>
-      <strong id="updatedAt">25 ago 2026</strong>
-      <small>Dados sujeitos a atualização no TSE</small>
+
+    <div class="hero-side">
+      <div class="update-box">
+        <span>Base do painel</span>
+        <strong id="updatedAt">25 ago 2026</strong>
+        <small>Dados sujeitos a atualização no TSE</small>
+      </div>
+
+      <div class="brasil-data-card" aria-hidden="true">
+        <div class="data-card-top">
+          <span class="data-kicker">BRASIL • DADOS</span>
+          <span class="live-pulse"></span>
+        </div>
+
+        <div class="flag-symbol">
+          <span class="flag-diamond"></span>
+          <span class="flag-circle"></span>
+          <span class="flag-band"></span>
+        </div>
+
+        <div class="stat-bars">
+          <span style="--h:45%"></span>
+          <span style="--h:63%"></span>
+          <span style="--h:54%"></span>
+          <span style="--h:82%"></span>
+          <span style="--h:71%"></span>
+        </div>
+
+        <svg class="trend-line" viewBox="0 0 300 86" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="trendStroke" x1="0" x2="1">
+              <stop offset="0" stop-color="#16c784"/>
+              <stop offset="0.52" stop-color="#f5c744"/>
+              <stop offset="1" stop-color="#44c7ff"/>
+            </linearGradient>
+          </defs>
+          <path d="M4 70 C34 73 48 58 70 55 C95 51 107 63 130 51 C151 40 166 28 187 31 C216 34 237 14 296 10" />
+        </svg>
+      </div>
     </div>
+
+    <div class="hero-band hero-band-bottom" aria-hidden="true"></div>
   </header>
 
   <main class="container">
@@ -64,7 +115,10 @@
   </main>
 
   <footer>
-    <p><strong>Painel independente.</strong> Não representa candidato, partido, Justiça Eleitoral ou instituto de pesquisa. Probabilidades são estimativas de modelo e não intenção de voto. Dados cadastrais oficiais são provenientes das bases públicas do TSE.</p>
+    <div class="footer-inner">
+      <p><strong>Painel independente.</strong> Não representa candidato, partido, Justiça Eleitoral ou instituto de pesquisa. Probabilidades são estimativas de modelo e não intenção de voto. Dados cadastrais oficiais são provenientes das bases públicas do TSE.</p>
+      <span class="footer-signature">Brasil • estatística • transparência de dados</span>
+    </div>
   </footer>
 
   <script src="data.js"></script>

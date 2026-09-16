@@ -107,12 +107,47 @@ def choose_history(hist):
     return None, None
 
 
+def parse_source_datetime(value):
+    value = str(value or '').strip()
+    if not value:
+        return None
+    for fmt in ('%d/%m/%Y %H:%M:%S', '%d/%m/%Y %H:%M', '%d/%m/%Y', '%Y-%m-%d'):
+        try:
+            return datetime.strptime(value, fmt)
+        except ValueError:
+            pass
+    try:
+        return datetime.fromisoformat(value.replace('Z', '+00:00')).replace(tzinfo=None)
+    except ValueError:
+        return None
+
+
+def snapshot_datetime(path, snapshot):
+    explicit = parse_source_datetime(snapshot.get('sourceGeneratedAt'))
+    if explicit:
+        return explicit
+    m = re.search(r'(\d{4}-\d{2}-\d{2})', path.stem)
+    return parse_source_datetime(m.group(1)) if m else None
+
+
+def official_datetime(official):
+    # Desde 16/09/2026 o importador registra DT_GERACAO/HH_GERACAO do próprio CSV.
+    # Em bases antigas, checkedAt é usado apenas como fallback de recência.
+    return parse_source_datetime(official.get('sourceGeneratedAt')) or parse_source_datetime(official.get('checkedAt'))
+
+
 def merge_latest_regional_snapshot(official):
     snapshots = sorted(ROOT.glob('regional-official-*.json'))
     if not snapshots:
         return None, None
     path = snapshots[-1]
     snapshot = json.loads(path.read_text(encoding='utf-8'))
+    snap_dt = snapshot_datetime(path, snapshot)
+    official_dt = official_datetime(official)
+    if snap_dt and official_dt and official_dt > snap_dt:
+        print(f'Snapshot regional {path.name} ignorado: official-data.json é mais recente.')
+        return None, None
+
     target = official.setdefault('candidates', {})
     for name, current in snapshot.get('candidates', {}).items():
         previous = target.get(name) or {}

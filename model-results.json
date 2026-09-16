@@ -1,6 +1,6 @@
 {
   "model": "Monte Carlo v3 (ITR)",
-  "generatedAt": "2026-09-16T15:04:56.142061",
+  "generatedAt": "2026-09-16T15:06:45.914387",
   "simulations": 200000,
   "seed": 20261004,
   "officialRegionalSnapshot": "regional-official-2026-09-16.json",

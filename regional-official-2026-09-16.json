@@ -1,0 +1,25 @@
+{
+  "source": "Tribunal Superior Eleitoral — Dados Abertos",
+  "dataset": "https://dadosabertos.tse.jus.br/dataset/candidatos-2026",
+  "sourceGeneratedAt": "16/09/2026 08:30",
+  "scope": "17 candidatos regionais monitorados",
+  "candidates": {
+    "Greyce Elias": {"nomeUrna":"GREYCE ELIAS","nomeCompleto":"GREYCE DE QUEIROZ ELIAS","numero":"2270","partido":"PL","federacao":"","cargo":"DEPUTADO FEDERAL","uf":"MG","situacao":"Não informado","sqCandidato":"130002542019","patrimonio":2112478.2,"qtdBens":26},
+    "Lud Falcão": {"nomeUrna":"LUD FALCÃO","nomeCompleto":"LUDIMILA FONSECA AZEVEDO FALCAO","numero":"10000","partido":"REPUBLICANOS","federacao":"","cargo":"DEPUTADO ESTADUAL","uf":"MG","situacao":"Não informado","sqCandidato":"130002539910","patrimonio":10479.34,"qtdBens":5},
+    "Bosco": {"nomeUrna":"BOSCO","nomeCompleto":"JOÃO BOSCO","numero":"55200","partido":"PSD","federacao":"","cargo":"DEPUTADO ESTADUAL","uf":"MG","situacao":"Não informado","sqCandidato":"130002549939","patrimonio":2385183.83,"qtdBens":8},
+    "Igor Santos": {"nomeUrna":"IGOR SANTOS","nomeCompleto":"IGOR PEREIRA DOS SANTOS","numero":"2227","partido":"PL","federacao":"","cargo":"DEPUTADO FEDERAL","uf":"MG","situacao":"Não informado","sqCandidato":"130002542000","patrimonio":904139.22,"qtdBens":19},
+    "José Eustáquio": {"nomeUrna":"JOSE EUSTÁQUIO","nomeCompleto":"JOSE EUSTAQUIO DE FARIA JUNIOR","numero":"1590","partido":"MDB","federacao":"","cargo":"DEPUTADO FEDERAL","uf":"MG","situacao":"Não informado","sqCandidato":"130002547926","patrimonio":1156600.0,"qtdBens":4},
+    "Marli Ribeiro": {"nomeUrna":"MARLI RIBEIRO","nomeCompleto":"MARLI FERREIRA DA SILVA","numero":"22022","partido":"PL","federacao":"","cargo":"DEPUTADO ESTADUAL","uf":"MG","situacao":"Não informado","sqCandidato":"130002542062","patrimonio":201359.18,"qtdBens":4},
+    "Dr. Julio Mundim": {"nomeUrna":"DR JULIO MUNDIM","nomeCompleto":"JULIO MENDONCA MUNDIM","numero":"4522","partido":"PSDB","federacao":"FEDERAÇÃO PSDB CIDADANIA","cargo":"DEPUTADO FEDERAL","uf":"MG","situacao":"Não informado","sqCandidato":"130002539878","patrimonio":20042500.0,"qtdBens":5},
+    "Gladston Gabriel": {"nomeUrna":"GLADSTON GABRIEL","nomeCompleto":"GLADSTON GABRIEL DA SILVA","numero":"2202","partido":"PL","federacao":"","cargo":"DEPUTADO FEDERAL","uf":"MG","situacao":"Não informado","sqCandidato":"130002542001","patrimonio":1216000.0,"qtdBens":7},
+    "Maria Clara Marra": {"nomeUrna":"MARIA CLARA","nomeCompleto":"MARIA CLARA MATOS MARRA","numero":"45300","partido":"PSDB","federacao":"FEDERAÇÃO PSDB CIDADANIA","cargo":"DEPUTADO ESTADUAL","uf":"MG","situacao":"Não informado","sqCandidato":"130002539931","patrimonio":634796.49,"qtdBens":6},
+    "Fernando Breno": {"nomeUrna":"FERNANDO BRENO","nomeCompleto":"FERNANDO BRENO VALADARES VIEIRA","numero":"25123","partido":"PRD","federacao":"FEDERAÇÃO RENOVAÇÃO SOLIDÁRIA","cargo":"DEPUTADO ESTADUAL","uf":"MG","situacao":"Não informado","sqCandidato":"130002532941","patrimonio":1265803.62,"qtdBens":11},
+    "Cabo Santana": {"nomeUrna":"CABO SANTANA","nomeCompleto":"GLEITON PEREIRA SANTANA","numero":"1024","partido":"REPUBLICANOS","federacao":"","cargo":"DEPUTADO FEDERAL","uf":"MG","situacao":"Não informado","sqCandidato":"130002537204","patrimonio":146469.6,"qtdBens":5},
+    "Ju Almeida": {"nomeUrna":"JU ALMEIDA","nomeCompleto":"JULIENE DE ALMEIDA OLIVEIRA","numero":"1029","partido":"REPUBLICANOS","federacao":"","cargo":"DEPUTADO FEDERAL","uf":"MG","situacao":"Não informado","sqCandidato":"130002537197","patrimonio":288000.0,"qtdBens":2},
+    "Clesle Siqueira": {"nomeUrna":"CLESLE SIQUEIRA","nomeCompleto":"CLESLE GAMA SIQUEIRA","numero":"4407","partido":"UNIÃO","federacao":"FEDERAÇÃO UNIÃO PROGRESSISTA","cargo":"DEPUTADO FEDERAL","uf":"MG","situacao":"Não informado","sqCandidato":"130002542735","patrimonio":103191.0,"qtdBens":3},
+    "Silva Brasil": {"nomeUrna":"SILVA BRASIL","nomeCompleto":"ALDERICO CUSTÓDIO DA SILVA JÚNIOR","numero":"4490","partido":"UNIÃO","federacao":"FEDERAÇÃO UNIÃO PROGRESSISTA","cargo":"DEPUTADO FEDERAL","uf":"MG","situacao":"Não informado","sqCandidato":"130002542736","patrimonio":null,"qtdBens":null},
+    "João Paulo Nagashi": {"nomeUrna":"JOÃO PAULO NAGASHI","nomeCompleto":"JOÃO PAULO NAGASHI DE SOUZA","numero":"1445","partido":"MISSÃO","federacao":"","cargo":"DEPUTADO FEDERAL","uf":"MG","situacao":"Não informado","sqCandidato":"130002544434","patrimonio":null,"qtdBens":null},
+    "Elismar Prado": {"nomeUrna":"ELISMAR PRADO","nomeCompleto":"ELISMAR FERNANDES PRADO","numero":"55100","partido":"PSD","federacao":"","cargo":"DEPUTADO ESTADUAL","uf":"MG","situacao":"Não informado","sqCandidato":"130002549952","patrimonio":1703029.96,"qtdBens":6},
+    "Raul Belém": {"nomeUrna":"RAUL BELEM","nomeCompleto":"RAUL JOSÉ DE BELEM","numero":"55700","partido":"PSD","federacao":"","cargo":"DEPUTADO ESTADUAL","uf":"MG","situacao":"Não informado","sqCandidato":"130002549938","patrimonio":1663000.0,"qtdBens":3}
+  }
+}

@@ -13,8 +13,10 @@ if not exist imports mkdir imports
 REM Prioriza arquivos oficiais mais recentes fornecidos pelo usuario.
 REM Primeiro copia Downloads; depois a pasta do projeto, se houver ZIPs nela.
 if exist "%USERPROFILE%\Downloads\consulta_cand_2026.zip" copy /Y "%USERPROFILE%\Downloads\consulta_cand_2026.zip" "imports\consulta_cand_2026.zip" >nul
+if exist "%USERPROFILE%\Downloads\consulta_cand_complementar_2026.zip" copy /Y "%USERPROFILE%\Downloads\consulta_cand_complementar_2026.zip" "imports\consulta_cand_complementar_2026.zip" >nul
 if exist "%USERPROFILE%\Downloads\bem_candidato_2026.zip" copy /Y "%USERPROFILE%\Downloads\bem_candidato_2026.zip" "imports\bem_candidato_2026.zip" >nul
 if exist "%~dp0consulta_cand_2026.zip" copy /Y "%~dp0consulta_cand_2026.zip" "imports\consulta_cand_2026.zip" >nul
+if exist "%~dp0consulta_cand_complementar_2026.zip" copy /Y "%~dp0consulta_cand_complementar_2026.zip" "imports\consulta_cand_complementar_2026.zip" >nul
 if exist "%~dp0bem_candidato_2026.zip" copy /Y "%~dp0bem_candidato_2026.zip" "imports\bem_candidato_2026.zip" >nul
 
 REM Valida um Python realmente executavel, nao apenas um alias do Windows Store.
@@ -142,8 +144,10 @@ echo ============================================================
 echo.
 echo Baixe novamente os arquivos oficiais mais recentes pelo navegador:
 echo    consulta_cand_2026.zip
+echo    consulta_cand_complementar_2026.zip
 echo    bem_candidato_2026.zip
 echo.
+echo O arquivo complementar permite identificar candidatura a reeleicao.
 echo Salve em Downloads ou na pasta do projeto. Na proxima execucao o BAT
 echo substitui automaticamente os ZIPs antigos da pasta imports.
 echo.

@@ -15,7 +15,7 @@ import requests
 ROOT=Path(__file__).resolve().parents[1]
 DATA_JS=ROOT/'data.js'; OUT=ROOT/'official-data.json'; IMPORTS=ROOT/'imports'
 DATASET='https://dadosabertos.tse.jus.br/dataset/candidatos-2026'
-CAND_FILE=IMPORTS/'consulta_cand_2026.zip'; BENS_FILE=IMPORTS/'bem_candidato_2026.zip'
+CAND_FILE=IMPORTS/'consulta_cand_2026.zip'; BENS_FILE=IMPORTS/'bem_candidato_2026.zip'; COMPLEMENT_FILE=IMPORTS/'consulta_cand_complementar_2026.zip'
 API='https://divulgacandcontas.tse.jus.br/divulga/rest/v1'; ELECTION_ID='20322002026'
 SCOPES=[('BR',1),('MG',3),('MG',5),('MG',6),('MG',7)]
 CARGO_FALLBACK={1:'PRESIDENTE',3:'GOVERNADOR',5:'SENADOR',6:'DEPUTADO FEDERAL',7:'DEPUTADO ESTADUAL'}
@@ -95,7 +95,25 @@ def in_scope_csv(r):
     if uf!='MG':return False
     return cargo in ('GOVERNADOR','SENADOR','DEPUTADO FEDERAL','DEPUTADO ESTADUAL')
 
-def csv_record(r,assets,asset_count):
+def load_complement():
+    data={}; read=0; source_generated_at=None
+    if not COMPLEMENT_FILE.exists():
+        return data,read,source_generated_at
+    for txt in csv_texts(COMPLEMENT_FILE):
+        for r in rows(txt):
+            read+=1
+            sq=pick(r,'SQ_CANDIDATO','SQ_CANDIDATA')
+            if not sq:continue
+            if source_generated_at is None:
+                dt=pick(r,'DT_GERACAO'); hh=pick(r,'HH_GERACAO')
+                if dt:source_generated_at=f'{dt} {hh}'.strip()
+            st=clean(r.get('ST_REELEICAO'))
+            data[sq]=st.upper() if st else None
+    print(f'Informações complementares TSE: {len(data)} candidaturas; {read} linhas lidas')
+    if source_generated_at:print(f'Geração do arquivo complementar: {source_generated_at}')
+    return data,read,source_generated_at
+
+def csv_record(r,assets,asset_count,complement):
     sq=pick(r,'SQ_CANDIDATO','SQ_CANDIDATA')
     return {'nomeUrna':pick(r,'NM_URNA_CANDIDATO','NM_URNA_CANDIDATA'),'nomeCompleto':pick(r,'NM_CANDIDATO','NM_CANDIDATA'),
       'numero':pick(r,'NR_CANDIDATO','NR_CANDIDATA'),'partido':pick(r,'SG_PARTIDO'),'federacao':pick(r,'NM_FEDERACAO','DS_COMPOSICAO_FEDERACAO'),
@@ -103,7 +121,8 @@ def csv_record(r,assets,asset_count):
       'detalhe':pick(r,'DS_SITUACAO_CANDIDATO_URNA','DS_DETALHE_SITUACAO_CAND'),'sqCandidato':sq,'genero':pick(r,'DS_GENERO'),
       'dataNascimento':pick(r,'DT_NASCIMENTO'),'idadePosse':pick(r,'NR_IDADE_DATA_POSSE'),'ocupacao':pick(r,'DS_OCUPACAO'),
       'instrucao':pick(r,'DS_GRAU_INSTRUCAO'),'municipioNascimento':pick(r,'NM_MUNICIPIO_NASCIMENTO'),'ufNascimento':pick(r,'SG_UF_NASCIMENTO'),
-      'corRaca':pick(r,'DS_COR_RACA'),'estadoCivil':pick(r,'DS_ESTADO_CIVIL'),'patrimonio':round(assets.get(sq,0.0),2) if sq in assets else None,
+      'corRaca':pick(r,'DS_COR_RACA'),'estadoCivil':pick(r,'DS_ESTADO_CIVIL'),'reeleicao':complement.get(sq),
+      'patrimonio':round(assets.get(sq,0.0),2) if sq in assets else None,
       'qtdBens':asset_count.get(sq) if sq in asset_count else None,'fotoUrl':'','ultimaAtualizacao':None,'eleicoesAnteriores':[]}
 
 def asset_key(r,sq):
@@ -114,6 +133,7 @@ def asset_key(r,sq):
 
 def load_local():
     if not CAND_FILE.exists():return None
+    complement,complement_rows,complement_generated_at=load_complement()
     assets=defaultdict(float);asset_count=defaultdict(int);seen_assets=set()
     if BENS_FILE.exists():
         for txt in csv_texts(BENS_FILE):
@@ -134,12 +154,12 @@ def load_local():
                 dt=pick(r,'DT_GERACAO'); hh=pick(r,'HH_GERACAO')
                 if dt:source_generated_at=f'{dt} {hh}'.strip()
             if not in_scope_csv(r):continue
-            rec=csv_record(r,assets,asset_count);sq=rec.get('sqCandidato')
+            rec=csv_record(r,assets,asset_count,complement);sq=rec.get('sqCandidato')
             if sq:db_by_sq[sq]=rec
     db=list(db_by_sq.values())
     print(f'Arquivos locais TSE: {len(db)} candidatos únicos em escopo; {read} linhas lidas')
     if source_generated_at:print(f'Geração do arquivo TSE: {source_generated_at}')
-    return db,read,'arquivo-local',BENS_FILE.exists(),source_generated_at
+    return db,read,'arquivo-local',BENS_FILE.exists(),source_generated_at,bool(complement),complement_generated_at
 
 def val(d,*keys):
     for k in keys:
@@ -149,6 +169,9 @@ def val(d,*keys):
 
 def api_record(c,uf,cargo_code):
     partido=c.get('partido') or {}; cargo=c.get('cargo') or {}
+    st_reeleicao=val(c,'reeleicao','stReeleicao','st_REELEICAO')
+    if isinstance(st_reeleicao,bool):st_reeleicao='S' if st_reeleicao else 'N'
+    elif st_reeleicao is not None:st_reeleicao=str(st_reeleicao).strip().upper()
     return {'nomeUrna':val(c,'nomeUrna','nm_URNA') or '','nomeCompleto':val(c,'nomeCompleto','nm_CANDIDATO') or '',
       'numero':str(val(c,'numero','nr_CANDIDATO') or ''),'partido':val(partido,'sigla') or val(c,'sg_PARTIDO') or '',
       'federacao':val(c,'nomeColigacao') or '','cargo':val(cargo,'nome') or val(c,'ds_CARGO') or CARGO_FALLBACK[cargo_code],
@@ -156,8 +179,8 @@ def api_record(c,uf,cargo_code):
       'detalhe':val(c,'descricaoTotalizacao') or '','sqCandidato':str(val(c,'id','sq_CANDIDATO') or ''),'genero':val(c,'descricaoSexo') or '',
       'dataNascimento':iso_from_epoch(val(c,'dataDeNascimento')),'idadePosse':None,'ocupacao':val(c,'ocupacao') or '',
       'instrucao':val(c,'grauInstrucao') or '','municipioNascimento':val(c,'nomeMunicipioNascimento') or '','ufNascimento':val(c,'sgUfNascimento') or '',
-      'corRaca':val(c,'descricaoCorRaca') or '','estadoCivil':val(c,'descricaoEstadoCivil') or '','patrimonio':None,'qtdBens':None,
-      'fotoUrl':val(c,'fotoUrl') or '','ultimaAtualizacao':iso_from_epoch(val(c,'dataUltimaAtualizacao')),'eleicoesAnteriores':[]}
+      'corRaca':val(c,'descricaoCorRaca') or '','estadoCivil':val(c,'descricaoEstadoCivil') or '','reeleicao':st_reeleicao,
+      'patrimonio':None,'qtdBens':None,'fotoUrl':val(c,'fotoUrl') or '','ultimaAtualizacao':iso_from_epoch(val(c,'dataUltimaAtualizacao')),'eleicoesAnteriores':[]}
 
 def load_api():
     s=requests.Session();s.headers.update(UA);db_by_sq={};errors=[]
@@ -173,7 +196,7 @@ def load_api():
         time.sleep(.2)
     if not db_by_sq:raise RuntimeError('TSE bloqueou a API e não há arquivo local em imports/')
     db=list(db_by_sq.values())
-    return db,len(db),'api',False,None
+    return db,len(db),'api',False,None,any(x.get('reeleicao') in ('S','N') for x in db),None
 
 def names_for_target(display):
     vals=[display,*MONITORED_ALIASES.get(display,[])]
@@ -201,16 +224,17 @@ def main():
     IMPORTS.mkdir(exist_ok=True)
     loaded=load_local()
     if loaded is None:loaded=load_api()
-    database,rows_read,mode,assets_ok,source_generated_at=loaded
+    database,rows_read,mode,assets_ok,source_generated_at,reelection_ok,reelection_generated_at=loaded
     database.sort(key=lambda x:(norm(x['cargo']),norm(x['partido']),norm(x['nomeUrna'] or x['nomeCompleto'])))
     names=monitored_names();found=match_monitored(database,names);counts=defaultdict(int)
     for x in database:counts[x['cargo']]+=1
     not_found=[n for n in names if n not in found]
     payload={'source':'Tribunal Superior Eleitoral — Dados Abertos/DivulgaCand','dataset':DATASET,'checkedAt':datetime.now(timezone.utc).isoformat().replace('+00:00','Z'),
-      'sourceGeneratedAt':source_generated_at,'syncMode':mode,'rowsRead':rows_read,'databaseCount':len(database),'countsByCargo':dict(sorted(counts.items())),'database':database,
+      'sourceGeneratedAt':source_generated_at,'reelectionSourceGeneratedAt':reelection_generated_at,'syncMode':mode,'rowsRead':rows_read,'databaseCount':len(database),'countsByCargo':dict(sorted(counts.items())),'database':database,
       'matched':len(found),'monitored':len(names),'candidates':found,'notFound':not_found,
-      'syncStatus':'ok','assetsSyncStatus':'ok' if assets_ok else 'indisponivel'}
+      'syncStatus':'ok','assetsSyncStatus':'ok' if assets_ok else 'indisponivel','reelectionSyncStatus':'ok' if reelection_ok else 'indisponivel'}
     OUT.write_text(json.dumps(payload,ensure_ascii=False,separators=(',',':'))+'\n',encoding='utf-8')
     print(f'Banco gerado: {len(database)} candidatos únicos; {len(found)}/{len(names)} monitorados; modo={mode}')
+    print(f'Reeleição: {"sincronizada" if reelection_ok else "não sincronizada"}')
     if not_found:print('Monitorados não localizados:', ' | '.join(not_found))
 if __name__=='__main__':main()

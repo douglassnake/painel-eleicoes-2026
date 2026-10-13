@@ -12,3 +12,12 @@
 .photo-credit a{color:#8fdfff;text-decoration:none}
 .photo-credit a:hover{text-decoration:underline}
 @media(max-width:560px){.candidate-photo.photo-md{width:52px;height:65px}.candidate-photo.photo-sm{width:40px;height:50px}}
+/* Ajustes editoriais inspirados em painéis de apuração: retratos legíveis e hierarquia visual. */
+.result-major-row:nth-child(-n+2){background:linear-gradient(135deg,rgba(68,199,255,.07),rgba(255,255,255,.025));border-color:rgba(143,223,255,.14);padding-top:11px;padding-bottom:11px}
+.result-major-row:nth-child(-n+2) .candidate-photo.photo-sm{width:50px;height:63px}
+.result-major-row:nth-child(-n+2) .result-major-person strong{font-size:13px}
+.result-major-row:nth-child(-n+2) .result-major-votes strong{font-size:15px}
+.result-candidate .candidate-photo.photo-md{border-color:rgba(143,223,255,.22)}
+.mini-candidate .candidate-photo{margin-right:2px}
+.identity .candidate-photo{margin-right:1px}
+.table-person .candidate-photo{margin-right:2px}

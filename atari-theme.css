@@ -875,3 +875,58 @@ body.theme-atari .hero-band-top{animation:atariGlow 3.8s steps(2,end) infinite}
   body.theme-atari *::before,
   body.theme-atari *::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
 }
+
+/* POLIMENTO DOS COMPONENTES INTERNOS */
+body.theme-atari .mini-candidate{
+  border-color:#2d262c;
+  font-family:Consolas,"Courier New",monospace;
+}
+body.theme-atari .mini-candidate:hover{background:#120e12}
+body.theme-atari .mini-main span,
+body.theme-atari .rank-label span,
+body.theme-atari .rank-label small,
+body.theme-atari .snapshot-name small,
+body.theme-atari .poll-name small,
+body.theme-atari .scatter-head,
+body.theme-atari .scatter-legend,
+body.theme-atari .history-legend,
+body.theme-atari .status{color:#9c907e}
+body.theme-atari .mini-prob,
+body.theme-atari .rank-row>b,
+body.theme-atari .snapshot-row>b,
+body.theme-atari .poll-value{
+  font-family:Consolas,"Courier New",monospace;
+  color:#ffe08a;
+}
+body.theme-atari .pos{
+  border-radius:2px;
+  background:#20140f;
+  border-color:#6a462d;
+  color:var(--at-yellow);
+  font-family:Consolas,"Courier New",monospace;
+}
+body.theme-atari .scatter{
+  border-color:#43332b;
+  border-radius:0;
+  background-color:#09080b;
+  background-image:
+    linear-gradient(to right,rgba(240,107,34,.08) 1px,transparent 1px),
+    linear-gradient(to top,rgba(240,107,34,.08) 1px,transparent 1px);
+}
+body.theme-atari .dot{
+  border-radius:2px;
+  border-color:#070609;
+  box-shadow:2px 2px 0 #020203;
+  font-family:Consolas,"Courier New",monospace;
+}
+body.theme-atari .lg,
+body.theme-atari .legend-line{border-radius:0}
+body.theme-atari .line-0{stroke:#35d7ff;fill:#35d7ff}
+body.theme-atari .line-1{stroke:#73d13d;fill:#73d13d}
+body.theme-atari .line-2{stroke:#ffd447;fill:#ffd447}
+body.theme-atari .line-3{stroke:#ff6655;fill:#ff6655}
+body.theme-atari .line-4{stroke:#8a5cff;fill:#8a5cff}
+body.theme-atari .line-5{stroke:#ff4f9a;fill:#ff4f9a}
+body.theme-atari .chart-dot{stroke:#070609}
+body.theme-atari .method li{color:#b7aa94}
+body.theme-atari select option{background:#0a080c;color:#fff0cf}

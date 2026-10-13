@@ -1,0 +1,877 @@
+/* =========================================================
+   TEMA RETRÔ 2600 / ARCADE
+   Inspirado na linguagem visual dos videogames Atari clássicos.
+   Camada exclusivamente visual: não altera dados nem lógica eleitoral.
+   ========================================================= */
+
+:root{
+  --at-bg:#07060b;
+  --at-bg-2:#0d0b12;
+  --at-panel:#121018;
+  --at-panel-2:#19151d;
+  --at-panel-3:#211a20;
+  --at-cream:#fff4cf;
+  --at-muted:#c8bfa7;
+  --at-dim:#8e8574;
+  --at-red:#e6332a;
+  --at-orange:#f06b22;
+  --at-amber:#ff9f1c;
+  --at-yellow:#ffd447;
+  --at-cyan:#35d7ff;
+  --at-magenta:#ff4f9a;
+  --at-purple:#8a5cff;
+  --at-green:#73d13d;
+  --at-wood:#6f3f24;
+  --at-wood-2:#3e2418;
+  --at-line:rgba(255,212,71,.24);
+  --at-line-soft:rgba(255,244,207,.11);
+  --at-glow:0 0 18px rgba(240,107,34,.16);
+  --at-shadow:0 18px 44px rgba(0,0,0,.52);
+}
+
+body.theme-atari{
+  --bg:var(--at-bg);
+  --bg-deep:#030305;
+  --panel:rgba(15,13,19,.94);
+  --panel2:rgba(22,18,25,.96);
+  --panel3:#211b24;
+  --text:var(--at-cream);
+  --muted:var(--at-muted);
+  --line:var(--at-line-soft);
+  --line-strong:rgba(255,159,28,.36);
+  --accent:var(--at-orange);
+  --accent-2:var(--at-yellow);
+  --good:var(--at-green);
+  --warn:var(--at-yellow);
+  --bad:#ff5e66;
+  --purple:var(--at-purple);
+  --br-green:var(--at-green);
+  --br-yellow:var(--at-yellow);
+  --br-blue:var(--at-cyan);
+  --shadow:var(--at-shadow);
+
+  color:var(--at-cream);
+  font-family:"Trebuchet MS","Arial Narrow",Arial,sans-serif;
+  background:
+    radial-gradient(circle at 50% -10%,rgba(240,107,34,.16),transparent 30%),
+    radial-gradient(circle at 12% 20%,rgba(255,79,154,.08),transparent 24%),
+    radial-gradient(circle at 88% 12%,rgba(53,215,255,.07),transparent 26%),
+    linear-gradient(180deg,#08060b 0%,#0b090f 42%,#050407 100%);
+  letter-spacing:.005em;
+}
+
+body.theme-atari::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:9998;
+  opacity:.11;
+  background:
+    repeating-linear-gradient(
+      180deg,
+      rgba(255,255,255,.075) 0,
+      rgba(255,255,255,.075) 1px,
+      transparent 1px,
+      transparent 4px
+    );
+  mix-blend-mode:soft-light;
+}
+
+body.theme-atari::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:9997;
+  box-shadow:inset 0 0 150px rgba(0,0,0,.62);
+}
+
+body.theme-atari::selection{background:rgba(240,107,34,.48);color:#fff8df}
+body.theme-atari a{color:var(--at-yellow)}
+body.theme-atari :focus-visible{outline:2px solid var(--at-yellow);outline-offset:3px}
+body.theme-atari button,
+body.theme-atari input,
+body.theme-atari select{font-family:"Trebuchet MS","Arial Narrow",Arial,sans-serif}
+
+/* ATMOSFERA / HORIZONTE RETRÔ */
+body.theme-atari .page-atmosphere{opacity:1}
+body.theme-atari .ambient-orb{filter:blur(100px);opacity:.32}
+body.theme-atari .orb-green{background:rgba(240,107,34,.28);width:420px;height:420px}
+body.theme-atari .orb-blue{background:rgba(138,92,255,.22);width:500px;height:500px}
+body.theme-atari .ambient-grid{
+  inset:38% -15% -18%;
+  background-image:
+    linear-gradient(rgba(255,159,28,.085) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,159,28,.085) 1px,transparent 1px);
+  background-size:44px 44px;
+  transform:perspective(420px) rotateX(58deg) scale(1.22);
+  transform-origin:center bottom;
+  mask-image:linear-gradient(180deg,transparent 0%,rgba(0,0,0,.78) 28%,rgba(0,0,0,.92) 100%);
+}
+
+/* HERO - CONSOLE 2600 */
+body.theme-atari .topbar{
+  margin-top:22px;
+  padding:38px 34px 34px;
+  gap:30px;
+}
+
+body.theme-atari .hero-shell{
+  border:2px solid #2c2730;
+  border-radius:10px;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.025),transparent 7%),
+    linear-gradient(145deg,#18151b 0%,#0e0c11 55%,#131016 100%);
+  box-shadow:
+    0 3px 0 #2b252e,
+    0 8px 0 #08070a,
+    0 28px 70px rgba(0,0,0,.52),
+    inset 0 0 0 1px rgba(255,255,255,.025);
+}
+
+body.theme-atari .hero-shell::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    repeating-linear-gradient(0deg,transparent 0 4px,rgba(255,255,255,.012) 4px 5px);
+  opacity:.6;
+  pointer-events:none;
+}
+
+body.theme-atari .hero-shell::after{
+  content:"";
+  position:absolute;
+  left:0;right:0;bottom:0;
+  height:18px;
+  background:
+    linear-gradient(90deg,rgba(255,255,255,.025),transparent 12%,rgba(255,255,255,.03) 31%,transparent 48%,rgba(255,255,255,.02) 71%,transparent),
+    linear-gradient(180deg,var(--at-wood),var(--at-wood-2));
+  border-top:1px solid #8b5635;
+  box-shadow:inset 0 2px 0 rgba(255,255,255,.08);
+}
+
+body.theme-atari .hero-band{
+  height:9px;
+  background:
+    linear-gradient(90deg,
+      var(--at-red) 0 18%,
+      var(--at-orange) 18% 37%,
+      var(--at-amber) 37% 57%,
+      var(--at-yellow) 57% 78%,
+      #fff0a4 78% 100%);
+  opacity:1;
+  box-shadow:0 0 20px rgba(240,107,34,.2);
+}
+body.theme-atari .hero-band-top{top:0}
+body.theme-atari .hero-band-bottom{bottom:18px;height:5px;opacity:.8}
+
+body.theme-atari .eyebrow,
+body.theme-atari .data-kicker,
+body.theme-atari .election-map-kicker,
+body.theme-atari .br-election-kicker{
+  color:var(--at-yellow);
+  font-family:Consolas,"Courier New",monospace;
+  text-transform:uppercase;
+  letter-spacing:.18em;
+}
+
+body.theme-atari .topbar h1{
+  margin-top:8px;
+  color:#fff2ca;
+  font-family:"Arial Black","Trebuchet MS",sans-serif;
+  font-size:clamp(40px,5vw,70px);
+  letter-spacing:-.045em;
+  text-transform:uppercase;
+  text-shadow:
+    3px 3px 0 #7d241d,
+    6px 6px 0 rgba(240,107,34,.25),
+    0 0 24px rgba(255,159,28,.08);
+}
+
+body.theme-atari .subtitle{
+  color:#d4c7ad;
+  font-family:Consolas,"Courier New",monospace;
+  max-width:760px;
+}
+
+body.theme-atari .hero-badge{
+  border-radius:3px;
+  border:1px solid #4c4143;
+  background:#171318;
+  color:#f5e8c3;
+  box-shadow:inset 0 -3px 0 rgba(0,0,0,.25),0 4px 0 #09070a;
+  text-transform:uppercase;
+  font-family:Consolas,"Courier New",monospace;
+  font-size:10px;
+  letter-spacing:.06em;
+}
+body.theme-atari .hero-badge i{border-radius:0;box-shadow:0 0 10px currentColor}
+body.theme-atari .badge-tse i{background:var(--at-green)}
+body.theme-atari .badge-model i{background:var(--at-cyan)}
+body.theme-atari .badge-territory i{background:var(--at-yellow)}
+
+body.theme-atari .update-box{
+  border:2px solid #3b343c;
+  border-radius:6px;
+  background:linear-gradient(180deg,#1d191f,#0d0b10);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.025),0 6px 0 #08070a;
+}
+body.theme-atari .update-box span,
+body.theme-atari .update-box small{font-family:Consolas,"Courier New",monospace;color:#aa9f8c}
+body.theme-atari .update-box strong{color:var(--at-yellow);font-family:Consolas,"Courier New",monospace;letter-spacing:.05em}
+
+body.theme-atari .brasil-data-card{
+  height:180px;
+  border:3px solid #39323a;
+  border-radius:7px;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.018),transparent),
+    #09080b;
+  box-shadow:
+    inset 0 0 30px rgba(0,0,0,.9),
+    inset 0 0 0 2px #17131a,
+    0 6px 0 #050406;
+  overflow:hidden;
+}
+body.theme-atari .brasil-data-card::before{
+  content:"DATA DECK // 2600";
+  position:absolute;
+  left:15px;
+  top:41px;
+  color:#8f8371;
+  font:700 10px/1 Consolas,"Courier New",monospace;
+  letter-spacing:.12em;
+}
+body.theme-atari .data-card-top{padding-top:14px}
+body.theme-atari .live-pulse{
+  width:9px;height:9px;border-radius:0;
+  background:var(--at-red);
+  box-shadow:0 0 12px rgba(230,51,42,.65);
+}
+
+/* Reaproveita o símbolo do cabeçalho como um joystick retrô */
+body.theme-atari .flag-symbol{
+  top:50px;right:24px;width:92px;height:100px;opacity:1;
+}
+body.theme-atari .flag-diamond{
+  inset:auto 10px 4px 10px;
+  height:38px;
+  transform:none;
+  border-radius:6px;
+  background:linear-gradient(180deg,#262129,#100e12);
+  border:2px solid #4b414a;
+  box-shadow:0 5px 0 #050406;
+}
+body.theme-atari .flag-circle{
+  inset:auto;
+  width:28px;height:28px;
+  right:25px;bottom:10px;
+  border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#ff8a3b,#c42a23 70%);
+  box-shadow:inset -4px -5px 0 rgba(0,0,0,.22),0 0 0 2px #09080a;
+}
+body.theme-atari .flag-band{
+  left:35px;right:auto;top:11px;
+  width:9px;height:58px;
+  border-radius:5px;
+  transform:rotate(-8deg);
+  transform-origin:center bottom;
+  background:linear-gradient(90deg,#bbb2a1,#59515a);
+  box-shadow:0 0 0 1px #19161a;
+}
+body.theme-atari .flag-band::before{
+  content:"";
+  position:absolute;
+  width:24px;height:24px;
+  border-radius:50%;
+  left:-8px;top:-12px;
+  background:radial-gradient(circle at 35% 30%,#ff7640,#c42824 70%);
+  box-shadow:0 2px 0 #511611;
+}
+
+body.theme-atari .stat-bars{border-color:#392e26;gap:6px}
+body.theme-atari .stat-bars span{
+  border-radius:0;
+  background:linear-gradient(180deg,var(--at-yellow),var(--at-orange),var(--at-red));
+  box-shadow:0 0 10px rgba(240,107,34,.12);
+}
+body.theme-atari .trend-line path{
+  stroke:var(--at-cyan)!important;
+  filter:drop-shadow(0 0 7px rgba(53,215,255,.38));
+}
+
+/* AVISO */
+body.theme-atari .independence-notice{
+  border:1px solid #554739;
+  border-left:6px solid var(--at-orange);
+  border-radius:6px;
+  background:
+    linear-gradient(90deg,rgba(240,107,34,.075),transparent 28%),
+    linear-gradient(180deg,#171319,#0e0c10);
+  box-shadow:0 8px 0 #060507,0 16px 32px rgba(0,0,0,.3);
+}
+body.theme-atari .independence-notice::after{
+  width:240px;height:240px;
+  background:repeating-radial-gradient(circle,rgba(255,212,71,.08) 0 2px,transparent 2px 13px);
+}
+body.theme-atari .notice-icon{
+  border-radius:3px;
+  background:#241d18;
+  border:2px solid var(--at-orange);
+  color:var(--at-yellow);
+  font-family:Consolas,"Courier New",monospace;
+  box-shadow:3px 3px 0 #070507;
+}
+body.theme-atari .notice-content h2{
+  color:var(--at-yellow);
+  font-family:"Arial Black","Trebuchet MS",sans-serif;
+  text-transform:uppercase;
+  letter-spacing:.025em;
+}
+body.theme-atari .notice-content p{color:#cfc3ad}
+body.theme-atari .notice-source{border-color:#49362c}
+
+/* KPIs = CARTUCHOS */
+body.theme-atari .kpi,
+body.theme-atari .audit-kpi,
+body.theme-atari .result-summary-card{
+  border:2px solid #3a333b;
+  border-radius:5px;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.025),transparent 12%),
+    linear-gradient(165deg,#1b171d,#0e0c10);
+  box-shadow:0 6px 0 #070608,0 14px 28px rgba(0,0,0,.32);
+}
+body.theme-atari .kpi::before{
+  top:0;left:0;right:0;bottom:auto;width:auto;height:6px;
+  background:linear-gradient(90deg,var(--at-red),var(--at-orange),var(--at-yellow),var(--at-cyan));
+  opacity:1;
+}
+body.theme-atari .kpi::after{display:none}
+body.theme-atari .kpi .label,
+body.theme-atari .audit-kpi span,
+body.theme-atari .result-summary-card span{
+  color:#a99d8b;
+  font-family:Consolas,"Courier New",monospace;
+}
+body.theme-atari .kpi .value,
+body.theme-atari .audit-kpi strong,
+body.theme-atari .result-summary-card strong{
+  color:var(--at-yellow);
+  font-family:Consolas,"Courier New",monospace;
+  text-shadow:0 0 10px rgba(255,212,71,.14);
+}
+
+/* NAVEGAÇÃO = SELETOR DE JOGO */
+body.theme-atari .tabs{
+  gap:7px;
+  padding:10px;
+  border:2px solid #302a31;
+  border-radius:6px;
+  background:linear-gradient(180deg,#171319,#0a090c);
+  box-shadow:0 6px 0 #050406,0 14px 28px rgba(0,0,0,.32);
+}
+body.theme-atari .tab{
+  border:1px solid #493c36;
+  border-radius:3px;
+  background:linear-gradient(180deg,#2a2220,#171316);
+  color:#cbbb9f;
+  padding:10px 14px;
+  box-shadow:inset 0 -3px 0 rgba(0,0,0,.34);
+  font:800 11px/1.2 Consolas,"Courier New",monospace;
+  letter-spacing:.035em;
+  text-transform:uppercase;
+}
+body.theme-atari .tab:hover{
+  transform:translateY(-1px);
+  border-color:var(--at-orange);
+  color:#fff2cf;
+  background:#2d1b16;
+}
+body.theme-atari .tab.active{
+  color:#1a0e08;
+  border-color:#ffb235;
+  background:linear-gradient(180deg,var(--at-yellow),var(--at-orange));
+  box-shadow:inset 0 -4px 0 #b7411d,0 0 0 1px #6d2416,0 6px 16px rgba(240,107,34,.2);
+}
+body.theme-atari .tabs .tab[data-view="resultados"]::before{
+  border-radius:0;
+  background:var(--at-red);
+  box-shadow:0 0 10px rgba(230,51,42,.7);
+}
+
+/* CAMPOS */
+body.theme-atari .toolbar input,
+body.theme-atari .toolbar select,
+body.theme-atari .map-search-wrap input{
+  border:2px solid #393139;
+  border-radius:3px;
+  background:#09080b;
+  color:#fff1cf;
+  font-family:Consolas,"Courier New",monospace;
+  box-shadow:inset 0 0 12px rgba(0,0,0,.75);
+}
+body.theme-atari .toolbar input:focus,
+body.theme-atari .toolbar select:focus,
+body.theme-atari .map-search-wrap input:focus{
+  border-color:var(--at-yellow);
+  box-shadow:0 0 0 2px rgba(255,212,71,.11),inset 0 0 12px rgba(0,0,0,.75);
+}
+
+/* TÍTULOS / CABEÇALHOS */
+body.theme-atari .section-title h2,
+body.theme-atari .section-subtitle h3,
+body.theme-atari .card h3,
+body.theme-atari .result-major-head h3,
+body.theme-atari .result-group-head h3,
+body.theme-atari .election-map-head h3,
+body.theme-atari .br-election-head h3,
+body.theme-atari .audit-card h3{
+  color:#fff0c9;
+  font-family:"Arial Black","Trebuchet MS",sans-serif;
+  text-transform:uppercase;
+  letter-spacing:.015em;
+}
+body.theme-atari .section-title h2{
+  text-shadow:2px 2px 0 #5f1f19;
+}
+body.theme-atari .section-title p,
+body.theme-atari .section-subtitle p,
+body.theme-atari .muted{color:#a99d89}
+body.theme-atari .model-pill{
+  border:1px solid #6a4b31;
+  border-radius:3px;
+  background:#1d1512;
+  color:#ffd88d;
+  font-family:Consolas,"Courier New",monospace;
+}
+
+/* CARDS */
+body.theme-atari .card,
+body.theme-atari .audit-card,
+body.theme-atari .result-major-card,
+body.theme-atari .result-group,
+body.theme-atari .election-map-card,
+body.theme-atari .br-election-card,
+body.theme-atari .audit-loading,
+body.theme-atari .audit-error,
+body.theme-atari .result-loading,
+body.theme-atari .result-error{
+  border:2px solid #342e35;
+  border-radius:6px;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.018),transparent 7%),
+    linear-gradient(155deg,#171319,#0b0a0d);
+  box-shadow:0 7px 0 #050406,0 16px 34px rgba(0,0,0,.35);
+}
+body.theme-atari .card:hover{
+  border-color:#5f4435;
+  transform:translateY(-1px);
+  box-shadow:0 8px 0 #050406,0 18px 36px rgba(0,0,0,.4);
+}
+body.theme-atari .text-btn,
+body.theme-atari .result-major-head a{
+  color:var(--at-yellow);
+  font-family:Consolas,"Courier New",monospace;
+  text-transform:uppercase;
+}
+body.theme-atari .result-major-head a{
+  border-radius:2px;
+  border-color:#69452b;
+  background:#1c130f;
+}
+
+/* CANDIDATOS / FOTOS */
+body.theme-atari .candidate-photo,
+body.theme-atari .avatar{
+  border-radius:3px!important;
+  border:2px solid #574437;
+  background:#0a090b;
+  color:#ffd98f;
+  box-shadow:4px 4px 0 #050406!important;
+}
+body.theme-atari .candidate-photo img{
+  filter:saturate(.88) contrast(1.05);
+  background:#08070a;
+}
+body.theme-atari .number{
+  color:var(--at-yellow);
+  font-family:Consolas,"Courier New",monospace;
+  text-shadow:0 0 10px rgba(255,212,71,.16);
+}
+body.theme-atari .badge,
+body.theme-atari .number-chip,
+body.theme-atari .monitored-chip,
+body.theme-atari .data-pending{
+  border-radius:2px;
+  border-color:#514132;
+  background:#1b1512;
+  color:#f0ce89;
+}
+body.theme-atari .metric,
+body.theme-atari .territorial-card-kpis>div,
+body.theme-atari .audit-insight,
+body.theme-atari .map-detail-grid>div,
+body.theme-atari .br-detail-grid>div{
+  border-radius:3px;
+  border-color:#30292f;
+  background:#0c0a0e;
+}
+body.theme-atari .metric span,
+body.theme-atari .result-votes span,
+body.theme-atari .result-share span{
+  color:#958a79;
+  font-family:Consolas,"Courier New",monospace;
+}
+
+/* BARRAS E GRÁFICOS */
+body.theme-atari .bar,
+body.theme-atari .rank-track,
+body.theme-atari .poll-track,
+body.theme-atari .snapshot-meter,
+body.theme-atari .result-progress,
+body.theme-atari .territorial-track,
+body.theme-atari .audit-band-track,
+body.theme-atari .map-progress-track{
+  height:10px;
+  border-radius:0;
+  border:1px solid #2c252b;
+  background:#070609;
+  box-shadow:inset 0 0 7px rgba(0,0,0,.85);
+}
+body.theme-atari .bar i,
+body.theme-atari .rank-track i,
+body.theme-atari .poll-fill,
+body.theme-atari .snapshot-meter i,
+body.theme-atari .result-progress i,
+body.theme-atari .territorial-track i,
+body.theme-atari .audit-band-track i,
+body.theme-atari .map-progress-track i{
+  border-radius:0;
+  background:linear-gradient(90deg,var(--at-red),var(--at-orange) 38%,var(--at-yellow) 70%,#fff1a9);
+  box-shadow:0 0 10px rgba(240,107,34,.15);
+}
+body.theme-atari .good{background:linear-gradient(90deg,#5fbf38,#b7e34d)!important}
+body.theme-atari .warn{background:linear-gradient(90deg,var(--at-orange),var(--at-yellow))!important}
+body.theme-atari .bad{background:linear-gradient(90deg,#c82f2b,#ff6655)!important}
+
+/* RESULTADOS AO VIVO */
+body.theme-atari .result-live-dot{
+  border-radius:0;
+  background:var(--at-red);
+  box-shadow:0 0 0 4px rgba(230,51,42,.1),0 0 16px rgba(230,51,42,.68);
+}
+body.theme-atari .result-refresh,
+body.theme-atari .map-office{
+  border:1px solid #66442d;
+  border-radius:3px;
+  background:linear-gradient(180deg,#322018,#17110f);
+  color:#ffd493;
+  font-family:Consolas,"Courier New",monospace;
+  text-transform:uppercase;
+  box-shadow:inset 0 -3px 0 #0b0809;
+}
+body.theme-atari .result-refresh:hover,
+body.theme-atari .map-office:hover{border-color:var(--at-orange);color:#fff2d0}
+body.theme-atari .map-office.active{
+  background:linear-gradient(180deg,var(--at-yellow),var(--at-orange));
+  color:#1d0f08;
+  border-color:#ffbd48;
+  box-shadow:inset 0 -3px 0 #b13b1a;
+}
+body.theme-atari .result-candidate,
+body.theme-atari .result-major-row{
+  border-radius:3px;
+  border-color:#30292f;
+  background:#0d0b0f;
+}
+body.theme-atari .result-candidate:hover,
+body.theme-atari .result-major-row:hover{
+  background:#161117;
+  border-color:#5d4030;
+}
+body.theme-atari .result-major-pos,
+body.theme-atari .territorial-pos{
+  border-radius:2px;
+  border-color:#6a482e;
+  background:#21150f;
+  color:var(--at-yellow);
+  font-family:Consolas,"Courier New",monospace;
+}
+body.theme-atari .result-status,
+body.theme-atari .result-decision,
+body.theme-atari .audit-result,
+body.theme-atari .tse-status{
+  border-radius:2px;
+  font-family:Consolas,"Courier New",monospace;
+  text-transform:uppercase;
+}
+body.theme-atari .result-decision-elected,
+body.theme-atari .result-status-ok,
+body.theme-atari .audit-result.yes,
+body.theme-atari .tse-ok{
+  background:rgba(115,209,61,.11);
+  border-color:rgba(115,209,61,.42);
+  color:#b7ef87;
+}
+body.theme-atari .result-decision-reelected,
+body.theme-atari .result-status-warn,
+body.theme-atari .tse-warn{
+  background:rgba(255,212,71,.09);
+  border-color:rgba(255,212,71,.44);
+  color:#ffe487;
+}
+body.theme-atari .result-status-off,
+body.theme-atari .audit-result.no{
+  background:#171318;
+  border-color:#3d343c;
+  color:#afa395;
+}
+body.theme-atari .result-status-live{
+  background:rgba(53,215,255,.08);
+  border-color:rgba(53,215,255,.35);
+  color:#aeeeff;
+}
+
+/* MAPAS = TELA CRT */
+body.theme-atari .election-map-stage,
+body.theme-atari .br-map-stage{
+  border:3px solid #373038;
+  border-radius:5px;
+  background:
+    radial-gradient(circle at 50% 48%,rgba(240,107,34,.05),transparent 52%),
+    repeating-linear-gradient(0deg,rgba(255,255,255,.018) 0 1px,transparent 1px 4px),
+    #060508;
+  box-shadow:
+    inset 0 0 52px rgba(0,0,0,.9),
+    inset 0 0 0 2px #111015,
+    0 6px 0 #050406;
+}
+body.theme-atari .mg-municipio{
+  stroke:#09070a;
+  stroke-width:.85;
+}
+body.theme-atari .mg-municipio:hover,
+body.theme-atari .mg-municipio.is-selected,
+body.theme-atari .br-state:hover,
+body.theme-atari .br-state.is-selected{
+  stroke:var(--at-yellow);
+  filter:brightness(1.25) saturate(1.08);
+}
+body.theme-atari .br-state{stroke:#08070a}
+body.theme-atari .br-state-label{
+  fill:#fff3cc;
+  font-family:Consolas,"Courier New",monospace;
+  text-shadow:2px 2px 0 #000;
+}
+body.theme-atari .map-tooltip,
+body.theme-atari .br-map-tooltip{
+  border-radius:3px;
+  border:2px solid #6a4830;
+  background:#080609;
+  color:#fff0ca;
+  box-shadow:5px 5px 0 #020203,0 0 18px rgba(240,107,34,.12);
+  font-family:Consolas,"Courier New",monospace;
+}
+body.theme-atari .map-detail,
+body.theme-atari .map-legend-block,
+body.theme-atari .br-map-detail,
+body.theme-atari .br-map-panel{
+  border-radius:4px;
+  border-color:#342c32;
+  background:#0b090d;
+}
+body.theme-atari .map-detail-label,
+body.theme-atari .map-side-title,
+body.theme-atari .br-map-detail>span,
+body.theme-atari .br-map-panel h4{
+  color:var(--at-yellow);
+  font-family:Consolas,"Courier New",monospace;
+}
+body.theme-atari .map-legend-row>i,
+body.theme-atari .map-winner>i,
+body.theme-atari .br-detail-winner>i,
+body.theme-atari .br-leader-row>i,
+body.theme-atari .br-region-row i{
+  border-radius:1px;
+}
+
+/* MAPA BRASIL STATUS */
+body.theme-atari .br-election-status{
+  border-radius:3px;
+  border-color:#44393a;
+  background:#0d0b0f;
+  font-family:Consolas,"Courier New",monospace;
+}
+body.theme-atari #brMapStatusDot{border-radius:0;background:var(--at-yellow)}
+body.theme-atari #brMapStatusDot.done{background:var(--at-green)}
+
+/* TABELAS / BANCO OFICIAL / AUDITORIA */
+body.theme-atari .table-wrap,
+body.theme-atari .audit-table-wrap{
+  border:2px solid #342d34;
+  border-radius:4px;
+  background:#09080b;
+  box-shadow:0 6px 0 #050406;
+}
+body.theme-atari table,
+body.theme-atari .audit-table{background:#0b090d}
+body.theme-atari table th,
+body.theme-atari .audit-table th{
+  background:linear-gradient(180deg,#2a1b16,#171114);
+  color:#ffd991;
+  border-bottom:2px solid #6f4327;
+  font-family:Consolas,"Courier New",monospace;
+  text-transform:uppercase;
+  letter-spacing:.04em;
+}
+body.theme-atari table td,
+body.theme-atari .audit-table td{
+  border-color:#251f25;
+}
+body.theme-atari table tr:hover td,
+body.theme-atari .audit-table tr:hover td{
+  background:#171117;
+}
+body.theme-atari .cargo-counts span,
+body.theme-atari .pager button{
+  border-radius:3px;
+  border-color:#40363b;
+  background:#111015;
+  color:#cbbda4;
+}
+body.theme-atari .pager button:hover:not(:disabled){
+  border-color:var(--at-orange);
+  background:#241710;
+  color:#ffe2a4;
+}
+body.theme-atari .result-meta{color:#a39785}
+
+/* TERRITORIAL */
+body.theme-atari .territorial-method,
+body.theme-atari .territorial-pending{
+  border-radius:4px;
+  border-color:#403332;
+  background:#100c0d;
+  color:#b4a791;
+}
+body.theme-atari .territorial-row{
+  border-radius:3px;
+  border-color:#30292f;
+  background:linear-gradient(90deg,#100d11,#0a090c);
+}
+body.theme-atari .territorial-row:hover{
+  border-color:#6c4730;
+}
+body.theme-atari .territorial-score{
+  color:var(--at-yellow);
+  font-family:Consolas,"Courier New",monospace;
+}
+body.theme-atari .territorial-detail{color:#a99b86}
+
+/* PÓS-ELEIÇÃO */
+body.theme-atari .audit-band-value{color:#d6c8ac}
+body.theme-atari .audit-note{
+  border-radius:4px;
+  border-color:#65482d;
+  background:#18110e;
+  color:#cfc1a8;
+}
+body.theme-atari .audit-prob.high{color:#b7ef87}
+body.theme-atari .audit-prob.mid{color:#ffe17c}
+body.theme-atari .audit-prob.low,
+body.theme-atari .audit-error-pos{color:#ff8578}
+body.theme-atari .audit-error-neg{color:#84e5ff}
+body.theme-atari .audit-spinner,
+body.theme-atari .result-spinner{
+  border-radius:0;
+  border-color:#332a31;
+  border-top-color:var(--at-orange);
+}
+
+/* HISTORY / CHART */
+body.theme-atari .history-chart svg{
+  background:
+    linear-gradient(rgba(255,159,28,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,159,28,.025) 1px,transparent 1px),
+    #09080b;
+  background-size:28px 28px;
+  border:1px solid #2f282f;
+}
+body.theme-atari .chart-grid{stroke:#3a2b24}
+body.theme-atari .chart-axis{fill:#9b8e7a;font-family:Consolas,"Courier New",monospace}
+body.theme-atari .history-legend{font-family:Consolas,"Courier New",monospace}
+
+/* FOOTER */
+body.theme-atari footer{
+  border-top:0;
+  background:
+    linear-gradient(90deg,var(--at-red),var(--at-orange),var(--at-yellow)) top/100% 4px no-repeat,
+    linear-gradient(180deg,#0b090d,#050406);
+}
+body.theme-atari .footer-inner{
+  color:#a99d8a;
+  font-family:Consolas,"Courier New",monospace;
+}
+body.theme-atari .footer-signature{
+  color:var(--at-yellow);
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+
+/* SCROLLBAR */
+body.theme-atari *::-webkit-scrollbar{width:10px;height:10px}
+body.theme-atari *::-webkit-scrollbar-track{background:#08070a}
+body.theme-atari *::-webkit-scrollbar-thumb{background:linear-gradient(180deg,var(--at-orange),#8c321c);border:2px solid #08070a;border-radius:0}
+
+/* MICRODETALHES */
+body.theme-atari .source-line,
+body.theme-atari .photo-credit,
+body.theme-atari .map-source-note,
+body.theme-atari .br-map-source{
+  color:#807565;
+  font-family:Consolas,"Courier New",monospace;
+}
+body.theme-atari .note{
+  border-radius:4px;
+  border-color:#4e3a2d;
+  background:#120e0d;
+}
+body.theme-atari .empty{
+  border-radius:4px;
+  background:#0c0a0d;
+  border-color:#342b30;
+}
+body.theme-atari .check input{accent-color:var(--at-orange)}
+
+/* RESPONSIVO */
+@media(max-width:900px){
+  body.theme-atari .topbar{padding:30px 22px 34px}
+  body.theme-atari .hero-shell{border-radius:7px}
+  body.theme-atari .kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:600px){
+  body.theme-atari .topbar{margin-top:10px;padding:27px 16px 31px}
+  body.theme-atari .topbar h1{font-size:38px;text-shadow:2px 2px 0 #7d241d,4px 4px 0 rgba(240,107,34,.22)}
+  body.theme-atari .container{padding-left:12px;padding-right:12px}
+  body.theme-atari .kpis{grid-template-columns:1fr}
+  body.theme-atari .tabs{border-radius:4px;padding:7px}
+  body.theme-atari .tab{padding:9px 11px;font-size:10px}
+  body.theme-atari .independence-notice{grid-template-columns:34px minmax(0,1fr);padding:14px}
+  body.theme-atari .notice-icon{width:30px;height:30px}
+}
+
+/* Movimento discreto, desligado quando o usuário prefere menos animação */
+@keyframes atariGlow{
+  0%,100%{filter:brightness(1)}
+  50%{filter:brightness(1.06)}
+}
+body.theme-atari .hero-band-top{animation:atariGlow 3.8s steps(2,end) infinite}
+
+@media(prefers-reduced-motion:reduce){
+  body.theme-atari *,
+  body.theme-atari *::before,
+  body.theme-atari *::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+}

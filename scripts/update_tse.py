@@ -198,6 +198,32 @@ def load_api():
     db=list(db_by_sq.values())
     return db,len(db),'api',False,None,any(x.get('reeleicao') in ('S','N') for x in db),None
 
+def enrich_photos_from_api(database):
+    """Tenta complementar fotos oficiais via DivulgaCand sem impedir a atualização se houver bloqueio HTTP."""
+    by_sq={str(x.get('sqCandidato') or ''):x for x in database if x.get('sqCandidato')}
+    updated=0; attempted=0
+    s=requests.Session();s.headers.update(UA)
+    for uf,cargo in SCOPES:
+        url=f'{API}/candidatura/listar/2026/{uf}/{ELECTION_ID}/{cargo}/candidatos'
+        try:
+            r=s.get(url,timeout=20);r.raise_for_status();p=r.json()
+            cand=p.get('candidatos',[]) if isinstance(p,dict) else []
+            attempted+=1
+            for item in cand:
+                sq=str(val(item,'id','sq_CANDIDATO') or '')
+                photo=clean(val(item,'fotoUrl','urlFoto') or '')
+                rec=by_sq.get(sq)
+                if rec is not None and photo and not rec.get('fotoUrl'):
+                    rec['fotoUrl']=photo;updated+=1
+        except Exception as e:
+            print(f'AVISO fotos {uf}/{cargo}: {e}')
+        time.sleep(.15)
+    if updated:
+        print(f'Fotos oficiais complementadas via DivulgaCand: {updated}')
+    elif attempted:
+        print('DivulgaCand respondeu, mas nenhuma nova foto foi localizada.')
+    return updated
+
 def names_for_target(display):
     vals=[display,*MONITORED_ALIASES.get(display,[])]
     return [norm(v) for v in vals if norm(v)]
@@ -225,6 +251,7 @@ def main():
     loaded=load_local()
     if loaded is None:loaded=load_api()
     database,rows_read,mode,assets_ok,source_generated_at,reelection_ok,reelection_generated_at=loaded
+    photo_updates=enrich_photos_from_api(database) if mode=='arquivo-local' else sum(1 for x in database if x.get('fotoUrl'))
     database.sort(key=lambda x:(norm(x['cargo']),norm(x['partido']),norm(x['nomeUrna'] or x['nomeCompleto'])))
     names=monitored_names();found=match_monitored(database,names);counts=defaultdict(int)
     for x in database:counts[x['cargo']]+=1
@@ -232,7 +259,7 @@ def main():
     payload={'source':'Tribunal Superior Eleitoral — Dados Abertos/DivulgaCand','dataset':DATASET,'checkedAt':datetime.now(timezone.utc).isoformat().replace('+00:00','Z'),
       'sourceGeneratedAt':source_generated_at,'reelectionSourceGeneratedAt':reelection_generated_at,'syncMode':mode,'rowsRead':rows_read,'databaseCount':len(database),'countsByCargo':dict(sorted(counts.items())),'database':database,
       'matched':len(found),'monitored':len(names),'candidates':found,'notFound':not_found,
-      'syncStatus':'ok','assetsSyncStatus':'ok' if assets_ok else 'indisponivel','reelectionSyncStatus':'ok' if reelection_ok else 'indisponivel'}
+      'syncStatus':'ok','assetsSyncStatus':'ok' if assets_ok else 'indisponivel','reelectionSyncStatus':'ok' if reelection_ok else 'indisponivel','photoSyncStatus':'ok' if photo_updates else 'fallback-web'}
     OUT.write_text(json.dumps(payload,ensure_ascii=False,separators=(',',':'))+'\n',encoding='utf-8')
     print(f'Banco gerado: {len(database)} candidatos únicos; {len(found)}/{len(names)} monitorados; modo={mode}')
     print(f'Reeleição: {"sincronizada" if reelection_ok else "não sincronizada"}')

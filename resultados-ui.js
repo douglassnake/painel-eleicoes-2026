@@ -25,6 +25,7 @@
   const initials = n => String(n || '').split(/\s+/).filter(Boolean).slice(0,2).map(x=>x[0]).join('').toUpperCase();
   const cargoCode = label => /Federal/i.test(label) ? 6 : 7;
   const cargoLabel = code => code === 6 ? 'Deputados federais monitorados' : 'Deputados estaduais monitorados';
+  const photoMarkup = (nome, numero, code, uf='MG', size='sm') => `<div class="candidate-photo photo-${size}" data-candidate-photo data-name="${safe(nome)}" data-number="${safe(numero)}" data-cargo="${code}" data-uf="${safe(uf)}" data-photo-alt="Foto oficial de candidatura de ${safe(nome)}"><span>${safe(initials(nome))}</span></div>`;
   const cargoNameToCode = label => {
     const t = String(label || '').toUpperCase();
     if (t.includes('PRESIDENT')) return 1;
@@ -160,14 +161,14 @@
     const code = /Federal/i.test(monitored.cargo) ? 6 : 7;
     if (!found) {
       return `<article class="result-candidate result-missing">
-        <div class="result-person"><div class="avatar large">${safe(initials(monitored.nome))}</div><div><strong>${safe(monitored.nome)}</strong><small>${safe(monitored.partido)} • ${cargo} • ${safe(monitored.numero)}</small></div></div>
+        <div class="result-person">${photoMarkup(monitored.nome, monitored.numero, code, 'MG', 'md')}<div><strong>${safe(monitored.nome)}</strong><small>${safe(monitored.partido)} • ${cargo} • ${safe(monitored.numero)}</small></div></div>
         <div class="result-votes"><span>Votos</span><strong>—</strong><small>Candidatura não localizada no arquivo atual</small></div>
         <div class="result-share"><span>Percentual</span><strong>—</strong></div>
         <div class="result-state"><span class="result-status result-status-off">Não localizado</span></div>
       </article>`;
     }
     return `<article class="result-candidate">
-      <div class="result-person"><div class="avatar large">${safe(initials(monitored.nome))}</div><div><strong>${safe(monitored.nome)}</strong><small>${safe(found.partido || monitored.partido)} • ${cargo} • ${safe(found.numero)}</small></div></div>
+      <div class="result-person">${photoMarkup(monitored.nome, found.numero || monitored.numero, code, 'MG', 'md')}<div><strong>${safe(monitored.nome)}</strong><small>${safe(found.partido || monitored.partido)} • ${cargo} • ${safe(found.numero)}</small></div></div>
       <div class="result-votes"><span>Votos</span><strong>${fmtInt(found.votos)}</strong><small>votos nominais</small></div>
       <div class="result-share"><span>% dos válidos</span><strong>${fmtPct(found.pct)}</strong></div>
       <div class="result-state">${decisionMarkup(found, code, 'MG', reelectionIndex)}</div>
@@ -197,7 +198,7 @@
     return `<div class="result-major-row">
       <span class="result-major-pos">${position}</span>
       <div class="result-major-person">
-        <div class="avatar sm">${safe(initials(row.nome))}</div>
+        ${photoMarkup(row.nome, row.numero, code, uf, 'sm')}
         <div><strong>${safe(row.nome)}</strong><small>${safe(row.partido)} • ${safe(row.numero)}</small></div>
       </div>
       <div class="result-major-votes"><strong>${fmtInt(row.votos)}</strong><small>${fmtPct(row.pct)}</small></div>
@@ -278,7 +279,9 @@
           </div>
           <div class="result-section-label result-deputies-label"><h3>Candidatos regionais monitorados</h3><p>Votação nominal para deputado federal e estadual em Minas Gerais.</p></div>
           ${groupMarkup(6,federal,federalMon,reelectionIndex)}
-          ${groupMarkup(7,estadual,estadualMon,reelectionIndex)}`;
+          ${groupMarkup(7,estadual,estadualMon,reelectionIndex)}
+          <div class="photo-credit">Fotos de candidatura: Tribunal Superior Eleitoral (TSE). Quando necessário, o painel utiliza cópias espelhadas no Wikimedia Commons sob licença CC BY 4.0, mantendo a autoria do TSE.</div>`;
+        window.CandidatePhotos?.hydrate(content);
       }
     } catch (err) {
       console.error(err);

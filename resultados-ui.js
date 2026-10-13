@@ -5,6 +5,61 @@
   const ELECTION_FEDERAL = '6257';
   const ELECTION_STATE = '6259';
   const REFRESH_MS = 60_000;
+  let selectedOffice = 'presidente';
+  let deputyType = 'todos';
+
+  function filterControls() {
+    const offices = [['presidente','Presidente'],['governador','Governador'],['senado','Senado'],['deputados','Deputados']];
+    return `<div class="election-filters" aria-label="Filtrar resultados por cargo">
+      <div class="election-filter-bar" role="group" aria-label="Cargo">
+        ${offices.map(([id,label])=>`<button type="button" class="election-filter ${selectedOffice===id?'is-active':''}" data-office="${id}" aria-pressed="${selectedOffice===id}">${label}</button>`).join('')}
+      </div>
+      <div class="election-filter-detail" id="electionFilterDetail">
+        <label class="deputy-type-wrap" for="deputyType" ${selectedOffice==='deputados'?'':'hidden'}>Tipo de deputado
+          <select id="deputyType"><option value="todos">Federal e estadual</option><option value="federal">Federal</option><option value="estadual">Estadual</option></select>
+        </label>
+        <span class="election-filter-context" id="electionFilterContext"></span>
+      </div>
+    </div>`;
+  }
+
+  function applyOfficeFilter() {
+    const root = viewEl();
+    if (!root) return;
+    root.querySelectorAll('[data-office]').forEach(button=>{
+      const active = button.dataset.office === selectedOffice;
+      button.classList.toggle('is-active',active);
+      button.setAttribute('aria-pressed',String(active));
+    });
+    const select = root.querySelector('#deputyType');
+    if (select) select.value = deputyType;
+    const label = root.querySelector('.deputy-type-wrap');
+    if (label) label.hidden = selectedOffice !== 'deputados';
+    root.querySelectorAll('[data-election-group]').forEach(section=>{
+      const group = section.dataset.electionGroup;
+      section.hidden = selectedOffice === 'deputados'
+        ? !(group === 'deputados-head' || group === 'deputados-credit' || (deputyType==='todos' ? group==='federal'||group==='estadual' : group===deputyType))
+        : group !== selectedOffice;
+    });
+    const context = root.querySelector('#electionFilterContext');
+    if (context) context.textContent = selectedOffice==='presidente'?'Brasil • resultado oficial TSE':
+      selectedOffice==='governador'?'Minas Gerais • resultado oficial TSE':
+      selectedOffice==='senado'?'Minas Gerais • duas vagas':
+      deputyType==='todos'?'Minas Gerais • federais e estaduais':`Minas Gerais • deputados ${deputyType==='federal'?'federais':'estaduais'}`;
+  }
+
+  function wireOfficeFilters() {
+    const root = viewEl();
+    root?.querySelectorAll('[data-office]').forEach(button=>button.addEventListener('click',()=>{
+      selectedOffice=button.dataset.office;
+      applyOfficeFilter();
+    }));
+    root?.querySelector('#deputyType')?.addEventListener('change',event=>{
+      deputyType=event.target.value;
+      applyOfficeFilter();
+    });
+    applyOfficeFilter();
+  }
   let refreshTimer = null;
   let requestSeq = 0;
 
@@ -141,6 +196,7 @@
         </div>
         <button class="result-refresh" id="resultRefresh" type="button">Atualizar agora</button>
       </div>
+      ${filterControls()}
       <div class="result-summary" id="resultSummary">
         <div class="result-summary-card"><span>Fonte</span><strong>TSE • Resultados 2026</strong><small>Arquivos oficiais de totalização</small></div>
         <div class="result-summary-card"><span>Presidência</span><strong>Carregando…</strong><small>Brasil</small></div>
@@ -154,6 +210,7 @@
       <div class="note result-note">Os números são parciais enquanto a totalização não estiver concluída e podem mudar a cada atualização. “Reeleito” é exibido quando o resultado do TSE confirma a eleição e a base complementar do TSE identifica a candidatura como reeleição.</div>
     `;
     document.querySelector('#resultRefresh')?.addEventListener('click', () => loadResults(true));
+    wireOfficeFilters();
   }
 
   function candidateRow(monitored, found, reelectionIndex) {
@@ -271,16 +328,16 @@
       if (content) {
         content.className = 'result-content';
         content.innerHTML = `
-          <div class="result-section-label"><h3>Disputas majoritárias</h3><p>Resultados oficiais, sem projeção do painel.</p></div>
           <div class="result-major-grid">
-            ${majorMarkup('Presidente da República', 'Brasil • 1º turno', presidente, 'https://resultados.tse.jus.br/oficial/app/index.html#/eleicao/6257/uf/br/cargo/1/vis/nominal/resultados', 1, 'BR', reelectionIndex)}
-            ${majorMarkup('Governador de Minas Gerais', 'Minas Gerais • 1º turno', governador, 'https://resultados.tse.jus.br/oficial/app/index.html#/eleicao/6259/uf/mg/cargo/3/vis/nominal/resultados', 3, 'MG', reelectionIndex)}
-            ${majorMarkup('Senado Federal por MG', 'Minas Gerais • 2 vagas', senador, 'https://resultados.tse.jus.br/oficial/app/index.html#/eleicao/6259/uf/mg/cargo/5/vis/nominal/resultados', 5, 'MG', reelectionIndex)}
+            <div data-election-group="presidente">${majorMarkup('Presidente da República', 'Brasil • 1º turno', presidente, 'https://resultados.tse.jus.br/oficial/app/index.html#/eleicao/6257/uf/br/cargo/1/vis/nominal/resultados', 1, 'BR', reelectionIndex)}</div>
+            <div data-election-group="governador">${majorMarkup('Governador de Minas Gerais', 'Minas Gerais • 1º turno', governador, 'https://resultados.tse.jus.br/oficial/app/index.html#/eleicao/6259/uf/mg/cargo/3/vis/nominal/resultados', 3, 'MG', reelectionIndex)}</div>
+            <div data-election-group="senado">${majorMarkup('Senado Federal por MG', 'Minas Gerais • 2 vagas', senador, 'https://resultados.tse.jus.br/oficial/app/index.html#/eleicao/6259/uf/mg/cargo/5/vis/nominal/resultados', 5, 'MG', reelectionIndex)}</div>
           </div>
-          <div class="result-section-label result-deputies-label"><h3>Candidatos regionais monitorados</h3><p>Votação nominal para deputado federal e estadual em Minas Gerais.</p></div>
-          ${groupMarkup(6,federal,federalMon,reelectionIndex)}
-          ${groupMarkup(7,estadual,estadualMon,reelectionIndex)}
-          <div class="photo-credit">Fotos de candidatura: Tribunal Superior Eleitoral (TSE). Quando necessário, o painel utiliza cópias espelhadas no Wikimedia Commons sob licença CC BY 4.0, mantendo a autoria do TSE.</div>`;
+          <div data-election-group="deputados-head" class="result-section-label result-deputies-label"><h3>Candidatos regionais monitorados</h3><p>Votação nominal para deputado federal e estadual em Minas Gerais.</p></div>
+          <div data-election-group="federal">${groupMarkup(6,federal,federalMon,reelectionIndex)}</div>
+          <div data-election-group="estadual">${groupMarkup(7,estadual,estadualMon,reelectionIndex)}</div>
+          <div data-election-group="deputados-credit" class="photo-credit">Fotos de candidatura: Tribunal Superior Eleitoral (TSE). Quando necessário, o painel utiliza cópias espelhadas no Wikimedia Commons sob licença CC BY 4.0, mantendo a autoria do TSE.</div>`;
+        applyOfficeFilter();
         window.CandidatePhotos?.hydrate(content);
       }
     } catch (err) {

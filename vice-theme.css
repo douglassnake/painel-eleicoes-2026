@@ -838,3 +838,19 @@ body.theme-vice *::-webkit-scrollbar-thumb{
     scroll-behavior:auto!important;
   }
 }
+
+
+/* Filtros de cargos na central de apuração (2026) */
+body.theme-vice .election-filters{display:grid;gap:12px;margin:0 0 18px;padding:13px;border:1px solid rgba(127,151,255,.22);border-radius:18px;background:rgba(9,13,35,.82);box-shadow:0 15px 35px rgba(0,0,0,.18)}
+body.theme-vice .election-filter-bar{display:flex;flex-wrap:wrap;gap:8px}
+body.theme-vice .election-filter{flex:1 1 150px;min-width:0;padding:12px 16px;border-radius:12px;border:1px solid rgba(142,155,210,.24);background:rgba(24,29,64,.7);color:#e2e7fb;font-weight:800;cursor:pointer;transition:background .18s,border-color .18s}
+body.theme-vice .election-filter:hover{border-color:rgba(39,224,255,.6);background:rgba(39,224,255,.1)}
+body.theme-vice .election-filter.is-active{background:linear-gradient(115deg,#a933a2,#8e54ff 52%,#277bb9);color:#fff;border-color:rgba(255,255,255,.35);box-shadow:0 7px 22px rgba(142,84,255,.20)}
+body.theme-vice .election-filter-detail{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;color:#abb8d6;font-size:12px}
+body.theme-vice .deputy-type-wrap{display:flex;gap:10px;align-items:center}
+body.theme-vice .deputy-type-wrap select{padding:8px 30px 8px 12px;color:#f7f8ff;border:1px solid rgba(39,224,255,.3);border-radius:10px;background:#131b3b}
+body.theme-vice [hidden]{display:none!important}
+body.theme-vice .result-major-grid>[data-election-group]{min-width:0}
+body.theme-vice .result-major-grid>[data-election-group]>.result-major-card{height:100%}
+body.theme-vice .result-major-grid:has(>[data-election-group]){grid-template-columns:1fr}
+@media(max-width:430px){body.theme-vice .election-filter{flex-basis:calc(50% - 8px);padding:11px 8px}body.theme-vice .election-filter-detail{align-items:stretch}}

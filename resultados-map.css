@@ -1,0 +1,56 @@
+.election-map-card{margin:14px 0;background:linear-gradient(180deg,rgba(12,31,51,.96),rgba(6,20,35,.94));border:1px solid rgba(120,180,230,.16);border-radius:20px;padding:16px;box-shadow:0 18px 40px rgba(0,0,0,.14)}
+.election-map-head{display:flex;justify-content:space-between;gap:18px;align-items:flex-start;margin-bottom:14px}
+.election-map-kicker{margin:0 0 4px;color:#7fd8ff;font-size:10px;font-weight:900;letter-spacing:.12em}
+.election-map-head h3{margin:0;font-size:22px}
+.election-map-head p:not(.election-map-kicker){margin:5px 0 0;max-width:760px;color:#9fb1c7;font-size:12px;line-height:1.55}
+.election-map-controls{display:flex;gap:7px;padding:4px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.06);border-radius:12px}
+.map-office{border:0;background:transparent;color:#93a6bc;padding:9px 12px;border-radius:9px;font-weight:850;font-size:11px;cursor:pointer}
+.map-office.active{background:rgba(68,199,255,.14);color:#e7f8ff;box-shadow:inset 0 0 0 1px rgba(68,199,255,.22)}
+.map-toolbar{display:grid;grid-template-columns:minmax(220px,360px) 1fr;gap:14px;align-items:end;margin-bottom:14px}
+.map-search-wrap input{width:100%;box-sizing:border-box;background:#091d31;border:1px solid rgba(120,180,230,.18);border-radius:12px;padding:11px 12px;color:#eef7ff;outline:none}
+.map-search-wrap input:focus{border-color:rgba(68,199,255,.5);box-shadow:0 0 0 3px rgba(68,199,255,.08)}
+.map-progress-label{display:flex;justify-content:space-between;gap:12px;color:#8193a9;font-size:10px;margin-bottom:6px}
+.map-progress-label strong{color:#dbeaff}
+.map-progress-track{height:8px;border-radius:999px;background:#10283f;overflow:hidden}
+.map-progress-track i{display:block;width:0;height:100%;border-radius:999px;background:linear-gradient(90deg,#39b8ff,#22d3a0,#f5c744);transition:width .22s ease}
+.election-map-layout{display:grid;grid-template-columns:minmax(0,1.85fr) minmax(260px,.75fr);gap:14px}
+.election-map-stage{position:relative;min-height:620px;border:1px solid rgba(255,255,255,.06);border-radius:16px;background:radial-gradient(circle at 45% 40%,rgba(40,72,101,.18),rgba(4,14,25,.82) 68%),linear-gradient(180deg,#071827,#05131f);overflow:hidden}
+#mgElectionMap{width:100%;height:100%;min-height:620px;display:block}
+.mg-municipio{fill:rgba(83,111,137,.18);stroke:rgba(5,16,27,.88);stroke-width:.75;vector-effect:non-scaling-stroke;fill-rule:evenodd;cursor:pointer;transition:filter .12s ease,opacity .12s ease,stroke-width .12s ease}
+.mg-municipio.has-result{opacity:.92}
+.mg-municipio:hover{filter:brightness(1.25);stroke:#dff7ff;stroke-width:1.4;opacity:1}
+.mg-municipio.is-selected{stroke:#fff;stroke-width:2.4;filter:brightness(1.25);opacity:1}
+.map-tooltip{position:absolute;z-index:5;pointer-events:none;min-width:180px;max-width:230px;padding:9px 10px;border-radius:10px;background:rgba(2,11,19,.95);border:1px solid rgba(143,223,255,.25);box-shadow:0 12px 30px rgba(0,0,0,.3)}
+.map-tooltip strong,.map-tooltip span,.map-tooltip small{display:block}
+.map-tooltip strong{font-size:12px}
+.map-tooltip span{font-size:10px;color:#d3e5f3;margin-top:2px}
+.map-tooltip small{font-size:9px;color:#86a0b7;margin-top:3px}
+.map-side{display:grid;align-content:start;gap:12px}
+.map-detail,.map-legend-block{background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:13px}
+.map-detail-label{display:block;color:#6ed6ff;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px}
+.map-detail>strong{display:block;font-size:16px;margin-bottom:5px}
+.map-detail>small{display:block;color:#8298ad;font-size:10px;line-height:1.45;margin-top:8px}
+.map-winner{display:flex;align-items:center;gap:9px;margin:8px 0 12px}
+.map-winner>i{width:12px;height:38px;border-radius:999px}
+.map-winner strong,.map-winner small{display:block}
+.map-winner strong{font-size:16px}
+.map-winner small{color:#8ba1b6;font-size:10px;margin-top:2px}
+.map-detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.map-detail-grid>div{background:rgba(255,255,255,.028);border:1px solid rgba(255,255,255,.055);border-radius:10px;padding:9px}
+.map-detail-grid span,.map-detail-grid strong{display:block}
+.map-detail-grid span{color:#7f93a7;font-size:9px;text-transform:uppercase;letter-spacing:.05em}
+.map-detail-grid strong{font-size:13px;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.map-side-title{font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.06em;color:#a9bfd1;margin-bottom:9px}
+.map-legend{display:grid;gap:8px}
+.map-legend-row{display:grid;grid-template-columns:10px minmax(0,1fr);gap:8px;align-items:center}
+.map-legend-row>i{width:9px;height:28px;border-radius:999px}
+.map-legend-row strong,.map-legend-row small{display:block}
+.map-legend-row strong{font-size:11px}
+.map-legend-row small{font-size:9px;color:#7f95a9;margin-top:1px}
+.map-legend-empty,.map-source-note{color:#71879b;font-size:9px;line-height:1.45}
+.map-source-note{padding:0 3px}
+.map-fatal{padding:26px;text-align:center}
+.map-fatal h3{margin:0 0 8px}
+.map-fatal p,.map-fatal small{color:#91a5b9}
+@media(max-width:1050px){.election-map-layout{grid-template-columns:1fr}.map-side{grid-template-columns:1fr 1fr}.election-map-stage,#mgElectionMap{min-height:560px}}
+@media(max-width:720px){.election-map-head{display:block}.election-map-controls{margin-top:12px;width:max-content}.map-toolbar{grid-template-columns:1fr}.map-side{grid-template-columns:1fr}.election-map-stage,#mgElectionMap{min-height:470px}.election-map-card{padding:12px}.election-map-head h3{font-size:19px}}

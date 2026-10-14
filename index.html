@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="Dashboard independente das Eleições 2026 com foco em Minas Gerais, Noroeste e Alto Paranaíba." />
-  <meta name="theme-color" content="#160923" />
+  <meta name="theme-color" content="#080b13" />
   <title>Painel Eleições 2026 — Minas Gerais</title>
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="official.css" />
@@ -15,9 +15,9 @@
   <link rel="stylesheet" href="resultados-map.css" />
   <link rel="stylesheet" href="brasil-map.css" />
   <link rel="stylesheet" href="pos-eleicao.css" />
-  <link rel="stylesheet" href="vice-theme.css" />
+  <link rel="stylesheet" href="craft-theme.css" />
 </head>
-<body class="theme-vice">
+<body class="theme-craft">
   <div class="page-atmosphere" aria-hidden="true">
     <span class="ambient-orb orb-green"></span>
     <span class="ambient-orb orb-blue"></span>
@@ -32,12 +32,16 @@
       <span class="vice-palm vice-palm-left"></span>
       <span class="vice-palm vice-palm-right"></span>
     </div>
-    <div class="hero-band hero-band-top" aria-hidden="true"></div>
+    <div class="craft-topline"><span>PE / 2026</span><span>OBSERVATÓRIO DE DADOS ELEITORAIS</span><span>BRASIL · MINAS GERAIS</span></div>
 
     <div class="brand-block hero-copy">
-      <p class="eyebrow">DADOS • CENÁRIOS • RESULTADOS REAIS</p>
+      <p class="eyebrow">01 / DADOS ABERTOS · ELEIÇÕES 2026</p>
       <h1><span>Painel</span><strong>Eleitoral</strong><em>2026</em></h1>
-      <p class="subtitle">O Brasil em tempo real — apuração oficial, mapas interativos e modelagem probabilística com foco em Minas Gerais.</p>
+      <p class="subtitle">Uma nova perspectiva sobre as eleições. Resultados oficiais, mapas interativos e inteligência territorial reunidos em um só lugar.</p>
+      <div class="craft-actions">
+        <a class="craft-action-primary" href="#navegacao">Explorar o painel <span aria-hidden="true">↗</span></a>
+        <a class="craft-action-secondary" href="#independencia">Sobre os dados <span aria-hidden="true">→</span></a>
+      </div>
 
       <div class="hero-badges" aria-label="Características do painel">
         <span class="hero-badge badge-tse"><i></i>Dados oficiais do TSE</span>
@@ -48,14 +52,14 @@
 
     <div class="hero-side">
       <div class="update-box">
-        <span>Base do painel</span>
+        <span>BASE / ÚLTIMA ATUALIZAÇÃO</span>
         <strong id="updatedAt">25 ago 2026</strong>
         <small>Dados sujeitos a atualização no TSE</small>
       </div>
 
       <div class="brasil-data-card" aria-hidden="true">
         <div class="data-card-top">
-          <span class="data-kicker">BRASIL • DADOS</span>
+          <span class="data-kicker">OBSERVATÓRIO / BRASIL</span>
           <span class="live-pulse"></span>
         </div>
 
@@ -86,11 +90,11 @@
       </div>
     </div>
 
-    <div class="hero-band hero-band-bottom" aria-hidden="true"></div>
+    <div class="craft-hero-footer"><span>INFORMAÇÃO INDEPENDENTE</span><span>TSE · IBGE · MODELAGEM ESTATÍSTICA</span><span aria-hidden="true">↘</span></div>
   </header>
 
   <main class="container">
-    <section class="independence-notice" aria-label="Aviso de independência e responsabilidade">
+    <section id="independencia" class="independence-notice" aria-label="Aviso de independência e responsabilidade">
       <div class="notice-icon" aria-hidden="true">i</div>
       <div class="notice-content">
         <h2>Plataforma independente, informativa e probabilística</h2>
@@ -111,9 +115,11 @@
       </div>
     </section>
 
+    <div class="craft-section-heading"><span>02 / INDICADORES</span><h2>Dados que importam<span class="craft-period">.</span></h2><p>Um retrato do universo eleitoral monitorado.</p></div>
     <section class="kpis" id="kpis" aria-label="Indicadores gerais"></section>
+    <div class="craft-section-heading craft-workspace-heading"><span>03 / EXPLORAR</span><h2>Central de dados<span class="craft-period">.</span></h2><p>Selecione uma análise para acompanhar o cenário eleitoral.</p></div>
 
-    <nav class="tabs" aria-label="Seções do painel">
+    <nav id="navegacao" class="tabs" aria-label="Seções do painel">
       <button class="tab active" data-view="overview">Visão geral</button>
       <button class="tab" data-view="resultados">Resultados ao vivo</button>
       <button class="tab" data-view="pos-eleicao">Pós-eleição</button>
@@ -131,7 +137,7 @@
   </main>
 
   <footer>
-    <div class="footer-inner">
+    <div class="footer-inner"><span class="craft-footer-mark">PAINEL / ELEITORAL <b>2026</b></span>
       <p><strong>Painel independente.</strong> Não representa candidato, partido, Justiça Eleitoral ou instituto de pesquisa. Probabilidades são estimativas de modelo e não intenção de voto. Dados cadastrais oficiais são provenientes das bases públicas do TSE.</p>
       <span class="footer-signature">Brasil • estatística • transparência de dados</span>
     </div>

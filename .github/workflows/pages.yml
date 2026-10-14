@@ -24,6 +24,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Validate static frontend
+        run: |
+          set -e
+          python3 scripts/check_frontend.py
+          for file in *.js; do node --check "$file"; done
+
       - name: Configure Pages
         uses: actions/configure-pages@v5
 

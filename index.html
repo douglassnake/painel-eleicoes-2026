@@ -94,6 +94,19 @@
   </header>
 
   <main class="container">
+    <section class="presidential-spotlight" id="presidentialSpotlight" aria-labelledby="presidentialSpotlightTitle">
+      <div class="presidential-spotlight-heading">
+        <div>
+          <span class="spotlight-index">02 / DESTAQUE NACIONAL</span>
+          <h2 id="presidentialSpotlightTitle">Presidência da República<span class="craft-period">.</span></h2>
+          <p>Segundo turno de 2026 · intenção de voto. Dados de pesquisa separados da apuração oficial.</p>
+        </div>
+        <button type="button" id="spotlightOpenPresidency" class="spotlight-open">Ver análise da Presidência <span aria-hidden="true">↗</span></button>
+      </div>
+      <div id="presidentialSpotlightCard" aria-live="polite">
+        <div class="spotlight-placeholder" role="status">Carregando dados de pesquisa da Presidência…</div>
+      </div>
+    </section>
     <section id="independencia" class="independence-notice" aria-label="Aviso de independência e responsabilidade">
       <div class="notice-icon" aria-hidden="true">i</div>
       <div class="notice-content">
@@ -115,11 +128,12 @@
       </div>
     </section>
 
-    <div class="craft-section-heading"><span>02 / INDICADORES</span><h2>Dados que importam<span class="craft-period">.</span></h2><p>Um retrato do universo eleitoral monitorado.</p></div>
+    <div class="craft-section-heading"><span>03 / INDICADORES</span><h2>Dados que importam<span class="craft-period">.</span></h2><p>Um retrato do universo eleitoral monitorado.</p></div>
     <section class="kpis" id="kpis" aria-label="Indicadores gerais"></section>
-    <div class="craft-section-heading craft-workspace-heading"><span>03 / EXPLORAR</span><h2>Central de dados<span class="craft-period">.</span></h2><p>Selecione uma análise para acompanhar o cenário eleitoral.</p></div>
+    <div class="craft-section-heading craft-workspace-heading"><span>04 / EXPLORAR</span><h2>Central de dados<span class="craft-period">.</span></h2><p>Selecione uma análise para acompanhar o cenário eleitoral.</p></div>
 
     <nav id="navegacao" class="tabs" aria-label="Seções do painel">
+      <button class="tab" data-view="presidente">Presidência</button>
       <button class="tab active" data-view="overview">Visão geral</button>
       <button class="tab" data-view="resultados">Resultados ao vivo</button>
       <button class="tab" data-view="pos-eleicao">Pós-eleição</button>
@@ -127,7 +141,6 @@
       <button class="tab" data-view="governador">Governo de MG</button>
       <button class="tab" data-view="governadores-brasil">Governadores do Brasil</button>
       <button class="tab" data-view="senado">Senado por MG</button>
-      <button class="tab" data-view="presidente">Presidência</button>
       <button class="tab" data-view="historico">Histórico</button>
       <button class="tab" data-view="oficial">Banco de candidatos</button>
       <button class="tab" data-view="metodo">Metodologia</button>

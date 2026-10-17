@@ -33,5 +33,25 @@
       </details>`;
     window.CandidatePhotos?.hydrate(target);
   }
-  window.PresidentialPoll={card,render};
+  function mountSpotlight(){
+    const mount=document.getElementById('presidentialSpotlightCard');
+    if(!mount)return;
+    mount.innerHTML=card() || '<p class="spotlight-placeholder">Pesquisa presidencial indisponível no momento.</p>';
+    window.CandidatePhotos?.hydrate(mount);
+    document.getElementById('spotlightOpenPresidency')?.addEventListener('click',()=>{
+      const tab=document.querySelector('.tab[data-view="presidente"]');
+      if(!tab)return;
+      tab.click();
+      document.getElementById('navegacao')?.scrollIntoView({
+        behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',
+        block:'start'
+      });
+    });
+  }
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',mountSpotlight,{once:true});
+  }else{
+    mountSpotlight();
+  }
+  window.PresidentialPoll={card,render,mountSpotlight};
 })();

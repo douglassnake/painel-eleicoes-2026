@@ -67,3 +67,15 @@ assert (ROOT / "presidential-poll.js").is_file()
 assert "PresidentialPoll.render(view)" in (ROOT / "app.js").read_text(encoding="utf-8")
 assert "PresidentialPoll?.card()" in (ROOT / "resultados-ui.js").read_text(encoding="utf-8")
 print("OK: pesquisa Veritá de 2º turno isolada da apuração oficial.")
+
+# O destaque de Presidente aparece antes de todos os outros indicadores e seções.
+assert html.index('id="presidentialSpotlight"') < html.index('id="kpis"') < html.index('id="navegacao"')
+assert html.index('data-view="presidente"') < html.index('data-view="overview"')
+assert html.count('data-view="presidente"') == 1
+poll_js = (ROOT / "presidential-poll.js").read_text(encoding="utf-8")
+assert "mountSpotlight" in poll_js and "CandidatePhotos?.hydrate(mount)" in poll_js
+app_js = (ROOT / "app.js").read_text(encoding="utf-8")
+overview_block = app_js.split('function overview(){',1)[1].split('function majorSnapshot(',1)[0]
+assert overview_block.index("Disputas majoritárias") < overview_block.index("Ranking Monte Carlo")
+assert overview_block.index("majorSnapshot('Presidência") < overview_block.index("majorSnapshot('Governo de MG")
+print("OK: destaque presidencial antes das outras disputas, mantendo as fontes diferenciadas.")

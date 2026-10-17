@@ -69,7 +69,7 @@ assert "PresidentialPoll?.card()" in (ROOT / "resultados-ui.js").read_text(encod
 print("OK: pesquisa Veritá de 2º turno isolada da apuração oficial.")
 
 # O destaque de Presidente aparece antes de todos os outros indicadores e seções.
-assert html.index('id="presidentialSpotlight"') < html.index('id="kpis"') < html.index('id="navegacao"')
+assert html.index('id="navegacao"') < html.index('id="presidentialSpotlight"') < html.index('id="kpis"')
 assert html.index('data-view="presidente"') < html.index('data-view="overview"')
 assert html.count('data-view="presidente"') == 1
 poll_js = (ROOT / "presidential-poll.js").read_text(encoding="utf-8")

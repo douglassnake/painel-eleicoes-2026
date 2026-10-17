@@ -92,3 +92,13 @@ assert "classList.remove('has-photo')" in candidate_photos
 assert "verita-photo-credit" in (ROOT / "presidential-poll.js").read_text(encoding="utf-8")
 assert "snapshot-candidate" in app_js and "candidatePhoto(x.nome,x.numero" in app_js
 print("OK: fotos e créditos reais em destaque, Presidência, resultados e resumo.")
+
+# Ranking IMD é módulo independente e tem assets próprios.
+assert html.count('data-view="competitividade"') == 1
+assert html.index('data-view="presidente"') < html.index('data-view="competitividade"')
+assert html.index('src="competitividade-data.js"') < html.index('src="competitividade-ui.js"') < html.index('src="app.js"')
+assert all((ROOT / asset).is_file() for asset in ("competitividade-data.js","competitividade-ui.js","competitividade.css","scripts/check_competitiveness.js"))
+assert css_balanced((ROOT / "competitividade.css").read_text(encoding="utf-8"))
+assert "Competitiveness2026.render(view)" in app_js
+assert "Competitiveness2026?.overviewCard()" in app_js
+print("OK: módulo IMD 2026 e integração ao painel eleitoral validados.")

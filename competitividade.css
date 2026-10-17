@@ -1,0 +1,81 @@
+/* Ranking Mundial de Competitividade 2026 — módulo socioeconômico IMD. */
+body.theme-craft .imd-section-title {align-items:center;gap:12px}
+body.theme-craft .imd-eyebrow {display:block;font-size:10px;letter-spacing:.14em;font-weight:900;color:#aabfff;margin-bottom:7px}
+body.theme-craft .imd-metrics {display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px;margin:20px 0 24px}
+body.theme-craft .imd-metric {min-width:0;display:flex;flex-direction:column;gap:7px;min-height:130px;padding:19px 18px;border:1px solid var(--c-line);border-radius:12px;background:linear-gradient(155deg,#182239,#111a2b)}
+body.theme-craft .imd-metric>span {font-size:11px;color:#aebedb;font-weight:670}
+body.theme-craft .imd-metric>strong {font-weight:900;font-size:clamp(21px,2.4vw,31px);line-height:1.12;letter-spacing:-.04em;color:#f5f7ff;overflow-wrap:anywhere}
+body.theme-craft .imd-metric>small {font-size:11px;color:#a5b5d2}
+body.theme-craft .imd-brazil-metric {border-color:rgba(147,178,255,.46);background:linear-gradient(135deg,#233660,#18253d)}
+body.theme-craft .imd-panels {display:grid;grid-template-columns:minmax(0,1.85fr) minmax(270px,.9fr);gap:16px;margin:0 0 23px}
+body.theme-craft .imd-panels>.card {min-width:0;margin:0;padding:22px}
+body.theme-craft .imd-card-heading h3,body.theme-craft .imd-brazil-card h3,body.theme-craft .imd-data-heading h3 {font-size:clamp(21px,2vw,27px);letter-spacing:-.035em;margin:0 0 6px;color:#f5f8ff}
+body.theme-craft .imd-card-heading p,body.theme-craft .imd-data-heading p {color:#a9b7cf;font-size:12px;margin:0}
+body.theme-craft .imd-chart {display:grid;gap:12px;margin-top:25px}
+body.theme-craft .imd-chart-row {display:grid;grid-template-columns:24px minmax(90px,1.15fr) minmax(50px,2fr) 52px;gap:10px;align-items:center;min-width:0}
+body.theme-craft .imd-chart-rank {font-size:11px;color:#a9badc;font-weight:800}
+body.theme-craft .imd-chart-name {font-size:12px;color:#e1eafc;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+body.theme-craft .imd-chart-row>strong {text-align:right;font-size:12px;font-variant-numeric:tabular-nums;color:#edf3ff}
+body.theme-craft .imd-chart-track {height:10px;overflow:hidden;border-radius:6px;background:#29364e}
+body.theme-craft .imd-chart-track i {height:100%;display:block;background:linear-gradient(90deg,#5c83da,#9fbdff);border-radius:6px}
+body.theme-craft .imd-brazil-card {background:linear-gradient(160deg,#1d2944,#101829)}
+body.theme-craft .imd-brazil-position {font-size:clamp(50px,6vw,77px);line-height:1.1;font-weight:900;letter-spacing:-.075em;display:block;margin:13px 0;color:#f5f8ff;font-variant-numeric:tabular-nums}
+body.theme-craft .imd-brazil-position span {font-size:20px;color:#aab9d5;letter-spacing:0;font-weight:600}
+body.theme-craft .imd-brazil-index {display:flex;justify-content:space-between;align-items:center;gap:9px;margin-top:15px}
+body.theme-craft .imd-brazil-index span {font-size:12px;color:#b4c2de}
+body.theme-craft .imd-brazil-index strong {font-size:20px;color:#e4ecff;font-variant-numeric:tabular-nums}
+body.theme-craft .imd-brazil-track {height:12px;border-radius:6px;background:#2d3a52;overflow:hidden;margin-top:10px}
+body.theme-craft .imd-brazil-track i {display:block;background:#8eaafa;height:100%;border-radius:6px}
+body.theme-craft .imd-brazil-stats {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:17px 0}
+body.theme-craft .imd-brazil-stats span {font-size:10px;color:#acbad5;border:1px solid var(--c-line);border-radius:8px;padding:11px 9px;line-height:1.4}
+body.theme-craft .imd-brazil-stats strong {display:block;font-size:21px;color:#f5f7ff;line-height:1.4}
+body.theme-craft .imd-brazil-action {width:100%;padding:11px 12px;border:1px solid #8ba7ed;border-radius:8px;color:#f5f8ff;font-size:12px;font-weight:780;background:#2c4574;cursor:pointer}
+body.theme-craft .imd-brazil-action:hover {background:#395995}
+body.theme-craft .imd-data-panel {padding:24px;margin:0 0 18px;scroll-margin-top:18px}
+body.theme-craft .imd-data-heading {display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:21px}
+body.theme-craft .imd-index-tag {padding:8px 10px;border:1px solid var(--c-line);border-radius:9px;color:#9facce;font-size:11px;white-space:nowrap}
+body.theme-craft .imd-controls {display:flex;align-items:flex-end;gap:14px;justify-content:space-between;margin-bottom:16px}
+body.theme-craft .imd-search-label {display:block;flex:1;max-width:540px;color:#b7c6e0;font-size:12px;font-weight:700}
+body.theme-craft .imd-search-label input {margin-top:7px;display:block;width:100%;max-width:100%;border:1px solid #465779;color:#f7faff;background:#10192b;padding:12px 13px;border-radius:9px;font:inherit;font-size:14px;outline:none;box-sizing:border-box}
+body.theme-craft .imd-search-label input:focus {border-color:#99b0ff;box-shadow:0 0 0 2px rgba(144,174,255,.18)}
+body.theme-craft .imd-reset {padding:12px;border:1px solid var(--c-line);background:transparent;color:#c4d5fa;border-radius:8px;cursor:pointer;white-space:nowrap}
+body.theme-craft .imd-reset[hidden],body.theme-craft .imd-show-more[hidden]{display:none}
+body.theme-craft .imd-region-filters {display:flex;gap:8px;flex-wrap:wrap;margin:0 0 12px}
+body.theme-craft .imd-region-filters button {padding:8px 12px;border:1px solid var(--c-line);background:#131d30;color:#a9bcdd;border-radius:8px;cursor:pointer;font-size:11px;font-weight:740}
+body.theme-craft .imd-region-filters button.is-active {background:#5573bd;border-color:#7e9ce9;color:#fff}
+body.theme-craft .imd-count {font-size:11px;color:#a9b8d3;margin:6px 0 10px}
+body.theme-craft .imd-table-scroll {width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--c-line);border-radius:11px}
+body.theme-craft .imd-table {border-collapse:collapse;width:100%;min-width:510px;font-size:12px}
+body.theme-craft .imd-table thead {background:#1d2940}
+body.theme-craft .imd-table thead th {padding:13px 11px;color:#c8d6ef;font-size:11px;font-weight:840;text-align:left;white-space:nowrap}
+body.theme-craft .imd-table tbody tr {border-top:1px solid var(--c-line)}
+body.theme-craft .imd-table tbody tr:nth-child(even) {background:rgba(163,182,241,.03)}
+body.theme-craft .imd-table tbody tr:hover {background:rgba(149,178,249,.09)}
+body.theme-craft .imd-table td,body.theme-craft .imd-table tbody th {padding:12px 11px;color:#dde7fa;text-align:left;font-weight:500}
+body.theme-craft .imd-table tbody th {font-weight:790}
+body.theme-craft .imd-table-rank {color:#aabbdb;font-weight:830;font-variant-numeric:tabular-nums}
+body.theme-craft .imd-table-region {font-size:11px;color:#a4b4d1!important}
+body.theme-craft .imd-table-score {min-width:112px;font-variant-numeric:tabular-nums;font-weight:800!important}
+body.theme-craft .imd-table-score>span {display:block;text-align:right}
+body.theme-craft .imd-table-score i {display:block;height:4px;background:#89a6ef;max-width:100%;border-radius:4px;margin-top:5px}
+body.theme-craft .imd-table tbody tr.imd-table-brazil {background:rgba(126,162,248,.20);outline:1px solid rgba(171,195,255,.35);outline-offset:-1px}
+body.theme-craft .imd-table-brazil th {color:#fff!important}
+body.theme-craft .imd-br-tag {display:inline-block;padding:2px 4px;margin-left:4px;font-weight:900;font-size:9px;background:#2b4983;color:#eaf1ff;border-radius:3px;vertical-align:middle}
+body.theme-craft .imd-no-results {color:#b6c7e5!important;text-align:center!important;padding:24px!important}
+body.theme-craft .imd-show-more {border:1px solid #6b88d4;background:#273e69;color:#e8f0ff;font-size:12px;font-weight:750;padding:12px;width:100%;margin-top:14px;border-radius:8px;cursor:pointer}
+body.theme-craft .imd-show-more:hover {background:#38578c}
+body.theme-craft .imd-methodology {font-size:12px;color:#a7b8d6;line-height:1.7}
+body.theme-craft .imd-methodology a {color:#a8c3ff;text-decoration:underline}
+body.theme-craft .imd-teaser {margin:20px 0!important;padding:19px 21px;border-color:rgba(136,172,255,.36);background:linear-gradient(125deg,#1c2945,#121b2d)}
+body.theme-craft .imd-teaser-heading {display:flex;justify-content:space-between;gap:14px;align-items:center}
+body.theme-craft .imd-teaser-heading h3 {font-size:23px;letter-spacing:-.035em;margin:0 0 5px}
+body.theme-craft .imd-teaser-heading p {font-size:12px;color:#abbbd6;margin:0;max-width:610px}
+body.theme-craft .imd-teaser-score {text-align:right;min-width:120px;white-space:nowrap}
+body.theme-craft .imd-teaser-score strong {display:block;font-size:32px;line-height:1.1;color:#f4f7ff;font-variant-numeric:tabular-nums}
+body.theme-craft .imd-teaser-score strong small {font-size:16px;color:#abbad7}
+body.theme-craft .imd-teaser-score span {font-size:10px;color:#a2b6d9}
+body.theme-craft .imd-teaser-foot {display:flex;justify-content:space-between;gap:9px;align-items:center;margin-top:13px;border-top:1px solid var(--c-line);padding-top:12px;font-size:11px;color:#a8b8d4}
+body.theme-craft .imd-teaser-foot button {flex:0 0 auto}
+@media(max-width:1080px){body.theme-craft .imd-metrics {grid-template-columns:repeat(2,minmax(0,1fr))}body.theme-craft .imd-panels {grid-template-columns:1fr}}
+@media(max-width:650px){body.theme-craft .imd-data-panel{padding:14px}body.theme-craft .imd-panels>.card{padding:16px}body.theme-craft .imd-metrics{gap:9px}body.theme-craft .imd-metric{padding:13px;min-height:113px}body.theme-craft .imd-chart-row{grid-template-columns:22px minmax(65px,1.25fr) minmax(43px,1fr) 46px;gap:7px}body.theme-craft .imd-chart-name{font-size:11px}body.theme-craft .imd-brazil-stats{gap:6px}body.theme-craft .imd-brazil-stats span{padding:9px 6px}body.theme-craft .imd-data-heading{align-items:flex-start;flex-direction:column}body.theme-craft .imd-teaser-heading{align-items:flex-start}body.theme-craft .imd-teaser-foot{align-items:flex-start;flex-direction:column}body.theme-craft .imd-region-filters{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:7px}body.theme-craft .imd-region-filters button{flex:0 0 auto}}
+@media(max-width:390px){body.theme-craft .imd-teaser-heading{flex-direction:column}body.theme-craft .imd-teaser-score{text-align:left}body.theme-craft .imd-metric>strong{font-size:20px}body.theme-craft .imd-brazil-stats strong{font-size:17px}body.theme-craft .imd-chart-row{grid-template-columns:20px minmax(66px,1fr) minmax(35px,1fr) 42px}body.theme-craft .imd-chart-row>strong{font-size:10px}}

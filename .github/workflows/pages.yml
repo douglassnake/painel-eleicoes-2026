@@ -29,6 +29,7 @@ jobs:
           set -e
           python3 scripts/check_frontend.py
           node scripts/check_competitiveness.js
+          node scripts/check_runoff.js
           for file in *.js; do node --check "$file"; done
 
       - name: Configure Pages

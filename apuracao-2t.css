@@ -1,0 +1,47 @@
+/* Apuração do segundo turno — TSE EA20, estilo Craft responsivo. */
+body.theme-craft .runoff-title{align-items:center;gap:15px}
+body.theme-craft .runoff-eyebrow{display:block;font-weight:900;font-size:10px;letter-spacing:.14em;color:#abc1ff;margin-bottom:10px}
+body.theme-craft .runoff-portal{font-size:12px;font-weight:800;padding:11px 14px;border:1px solid #667fae;border-radius:8px;background:#263a60;color:#eaf1ff;white-space:nowrap;text-decoration:none}
+body.theme-craft .runoff-panel{padding:25px;border-color:rgba(145,173,241,.27);background:linear-gradient(145deg,#151f34,#0f1829);margin:15px 0 20px}
+body.theme-craft .runoff-toolbar{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;padding-bottom:19px;border-bottom:1px solid var(--c-line)}
+body.theme-craft .runoff-source{display:flex;align-items:center;gap:13px;min-width:240px}
+body.theme-craft .runoff-source-indicator{display:block;height:10px;width:10px;flex:0 0 10px;border-radius:50%;background:#90addf;box-shadow:0 0 0 5px rgba(133,163,224,.11)}
+body.theme-craft .runoff-source strong{display:block;font-size:13px;color:#ecf2ff}
+body.theme-craft .runoff-source small{display:block;font-size:11px;color:#a8badb}
+body.theme-craft .runoff-toolbar-actions{display:flex;align-items:flex-end;gap:10px}
+body.theme-craft .runoff-toolbar-actions label{display:flex;flex-direction:column;font-size:11px;gap:5px;color:#b5c4de;font-weight:750}
+body.theme-craft .runoff-toolbar-actions select{background:#17253c;border:1px solid #52688d;border-radius:7px;color:#f0f4ff;padding:9px;min-width:150px;font-size:12px;max-width:100%}
+body.theme-craft .runoff-toolbar-actions button{background:#425fa7;border:1px solid #7590cf;border-radius:7px;color:#fff;font-size:12px;padding:10px 13px;cursor:pointer;font-weight:760}
+body.theme-craft .runoff-toolbar-actions button:disabled{cursor:wait;opacity:.6}
+body.theme-craft .runoff-status{margin:20px 0 18px;border:1px solid var(--c-line);padding:15px 17px;border-radius:8px;font-size:13px;font-weight:750}
+body.theme-craft .runoff-status.is-waiting{background:#1c2942;color:#d1e0f9}
+body.theme-craft .runoff-status.is-live{background:#152b33;color:#b7e6d8}
+body.theme-craft .runoff-status.is-final{background:#17342d;color:#b6f2d9}
+body.theme-craft .runoff-status.is-error{background:#3a252c;color:#ffd1d8}
+body.theme-craft .runoff-progress-heading{display:flex;justify-content:space-between;align-items:center;color:#bdcde7;font-size:12px;margin-bottom:8px}
+body.theme-craft .runoff-progress-heading strong{font-size:20px;color:#f5f7ff;font-variant-numeric:tabular-nums}
+body.theme-craft .runoff-progress-track{background:#293956;height:12px;overflow:hidden;border-radius:10px}
+body.theme-craft .runoff-progress-track i{display:block;background:#80a9fc;height:100%;border-radius:10px}
+body.theme-craft .runoff-progress-description{font-size:11px;color:#9eafd0;margin:7px 0 21px}
+body.theme-craft .runoff-candidates{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+body.theme-craft .runoff-candidate{min-width:0;border:1px solid rgba(163,184,237,.22);border-radius:12px;padding:21px;background:rgba(8,17,34,.54)}
+body.theme-craft .runoff-candidate-heading{display:flex;gap:13px;align-items:center}
+body.theme-craft .runoff-candidate .candidate-photo{width:72px;height:87px;flex:0 0 72px;border-radius:11px}
+body.theme-craft .runoff-candidate-name{min-width:0}
+body.theme-craft .runoff-candidate-name strong{display:block;overflow-wrap:anywhere;color:#f5f7ff;font-weight:880;font-size:16px}
+body.theme-craft .runoff-candidate-name small{font-size:12px;color:#aab8d4}
+body.theme-craft .runoff-candidate-pct{font-size:clamp(37px,5vw,65px);color:#f6f9ff;font-weight:900;letter-spacing:-.045em;line-height:1.1;margin:17px 0 10px;font-variant-numeric:tabular-nums}
+body.theme-craft .runoff-candidate-bar{height:12px;background:#263550;border-radius:10px;overflow:hidden}
+body.theme-craft .runoff-candidate-bar i{display:block;background:#9ab3fb;height:100%;border-radius:10px}
+body.theme-craft .runoff-candidate-foot{display:flex;gap:6px;justify-content:space-between;flex-wrap:wrap;margin-top:13px;font-size:11px;color:#aabbd7}
+body.theme-craft .runoff-candidate-foot strong{font-size:14px;color:#eef4ff}
+body.theme-craft .runoff-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:18px}
+body.theme-craft .runoff-metrics>div{background:#15243b;border:1px solid var(--c-line);padding:13px;border-radius:8px;min-width:0}
+body.theme-craft .runoff-metrics span{display:block;color:#abb9d5;font-size:11px}
+body.theme-craft .runoff-metrics strong{display:block;font-size:clamp(15px,1.8vw,23px);font-weight:900;color:#f7faff;overflow-wrap:anywhere;font-variant-numeric:tabular-nums;margin-top:5px}
+body.theme-craft .runoff-footer{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;border-top:1px solid var(--c-line);padding-top:14px;margin-top:16px;color:#a2b4d1;font-size:10px}
+body.theme-craft .runoff-note a{color:#b1c6ff}
+body.theme-craft .runoff-error{padding:16px 5px;color:#c6d4ef;font-size:12px}
+body.theme-craft .runoff-error a{display:inline-block;padding:10px 12px;border:1px solid #748fcb;background:#26395d;border-radius:8px;color:#eef4ff;text-decoration:none;font-weight:750}
+@media(max-width:800px){body.theme-craft .runoff-candidates{grid-template-columns:1fr}body.theme-craft .runoff-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}body.theme-craft .runoff-toolbar{align-items:stretch;flex-direction:column}body.theme-craft .runoff-toolbar-actions{justify-content:space-between}body.theme-craft .runoff-title{align-items:flex-start;flex-direction:column}}
+@media(max-width:460px){body.theme-craft .runoff-panel{padding:13px}body.theme-craft .runoff-source{min-width:0}body.theme-craft .runoff-toolbar-actions{flex-direction:column;align-items:stretch}body.theme-craft .runoff-toolbar-actions select,body.theme-craft .runoff-toolbar-actions button{width:100%}body.theme-craft .runoff-candidate{padding:15px}body.theme-craft .runoff-candidate .candidate-photo{width:57px;height:73px;flex-basis:57px}body.theme-craft .runoff-candidate-pct{font-size:42px}}

@@ -102,3 +102,18 @@ assert css_balanced((ROOT / "competitividade.css").read_text(encoding="utf-8"))
 assert "Competitiveness2026.render(view)" in app_js
 assert "Competitiveness2026?.overviewCard()" in app_js
 print("OK: módulo IMD 2026 e integração ao painel eleitoral validados.")
+
+# Apuração presidencial oficial 2º turno, isolada de pesquisas.
+assert html.count('data-view="apuracao-2t"') == 1
+assert html.index('data-view="presidente"') < html.index('data-view="apuracao-2t"') < html.index('data-view="overview"')
+assert html.index('src="apuracao-2t.js"') < html.index('src="app.js"')
+assert (ROOT / "apuracao-2t.js").is_file()
+assert (ROOT / "apuracao-2t.css").is_file()
+assert (ROOT / "scripts/check_runoff.js").is_file()
+assert css_balanced((ROOT / "apuracao-2t.css").read_text(encoding="utf-8"))
+assert "Runoff2026.render(view)" in app_js
+runoff = (ROOT / "apuracao-2t.js").read_text(encoding="utf-8")
+assert "ele2026/6258/dados" in runoff and "c0001-e006258-u.json" in runoff
+assert "parseOfficial" in runoff and "cache:'no-store'" in runoff
+assert "pesquisas de opinião não são utilizadas" in runoff
+print("OK: apuração 2º turno via TSE JSON, sem dados de pesquisas ou simulações.")

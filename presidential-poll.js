@@ -18,6 +18,7 @@
       <div class="verita-facts"><span><strong>${count(p.amostra)}</strong> entrevistas</span><span><strong>±${pct(p.margemErro)} p.p.</strong> margem informada</span><span><strong>${p.confianca}%</strong> confiança</span><span><strong>${safe(p.registroInformado)}</strong> registro informado</span></div>
       <p class="verita-warning"><strong>Pesquisa eleitoral, não resultado oficial do TSE.</strong> Os percentuais descrevem a intenção de voto no período da coleta e não representam previsão de vitória. Registro TSE citado pela reportagem, ainda não confirmado diretamente na fonte primária.</p>
       <p class="source-line">Fonte consultada: <a href="${safe(p.fonteUrl)}" target="_blank" rel="noopener noreferrer">${safe(p.fonte)} ↗</a> · ${safe(p.metodo)}.</p>
+      <p class="verita-photo-credit">Fotos dos candidatos: ${p.candidatos.map(c=>`<a href="${safe(c.fotoFonte||'#')}" target="_blank" rel="noopener noreferrer">${safe(c.nome)} — ${safe(c.fotoAutor||'Fonte não informada')} (${safe(c.fotoLicenca||'licença não informada')})</a>`).join(' · ')}. Exibidas com recorte automático, sem alterações no conteúdo da fotografia.</p>
     </article>`;
   }
   function render(target){

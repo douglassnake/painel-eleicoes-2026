@@ -125,6 +125,13 @@
   }
 
   async function resolve(meta) {
+    // Retratos de 2026 já conferidos para o segundo turno presidencial.
+    // A identificação exige cargo, UF e número; outros cargos seguem o TSE.
+    if (Number(meta.cargo) === 1 && String(meta.uf || 'BR').toUpperCase() === 'BR') {
+      const match = (window.DASH_DATA?.presidenciaSegundoTurno?.candidatos || [])
+        .find(c => String(c.numero) === String(meta.numero));
+      if (match?.fotoUrl) return absolutePhoto(match.fotoUrl);
+    }
     const official = await loadOfficial();
     const candidate = findCandidate(official, meta);
     if (!candidate) return '';
@@ -150,7 +157,7 @@
     img.loading = 'lazy';
     img.decoding = 'async';
     img.referrerPolicy = 'no-referrer';
-    img.addEventListener('error', () => img.remove(), {once:true});
+    img.addEventListener('error', () => { img.remove(); el.classList.remove('has-photo'); }, {once:true});
     el.classList.add('has-photo');
     el.prepend(img);
   }

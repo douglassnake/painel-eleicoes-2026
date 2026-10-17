@@ -79,3 +79,16 @@ overview_block = app_js.split('function overview(){',1)[1].split('function major
 assert overview_block.index("Disputas majoritárias") < overview_block.index("Ranking Monte Carlo")
 assert overview_block.index("majorSnapshot('Presidência") < overview_block.index("majorSnapshot('Governo de MG")
 print("OK: destaque presidencial antes das outras disputas, mantendo as fontes diferenciadas.")
+
+# Retratos reais dos presidenciáveis e rastreabilidade das licenças.
+assert "2026_FLAVIO_BOLSONARO_CANDIDATO_PRESIDENTE_TSE_" in data
+assert "08.08.2026_-_FOTOS_OFICIAIS_-_55450293419.jpg" in data
+assert "CC BY 4.0" in data and "CC BY-SA 4.0" in data
+assert "fotoAutor" in data and "fotoFonte" in data
+candidate_photos = (ROOT / "candidate-photos.js").read_text(encoding="utf-8")
+assert "presidenciaSegundoTurno?.candidatos" in candidate_photos
+assert "Number(meta.cargo) === 1" in candidate_photos
+assert "classList.remove('has-photo')" in candidate_photos
+assert "verita-photo-credit" in (ROOT / "presidential-poll.js").read_text(encoding="utf-8")
+assert "snapshot-candidate" in app_js and "candidatePhoto(x.nome,x.numero" in app_js
+print("OK: fotos e créditos reais em destaque, Presidência, resultados e resumo.")

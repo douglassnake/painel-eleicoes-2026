@@ -67,8 +67,14 @@ window.DASH_DATA = {
     fonte:'Exame, 17/10/2026',
     fonteUrl:'https://exame.com/brasil/pesquisa-que-mais-acertou-no-1o-turno-mostra-flavio-bolsonaro-com-511-e-lula-489-no-2o/',
     candidatos:[
-      {nome:'Flávio Bolsonaro',numero:'22',partido:'PL',poll:51.1},
-      {nome:'Lula',numero:'13',partido:'PT',poll:48.9}
+      {nome:'Flávio Bolsonaro',numero:'22',partido:'PL',poll:51.1,
+       fotoUrl:'https://upload.wikimedia.org/wikipedia/commons/3/30/2026_FLAVIO_BOLSONARO_CANDIDATO_PRESIDENTE_TSE_%28280002551544%29.jpg',
+       fotoAutor:'Tribunal Superior Eleitoral (TSE)',fotoLicenca:'CC BY 4.0',
+       fotoFonte:'https://commons.wikimedia.org/wiki/File:2026_FLAVIO_BOLSONARO_CANDIDATO_PRESIDENTE_TSE_(280002551544).jpg'},
+      {nome:'Lula',numero:'13',partido:'PT',poll:48.9,
+       fotoUrl:'https://thumb.wikimedia.org/wikipedia/commons/thumb/b/be/08.08.2026_-_FOTOS_OFICIAIS_-_55450293419.jpg/500px-08.08.2026_-_FOTOS_OFICIAIS_-_55450293419.jpg',
+       fotoAutor:'Ricardo Stuckert / Lula Oficial',fotoLicenca:'CC BY-SA 4.0',
+       fotoFonte:'https://commons.wikimedia.org/wiki/File:08.08.2026_-_FOTOS_OFICIAIS_-_55450293419.jpg'}
     ]
   },
   presidente: [

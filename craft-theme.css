@@ -484,3 +484,39 @@ body.theme-craft .presidential-spotlight + .independence-notice{margin-top:18px}
   body.theme-craft .presidential-spotlight .verita-info strong{font-size:14px}
   body.theme-craft .presidential-spotlight .verita-facts{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
+
+/* Retratos reais dos candidatos, sem fotos geradas ou reprodução estilizada. */
+body.theme-craft .verita-person .candidate-photo.photo-md{
+  width:86px;height:108px;flex:0 0 86px;overflow:hidden;border-radius:12px;
+  border:1px solid rgba(170,187,247,.31);background:#1d2941
+}
+body.theme-craft .presidential-spotlight .verita-person .candidate-photo{
+  width:102px;height:128px;flex:0 0 102px;border-radius:12px
+}
+body.theme-craft .verita-person .candidate-photo img,
+body.theme-craft .snapshot-candidate .candidate-photo img{
+  display:block;width:100%;height:100%;object-fit:cover;object-position:center 20%
+}
+body.theme-craft .snapshot-candidate{display:flex;align-items:center;gap:9px;min-width:0}
+body.theme-craft .snapshot-candidate .candidate-photo{width:38px;height:48px;flex:0 0 38px;border-radius:8px}
+body.theme-craft .snapshot-candidate .snapshot-name{min-width:0;flex:1}
+body.theme-craft .major-grid .snapshot-row{grid-template-columns:24px minmax(0,1.25fr) minmax(26px,.7fr) 47px}
+body.theme-craft .verita-photo-credit{margin:12px 0 0;padding-top:9px;border-top:1px solid var(--c-line);color:#9daac7;font-size:10px;line-height:1.7}
+body.theme-craft .verita-photo-credit a{color:#acbdff;text-decoration:underline;text-underline-offset:2px}
+@media(max-width:700px){
+ body.theme-craft .major-grid .snapshot-row{grid-template-columns:24px minmax(0,1fr) 46px}
+ body.theme-craft .major-grid .snapshot-row .snapshot-meter{grid-column:2/4}
+ body.theme-craft .verita-person .candidate-photo.photo-md,
+ body.theme-craft .presidential-spotlight .verita-person .candidate-photo{
+   width:74px;height:94px;flex-basis:74px
+ }
+}
+@media(max-width:390px){
+ body.theme-craft .presidential-spotlight .verita-person .candidate-photo,
+ body.theme-craft .verita-person .candidate-photo.photo-md{
+   width:56px;height:74px;flex-basis:56px
+ }
+ body.theme-craft .major-grid .snapshot-candidate .candidate-photo{
+   width:31px;height:40px;flex-basis:31px
+ }
+}

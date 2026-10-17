@@ -93,7 +93,7 @@
       ['tr-q','tr-cargo','tr-order'].forEach(id=>document.querySelector('#'+id)?.addEventListener('input',()=>drawCards(rows)));
       drawCards(rows);
     }catch(e){view.innerHTML=`<div class="note"><strong>Ranking territorial indisponível.</strong> ${safe(e.message)}</div>`;}
-    window.scrollTo({top:0,behavior:'smooth'});
+    /* Scroll gerenciado pelo menu superior fixo. */
   }
 
   document.addEventListener('click',e=>{

@@ -329,7 +329,7 @@
         content.className = 'result-content';
         content.innerHTML = `
           <div class="result-major-grid">
-            <div data-election-group="presidente">${majorMarkup('Presidente da República', 'Brasil • 1º turno', presidente, 'https://resultados.tse.jus.br/oficial/app/index.html#/eleicao/6257/uf/br/cargo/1/vis/nominal/resultados', 1, 'BR', reelectionIndex)}</div>
+            <div data-election-group="presidente">${window.PresidentialPoll?.card()||""}${majorMarkup('Presidente da República', 'Brasil • votos oficiais do 1º turno (04/10/2026), não confundir com a pesquisa do 2º', presidente, 'https://resultados.tse.jus.br/oficial/app/index.html#/eleicao/6257/uf/br/cargo/1/vis/nominal/resultados', 1, 'BR', reelectionIndex)}</div>
             <div data-election-group="governador">${majorMarkup('Governador de Minas Gerais', 'Minas Gerais • 1º turno', governador, 'https://resultados.tse.jus.br/oficial/app/index.html#/eleicao/6259/uf/mg/cargo/3/vis/nominal/resultados', 3, 'MG', reelectionIndex)}</div>
             <div data-election-group="senado">${majorMarkup('Senado Federal por MG', 'Minas Gerais • 2 vagas', senador, 'https://resultados.tse.jus.br/oficial/app/index.html#/eleicao/6259/uf/mg/cargo/5/vis/nominal/resultados', 5, 'MG', reelectionIndex)}</div>
           </div>

@@ -27,7 +27,9 @@ const snapshot = {
   regional: Object.fromEntries(D.regional.map(x=>[x.nome, x.prob])),
   governador: pick(D.governador),
   senado: pick(D.senado),
-  presidente: pick(D.presidente)
+  presidente: pick(D.presidente),
+  presidenteSegundoTurno: pick(D.presidenciaSegundoTurno?.candidatos || []),
+  presidenteSegundoTurnoFonte: D.presidenciaSegundoTurno ? {instituto:D.presidenciaSegundoTurno.instituto,divulgacao:D.presidenciaSegundoTurno.divulgacao,registroInformado:D.presidenciaSegundoTurno.registroInformado} : null
 };
 
 const sameDayIndex = history.findIndex(x=>x.date===date);

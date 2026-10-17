@@ -58,3 +58,12 @@ assert all(x in resultados for x in ("presidente", "governador", "senado", "depu
 assert all((ROOT / name).is_file() for name in ("brasil-map.js", "resultados-map.js", "pos-eleicao.js", "candidate-photos.js"))
 
 print(f"OK: {len(parser.paths)} recursos vinculados, {len(parser.ids)} IDs e CSS Craft validado.")
+
+# Pesquisas são armazenadas separadamente da apuração TSE.
+data = (ROOT / "data.js").read_text(encoding="utf-8")
+assert "presidenciaSegundoTurno:" in data
+assert "BR-01107/2026" in data and "51.1" in data and "48.9" in data
+assert (ROOT / "presidential-poll.js").is_file()
+assert "PresidentialPoll.render(view)" in (ROOT / "app.js").read_text(encoding="utf-8")
+assert "PresidentialPoll?.card()" in (ROOT / "resultados-ui.js").read_text(encoding="utf-8")
+print("OK: pesquisa Veritá de 2º turno isolada da apuração oficial.")

@@ -396,3 +396,24 @@ body.theme-craft *::-webkit-scrollbar-thumb{background:#3d4d6e;border:2px solid 
   animation:none!important;transition:none!important;scroll-behavior:auto!important
  }
 }
+
+/* Pesquisa do segundo turno presidencial: dados pesquisados, não resultados de urna. */
+body.theme-craft .verita-card{margin:12px 0 20px;padding:22px;border-color:rgba(150,170,248,.29)}
+body.theme-craft .verita-kicker{color:#aec1ff;font-size:10px;letter-spacing:.12em;font-weight:900;margin:0 0 9px}
+body.theme-craft .verita-candidates{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:20px 0}
+body.theme-craft .verita-person{display:flex;align-items:center;gap:12px;min-width:0;padding:15px;border:1px solid var(--c-line);background:#111a2a;border-radius:10px}
+body.theme-craft .verita-info{min-width:0;flex:1}
+body.theme-craft .verita-info strong{display:block;font-size:15px;overflow-wrap:anywhere;color:#f1f5ff}
+body.theme-craft .verita-info small{display:block;font-size:11px;color:#b5c2db;margin:4px 0 12px}
+body.theme-craft .verita-track{height:9px;background:#2c374e;border-radius:20px;overflow:hidden}
+body.theme-craft .verita-track i{display:block;height:100%;border-radius:20px;background:#8ca3f2}
+body.theme-craft .verita-percent{font-size:clamp(22px,2.5vw,33px);font-weight:900;color:#f8faff;letter-spacing:-.04em;white-space:nowrap}
+body.theme-craft .verita-facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+body.theme-craft .verita-facts span{padding:10px;border:1px solid var(--c-line);border-radius:7px;color:#b8c3db;font-size:11px}
+body.theme-craft .verita-facts strong{display:block;color:#f3f6ff;font-size:16px;overflow-wrap:anywhere}
+body.theme-craft .verita-warning{color:#b6c3de;line-height:1.6;font-size:12px;margin:18px 0 9px}
+body.theme-craft .verita-archive{margin:18px 0;border:1px solid var(--c-line);border-radius:10px}
+body.theme-craft .verita-archive summary{cursor:pointer;color:#c4cfea;font-weight:800;padding:15px}
+body.theme-craft .verita-archive .card{margin:12px}
+@media(max-width:850px){body.theme-craft .verita-candidates{grid-template-columns:1fr}body.theme-craft .verita-facts{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:450px){body.theme-craft .verita-card{padding:12px}body.theme-craft .verita-person{gap:8px;padding:10px}body.theme-craft .verita-info strong{font-size:13px}body.theme-craft .verita-percent{font-size:23px}}

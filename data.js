@@ -57,6 +57,20 @@ window.DASH_DATA = {
     {nome:'Tião Pessoa',numero:'290',partido:'PCO',poll:null,status:'Indeferido em prazo recursal ou com recurso'},
     {nome:'Victória Mello Vic',numero:'161',partido:'PSTU',poll:null,status:'Deferido'}
   ],
+  // Sondagem do 2º turno: nunca misturar com resultados oficiais ou pesquisas de 1º turno.
+  presidenciaSegundoTurno: {
+    tipo:'pesquisa', turno:2, instituto:'Instituto Veritá', abrangencia:'Brasil',
+    coletaInicio:'2026-10-12', coletaFim:'2026-10-16', divulgacao:'2026-10-17',
+    base:'votos válidos', amostra:15554, margemErro:1.0, confianca:95,
+    metodo:'Entrevistas automatizadas com reconhecimento de voz',
+    registroInformado:'BR-01107/2026', registroConferidoNaFontePrimaria:false,
+    fonte:'Exame, 17/10/2026',
+    fonteUrl:'https://exame.com/brasil/pesquisa-que-mais-acertou-no-1o-turno-mostra-flavio-bolsonaro-com-511-e-lula-489-no-2o/',
+    candidatos:[
+      {nome:'Flávio Bolsonaro',numero:'22',partido:'PL',poll:51.1},
+      {nome:'Lula',numero:'13',partido:'PT',poll:48.9}
+    ]
+  },
   presidente: [
     {nome:'Lula',numero:'13',partido:'PT',poll:38},
     {nome:'Flávio Bolsonaro',numero:'22',partido:'PL',poll:33},

@@ -20,7 +20,8 @@
   const num=x=>{
     const s=String(x??'').trim();
     if(!s)return 0;
-    const value=Number(s.includes(',')?s.replace(/\./g,'').replace(',','.'):s);
+    const normalized=s.includes(',') ? s.replace(/\./g,'').replace(',','.') : /^\d{1,3}(?:\.\d{3})+$/.test(s) ? s.replace(/\./g,'') : s;
+    const value=Number(normalized);
     return Number.isFinite(value)?value:0;
   };
   const pct=n=>num(n).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})+'%';

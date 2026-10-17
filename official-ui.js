@@ -39,7 +39,7 @@
         document.querySelector('#prev')?.addEventListener('click',()=>{PAGE--;draw()});document.querySelector('#next')?.addEventListener('click',()=>{PAGE++;draw()});};
       ['oq','ocargo','opartido','osit','oord','omon'].forEach(id=>document.querySelector('#'+id).addEventListener('input',()=>{PAGE=1;draw()}));draw();
     }catch(err){view.innerHTML=`<div class="section-title"><div><h2>Banco de candidatos</h2><p>Camada de dados oficiais.</p></div></div><div class="note"><strong>Sincronização pendente.</strong> ${safe(err.message)}</div>`}
-    window.scrollTo({top:0,behavior:'smooth'});
+    /* Scroll gerenciado pelo menu superior fixo. */
   }
   document.addEventListener('click',e=>{const btn=e.target.closest('.tab[data-view="oficial"]');if(!btn)return;e.preventDefault();e.stopImmediatePropagation();render()},true);
 })();

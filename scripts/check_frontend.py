@@ -117,3 +117,21 @@ assert "ele2026/6258/dados" in runoff and "c0001-e006258-u.json" in runoff
 assert "parseOfficial" in runoff and "cache:'no-store'" in runoff
 assert "pesquisas de opinião não são utilizadas" in runoff
 print("OK: apuração 2º turno via TSE JSON, sem dados de pesquisas ou simulações.")
+
+# Menu de dados movido ao topo e sincronizado com seleção nativa no celular.
+assert html.index('id="topDataNav"') < html.index('<header id="inicio"')
+assert html.index('id="navegacao"') < html.index('id="presidentialSpotlight"')
+assert html.count('id="navegacao"') == 1 and html.count('id="dataNavSelect"') == 1
+assert html.count('data-view="') == 13
+assert html.index('src="top-navigation.js"') > html.index('src="pos-eleicao.js"')
+assert 'body.theme-craft .top-data-nav' in css and 'position:sticky' in css
+assert 'body.theme-craft .top-data-nav-select select' in css
+assert '@media(max-width:760px)' in css
+assert (ROOT / "top-navigation.js").is_file()
+nav_js = (ROOT / "top-navigation.js").read_text(encoding="utf-8")
+assert "select.addEventListener('change'" in nav_js and "tab.click()" in nav_js
+assert "MutationObserver" in nav_js and "view.scrollIntoView" in nav_js
+assert 'href="#view">Explorar o painel' in html
+for mod in ("app.js","official-ui.js","territorial.js","governadores-ui.js"):
+    assert "window.scrollTo({top:0,behavior:'smooth'});" not in (ROOT / mod).read_text(encoding="utf-8")
+print("OK: menu fixo no topo, 13 seções, navegação iPhone e rolagem ajustada.")

@@ -43,7 +43,7 @@
       const tab=document.querySelector('.tab[data-view="presidente"]');
       if(!tab)return;
       tab.click();
-      document.getElementById('navegacao')?.scrollIntoView({
+      document.getElementById('view')?.scrollIntoView({
         behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',
         block:'start'
       });

@@ -26,7 +26,35 @@
     <span class="ambient-grid"></span>
   </div>
 
-  <header class="topbar hero-shell">
+  <div class="top-data-nav" id="topDataNav" role="navigation" aria-label="Menu superior de dados">
+    <div class="top-data-nav-inner">
+      <a class="top-data-nav-brand" href="#inicio" aria-label="Voltar ao início do Painel Eleitoral 2026">PE <span>/ 2026</span></a>
+      <span class="top-data-nav-caption">CENTRAL DE DADOS</span>
+      <label class="top-data-nav-select" for="dataNavSelect">
+        <span>Escolher seção</span>
+        <select id="dataNavSelect" aria-label="Selecionar seção da Central de dados">
+          <option value="overview">Visão geral</option>
+        </select>
+      </label>
+  <nav id="navegacao" class="tabs" aria-label="Seções do painel">
+  <button class="tab" data-view="presidente">Presidência</button>
+  <button class="tab" data-view="apuracao-2t">Apuração do 2º turno</button>
+  <button class="tab active" data-view="overview">Visão geral</button>
+  <button class="tab" data-view="resultados">Resultados ao vivo</button>
+  <button class="tab" data-view="pos-eleicao">Pós-eleição</button>
+  <button class="tab" data-view="regional">Deputados regionais</button>
+  <button class="tab" data-view="governador">Governo de MG</button>
+  <button class="tab" data-view="governadores-brasil">Governadores do Brasil</button>
+  <button class="tab" data-view="senado">Senado por MG</button>
+  <button class="tab" data-view="historico">Histórico</button>
+  <button class="tab" data-view="competitividade">Competitividade mundial</button>
+  <button class="tab" data-view="oficial">Banco de candidatos</button>
+  <button class="tab" data-view="metodo">Metodologia</button>
+  </nav>
+    </div>
+  </div>
+
+  <header id="inicio" class="topbar hero-shell">
     <div class="vice-scene" aria-hidden="true">
       <span class="vice-sun"></span>
       <span class="vice-mountain"></span>
@@ -41,7 +69,7 @@
       <h1><span>Painel</span><strong>Eleitoral</strong><em>2026</em></h1>
       <p class="subtitle">Uma nova perspectiva sobre as eleições. Resultados oficiais, mapas interativos e inteligência territorial reunidos em um só lugar.</p>
       <div class="craft-actions">
-        <a class="craft-action-primary" href="#navegacao">Explorar o painel <span aria-hidden="true">↗</span></a>
+        <a class="craft-action-primary" href="#view">Explorar o painel <span aria-hidden="true">↗</span></a>
         <a class="craft-action-secondary" href="#independencia">Sobre os dados <span aria-hidden="true">→</span></a>
       </div>
 
@@ -132,23 +160,7 @@
 
     <div class="craft-section-heading"><span>03 / INDICADORES</span><h2>Dados que importam<span class="craft-period">.</span></h2><p>Um retrato do universo eleitoral monitorado.</p></div>
     <section class="kpis" id="kpis" aria-label="Indicadores gerais"></section>
-    <div class="craft-section-heading craft-workspace-heading"><span>04 / EXPLORAR</span><h2>Central de dados<span class="craft-period">.</span></h2><p>Selecione uma análise para acompanhar o cenário eleitoral.</p></div>
-
-    <nav id="navegacao" class="tabs" aria-label="Seções do painel">
-      <button class="tab" data-view="presidente">Presidência</button>
-      <button class="tab" data-view="apuracao-2t">Apuração do 2º turno</button>
-      <button class="tab active" data-view="overview">Visão geral</button>
-      <button class="tab" data-view="resultados">Resultados ao vivo</button>
-      <button class="tab" data-view="pos-eleicao">Pós-eleição</button>
-      <button class="tab" data-view="regional">Deputados regionais</button>
-      <button class="tab" data-view="governador">Governo de MG</button>
-      <button class="tab" data-view="governadores-brasil">Governadores do Brasil</button>
-      <button class="tab" data-view="senado">Senado por MG</button>
-      <button class="tab" data-view="historico">Histórico</button>
-      <button class="tab" data-view="competitividade">Competitividade mundial</button>
-      <button class="tab" data-view="oficial">Banco de candidatos</button>
-      <button class="tab" data-view="metodo">Metodologia</button>
-    </nav>
+    <div class="craft-section-heading craft-workspace-heading"><span>04 / ANÁLISES</span><h2>Painéis e indicadores<span class="craft-period">.</span></h2><p>Selecione uma seção no menu superior para consultar os dados.</p></div>
 
     <section id="view" aria-live="polite"></section>
   </main>
@@ -175,5 +187,6 @@
   <script src="resultados-map.js"></script>
   <script src="brasil-map.js"></script>
   <script src="pos-eleicao.js"></script>
+  <script src="top-navigation.js"></script>
 </body>
 </html>

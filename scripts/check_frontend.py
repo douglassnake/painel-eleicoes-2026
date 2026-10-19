@@ -65,7 +65,7 @@ assert "presidenciaSegundoTurno:" in data
 assert "BR-01107/2026" in data and "51.1" in data and "48.9" in data
 assert (ROOT / "presidential-poll.js").is_file()
 assert "PresidentialPoll.render(view)" in (ROOT / "app.js").read_text(encoding="utf-8")
-assert "PresidentialPoll?.card()" in (ROOT / "resultados-ui.js").read_text(encoding="utf-8")
+assert "PresidentialPoll?.card()" not in (ROOT / "resultados-ui.js").read_text(encoding="utf-8")  # Quadro compacto somente no primeiro destaque
 print("OK: pesquisa Veritá de 2º turno isolada da apuração oficial.")
 
 # O destaque de Presidente aparece antes de todos os outros indicadores e seções.

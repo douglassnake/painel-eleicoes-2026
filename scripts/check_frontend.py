@@ -135,3 +135,13 @@ assert 'href="#view">Explorar o painel' in html
 for mod in ("app.js","official-ui.js","territorial.js","governadores-ui.js"):
     assert "window.scrollTo({top:0,behavior:'smooth'});" not in (ROOT / mod).read_text(encoding="utf-8")
 print("OK: menu fixo no topo, 13 seções, navegação iPhone e rolagem ajustada.")
+
+# Pesquisas por instituto de 17/10 e 19/10 separadas dos votos oficiais.
+assert (ROOT / "presidential-surveys.js").is_file()
+assert (ROOT / "scripts/check_surveys.js").is_file()
+assert html.index('src="data.js"') < html.index('src="presidential-surveys.js"') < html.index('src="presidential-poll.js"')
+assert "SecondRoundPolls?.full()" in poll_js and "SecondRoundPolls?.compact()" in poll_js
+assert "SecondRoundPolls?.compact()" in app_js
+assert "SecondRoundPolls?.compact()" in resultados
+assert "body.theme-craft .s2-board" in css
+print("OK: quadro de pesquisas por instituto, fontes e registros separado da apuração TSE.")

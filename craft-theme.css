@@ -578,3 +578,75 @@ body.theme-craft #inicio,body.theme-craft #independencia{
    line-height:1.15;padding:8px 10px;cursor:pointer
  }
 }
+
+/* Comparativo neutro de pesquisas de 2º turno — sem agregação de amostras ou estimativa de resultado. */
+body.theme-craft .s2-board{
+ margin:16px 0 22px;padding:22px;border-color:rgba(157,183,253,.31);
+ background:linear-gradient(145deg,rgba(23,35,59,.97),rgba(10,18,32,.97))
+}
+body.theme-craft .s2-title{
+ display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:18px
+}
+body.theme-craft .s2-eyebrow{
+ color:#adc2ff;font-size:10px;font-weight:870;letter-spacing:.10em;margin:0 0 7px
+}
+body.theme-craft .s2-title h3{
+ font-size:clamp(19px,2.3vw,27px);line-height:1.15;color:#f8faff;
+ font-weight:900;letter-spacing:-.035em;margin:0 0 6px
+}
+body.theme-craft .s2-title p{font-size:12px;color:#bbc9e1;margin:0;line-height:1.5}
+body.theme-craft .s2-count{
+ font-size:11px;color:#cbd8f9;font-weight:860;border:1px solid #6175a4;
+ padding:7px 10px;white-space:nowrap;border-radius:8px;flex:0 0 auto
+}
+body.theme-craft .s2-portraits{
+ display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:13px 0 21px
+}
+body.theme-craft .s2-face{
+ display:flex;gap:13px;align-items:center;padding:11px 14px;min-width:0;
+ border:1px solid rgba(145,171,226,.22);border-radius:9px;background:#101d34
+}
+body.theme-craft .s2-face .candidate-photo{width:54px;height:66px;flex:0 0 54px;border-radius:9px}
+body.theme-craft .s2-face strong{font-size:14px;color:#f1f5ff;display:block;line-height:1.25}
+body.theme-craft .s2-face small{color:#a8bad6;font-size:11px;display:block;margin-top:4px}
+body.theme-craft .s2-rows{display:grid;gap:11px}
+body.theme-craft .s2-survey{
+ display:grid;grid-template-columns:minmax(158px,1.3fr) minmax(220px,1.8fr) minmax(144px,.9fr);
+ gap:17px;align-items:center;min-width:0;padding:16px;
+ border:1px solid rgba(171,187,225,.19);border-radius:9px;background:rgba(8,16,29,.7)
+}
+body.theme-craft .s2-meta{display:flex;flex-direction:column;gap:2px;min-width:0}
+body.theme-craft .s2-meta strong{font-size:14px;color:#eff4ff;font-weight:860;overflow-wrap:anywhere}
+body.theme-craft .s2-meta span{font-size:10px;color:#a4b7d8;line-height:1.55}
+body.theme-craft .s2-values{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+body.theme-craft .s2-result{min-width:0}
+body.theme-craft .s2-result span{font-size:10px;color:#b4c4e2;display:block;line-height:1.5;min-height:29px}
+body.theme-craft .s2-result strong{
+ display:block;color:#f1f6ff;font-weight:900;font-size:clamp(19px,2.2vw,27px);
+ line-height:1.3;font-variant-numeric:tabular-nums
+}
+body.theme-craft .s2-progress{height:7px;overflow:hidden;background:#2e3952;border-radius:10px;margin-top:4px}
+body.theme-craft .s2-progress i{display:block;height:100%;border-radius:10px;background:#86a2ee}
+body.theme-craft .s2-result:nth-child(2) .s2-progress i{background:#93b3cf}
+body.theme-craft .s2-source{display:flex;flex-direction:column;gap:4px;min-width:0}
+body.theme-craft .s2-source span,body.theme-craft .s2-source small{font-size:10px;line-height:1.45;color:#a5b8d5}
+body.theme-craft .s2-source a{font-size:11px;color:#b2c7ff;font-weight:740;text-decoration:underline}
+body.theme-craft .s2-disclaimer{font-size:11px;line-height:1.65;color:#aabbd7;margin:18px 0 0}
+body.theme-craft .s2-archive-label{font-size:10px;color:#97accf;margin:11px 0 0}
+@media(max-width:1000px){
+ body.theme-craft .s2-survey{grid-template-columns:minmax(130px,1fr) minmax(180px,1.5fr)}
+ body.theme-craft .s2-source{grid-column:1/-1;flex-direction:row;flex-wrap:wrap;gap:8px 12px}
+}
+@media(max-width:650px){
+ body.theme-craft .s2-board{padding:12px}
+ body.theme-craft .s2-title{flex-direction:column;gap:10px}
+ body.theme-craft .s2-portraits{gap:8px}
+ body.theme-craft .s2-face{padding:9px;gap:8px}
+ body.theme-craft .s2-face .candidate-photo{width:41px;height:52px;flex-basis:41px}
+ body.theme-craft .s2-face strong{font-size:11px}
+ body.theme-craft .s2-survey{grid-template-columns:1fr;gap:10px;padding:12px}
+ body.theme-craft .s2-values{grid-column:1/-1;gap:10px}
+ body.theme-craft .s2-source{grid-column:1/-1}
+ body.theme-craft .s2-result span{min-height:unset}
+ body.theme-craft .s2-result strong{font-size:25px}
+}

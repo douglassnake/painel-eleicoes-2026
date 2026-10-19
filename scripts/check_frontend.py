@@ -160,3 +160,19 @@ assert "PresidentialColors.classFor" in app_js
 assert "PresidentialColors.classFor" in resultados
 assert "PresidentialColors.classFor" in runoff
 print("OK: cores dos presidenciáveis em todos os módulos, sem alteração na contagem de votos.")
+
+# MC-2T v1 é módulo de cenários de pesquisas, distinto do Monte Carlo v3/ITR e do TSE.
+sim_files=("presidential-simulation.js","presidential-simulation-ui.js","presidential-simulation.css","scripts/check_president_simulation.js")
+assert all((ROOT / f).is_file() for f in sim_files)
+assert css_balanced((ROOT / "presidential-simulation.css").read_text(encoding="utf-8"))
+assert html.index('src="presidential-surveys.js"') < html.index('src="presidential-simulation.js"') < html.index('src="presidential-simulation-ui.js"') < html.index('src="presidential-poll.js"')
+assert html.index('href="presidential-simulation.css"') > html.index('href="presidential-colors.css"')
+assert 'PresidentialSimulationUI?.mount(' in poll_js
+assert 'id="presidential-simulation-mount"' in poll_js
+assert 'PresidentialSimulationUI?.teaser()' in app_js
+sim_engine=(ROOT / "presidential-simulation.js").read_text(encoding="utf-8")
+sim_ui=(ROOT / "presidential-simulation-ui.js").read_text(encoding="utf-8")
+assert 'DEFAULT_DRAWS=200000' in sim_engine and 'SEED=20261019' in sim_engine
+assert 'não' in sim_ui.lower() and 'probabilidade de vitória' in sim_ui.lower()
+assert 'window.Runoff2026' not in sim_engine
+print("OK: MC-2T separado da apuração oficial e do Monte Carlo v3/ITR.")

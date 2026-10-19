@@ -1,0 +1,122 @@
+/* Cores de identificação na disputa PRESIDENCIAL, sem alterar dados ou totalização.
+   Mesmo nível de destaque visual e regras simétricas para ambos os candidatos. */
+:root{
+ --pres-flavio-green:#35d47d;
+ --pres-flavio-tint:rgba(30,185,94,.13);
+ --pres-flavio-border:rgba(53,212,125,.50);
+ --pres-lula-red:#ff6269;
+ --pres-lula-tint:rgba(229,52,67,.13);
+ --pres-lula-border:rgba(255,98,105,.50);
+}
+body.theme-craft .candidate-flavio{
+ --candidate-main:var(--pres-flavio-green);
+ --candidate-soft:var(--pres-flavio-tint);
+ --candidate-line:var(--pres-flavio-border);
+}
+body.theme-craft .candidate-lula{
+ --candidate-main:var(--pres-lula-red);
+ --candidate-soft:var(--pres-lula-tint);
+ --candidate-line:var(--pres-lula-border);
+}
+/* Pesquisas por instituto, fotos e barras de intenção de voto */
+body.theme-craft .s2-face.candidate-flavio,
+body.theme-craft .s2-face.candidate-lula,
+body.theme-craft .s2-result.candidate-flavio,
+body.theme-craft .s2-result.candidate-lula{
+ border-left:3px solid var(--candidate-main);
+ background:linear-gradient(100deg,var(--candidate-soft),rgba(11,23,41,.18));
+ border-radius:8px;
+}
+body.theme-craft .s2-face.candidate-flavio,
+body.theme-craft .s2-face.candidate-lula{border-color:var(--candidate-line);border-left-color:var(--candidate-main)}
+body.theme-craft .s2-result.candidate-flavio,
+body.theme-craft .s2-result.candidate-lula{padding:7px 8px}
+body.theme-craft .s2-face.candidate-flavio strong,
+body.theme-craft .s2-face.candidate-lula strong,
+body.theme-craft .s2-result.candidate-flavio span,
+body.theme-craft .s2-result.candidate-lula span,
+body.theme-craft .s2-result.candidate-flavio strong,
+body.theme-craft .s2-result.candidate-lula strong{color:var(--candidate-main)}
+body.theme-craft .s2-result.candidate-flavio .s2-progress i,
+body.theme-craft .s2-result.candidate-lula .s2-progress i{background:var(--candidate-main)}
+body.theme-craft .s2-face.candidate-flavio .candidate-photo,
+body.theme-craft .s2-face.candidate-lula .candidate-photo{border-color:var(--candidate-line)}
+/* Instituto Veritá e arquivo do primeiro turno */
+body.theme-craft .verita-person.candidate-flavio,
+body.theme-craft .verita-person.candidate-lula{
+ border-color:var(--candidate-line);
+ background:linear-gradient(120deg,var(--candidate-soft),rgba(8,17,34,.64));
+}
+body.theme-craft .verita-person.candidate-flavio .verita-info strong,
+body.theme-craft .verita-person.candidate-lula .verita-info strong,
+body.theme-craft .verita-person.candidate-flavio .verita-percent,
+body.theme-craft .verita-person.candidate-lula .verita-percent{color:var(--candidate-main)}
+body.theme-craft .verita-person.candidate-flavio .verita-track i,
+body.theme-craft .verita-person.candidate-lula .verita-track i{background:var(--candidate-main)}
+body.theme-craft .verita-person.candidate-flavio .candidate-photo,
+body.theme-craft .verita-person.candidate-lula .candidate-photo{border-color:var(--candidate-line)}
+body.theme-craft .poll-line.candidate-flavio .poll-name strong,
+body.theme-craft .poll-line.candidate-lula .poll-name strong,
+body.theme-craft .poll-line.candidate-flavio .poll-value,
+body.theme-craft .poll-line.candidate-lula .poll-value{color:var(--candidate-main)}
+body.theme-craft .poll-line.candidate-flavio .poll-fill,
+body.theme-craft .poll-line.candidate-lula .poll-fill{background:var(--candidate-main)}
+/* Visão geral: somente o card presidencial, sem modificar MG/Senado */
+body.theme-craft .snapshot-row.candidate-flavio,
+body.theme-craft .snapshot-row.candidate-lula{
+ border-left:3px solid var(--candidate-main);
+ padding-left:7px;
+ background:linear-gradient(90deg,var(--candidate-soft),transparent 85%);
+ border-radius:4px;
+}
+body.theme-craft .snapshot-row.candidate-flavio .snapshot-name strong,
+body.theme-craft .snapshot-row.candidate-lula .snapshot-name strong,
+body.theme-craft .snapshot-row.candidate-flavio>b,
+body.theme-craft .snapshot-row.candidate-lula>b{color:var(--candidate-main)}
+body.theme-craft .snapshot-row.candidate-flavio .snapshot-meter i,
+body.theme-craft .snapshot-row.candidate-lula .snapshot-meter i{background:var(--candidate-main)}
+body.theme-craft .snapshot-row.candidate-flavio .candidate-photo,
+body.theme-craft .snapshot-row.candidate-lula .candidate-photo{border-color:var(--candidate-line)}
+/* Histórico presidencial: séries, pontos e legendas */
+body.theme-craft .chart-line.candidate-flavio,
+body.theme-craft .chart-line.candidate-lula,
+body.theme-craft .chart-dot.candidate-flavio,
+body.theme-craft .chart-dot.candidate-lula{stroke:var(--candidate-main)}
+body.theme-craft .chart-dot.candidate-flavio,
+body.theme-craft .chart-dot.candidate-lula{fill:var(--candidate-main)}
+body.theme-craft .history-legend span.candidate-flavio,
+body.theme-craft .history-legend span.candidate-lula{color:var(--candidate-main)}
+body.theme-craft .history-legend .legend-line.candidate-flavio,
+body.theme-craft .history-legend .legend-line.candidate-lula{background:var(--candidate-main)}
+/* Resultados oficiais do TSE: Presidência do 1º turno */
+body.theme-craft .result-major-row.candidate-flavio,
+body.theme-craft .result-major-row.candidate-lula{
+ border-left:3px solid var(--candidate-main);
+ background:linear-gradient(90deg,var(--candidate-soft),rgba(12,21,35,.14));
+}
+body.theme-craft .result-major-row.candidate-flavio .result-major-person strong,
+body.theme-craft .result-major-row.candidate-lula .result-major-person strong,
+body.theme-craft .result-major-row.candidate-flavio .result-major-votes strong,
+body.theme-craft .result-major-row.candidate-lula .result-major-votes strong,
+body.theme-craft .result-major-row.candidate-flavio .result-major-votes small,
+body.theme-craft .result-major-row.candidate-lula .result-major-votes small{color:var(--candidate-main)}
+body.theme-craft .result-major-row.candidate-flavio .candidate-photo,
+body.theme-craft .result-major-row.candidate-lula .candidate-photo{border-color:var(--candidate-line)}
+/* Apuração oficial presidencial de 2º turno — percentuais e barras reais */
+body.theme-craft .runoff-candidate.candidate-flavio,
+body.theme-craft .runoff-candidate.candidate-lula{
+ border-color:var(--candidate-line);
+ background:linear-gradient(155deg,var(--candidate-soft),rgba(8,17,34,.60));
+}
+body.theme-craft .runoff-candidate.candidate-flavio .runoff-candidate-name strong,
+body.theme-craft .runoff-candidate.candidate-lula .runoff-candidate-name strong,
+body.theme-craft .runoff-candidate.candidate-flavio .runoff-candidate-pct,
+body.theme-craft .runoff-candidate.candidate-lula .runoff-candidate-pct{color:var(--candidate-main)}
+body.theme-craft .runoff-candidate.candidate-flavio .runoff-candidate-bar i,
+body.theme-craft .runoff-candidate.candidate-lula .runoff-candidate-bar i{background:var(--candidate-main)}
+body.theme-craft .runoff-candidate.candidate-flavio .candidate-photo,
+body.theme-craft .runoff-candidate.candidate-lula .candidate-photo{border-color:var(--candidate-line)}
+@media(forced-colors:active){
+ body.theme-craft .candidate-flavio,
+ body.theme-craft .candidate-lula{forced-color-adjust:auto}
+}

@@ -86,7 +86,7 @@
   }
   function candidate(c,hasVotes){
     const situation=hasVotes?(c.status||'Em totalização'):'Aguardando apuração';
-    return '<article class="runoff-candidate"><div class="runoff-candidate-heading">'+photo(c)+
+    return '<article class="runoff-candidate '+window.PresidentialColors.classFor(c.name,c.number,1)+'"><div class="runoff-candidate-heading">'+photo(c)+
       '<div class="runoff-candidate-name"><strong>'+safe(c.name)+'</strong><small>'+safe(c.party)+' · '+safe(c.number)+'</small></div></div>'+
       '<div class="runoff-candidate-pct">'+(hasVotes?pct(c.share):'—')+'</div>'+
       '<div class="runoff-candidate-bar"><i style="width:'+(hasVotes?Math.max(0,Math.min(100,c.share)):0)+'%"></i></div>'+

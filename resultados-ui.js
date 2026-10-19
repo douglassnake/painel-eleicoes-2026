@@ -252,7 +252,7 @@
   }
 
   function majorCandidateRow(row, position, code, uf, reelectionIndex) {
-    return `<div class="result-major-row">
+    return `<div class="result-major-row ${code===1?window.PresidentialColors.classFor(row.nome,row.numero,1):''}">
       <span class="result-major-pos">${position}</span>
       <div class="result-major-person">
         ${photoMarkup(row.nome, row.numero, code, uf, 'sm')}

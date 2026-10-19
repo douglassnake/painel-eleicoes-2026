@@ -3,6 +3,7 @@
 const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict');
 const sandbox={window:{}};
 vm.createContext(sandbox);
+vm.runInContext(fs.readFileSync('presidential-colors.js','utf8'),sandbox);
 vm.runInContext(fs.readFileSync('presidential-surveys.js','utf8'),sandbox);
 const p=sandbox.window.SecondRoundPolls;
 assert.ok(p&&typeof p.compact==='function'&&typeof p.full==='function');

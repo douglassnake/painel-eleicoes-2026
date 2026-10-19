@@ -145,3 +145,18 @@ assert "SecondRoundPolls?.compact()" in app_js
 assert "SecondRoundPolls?.compact()" in resultados
 assert "body.theme-craft .s2-board" in css
 print("OK: quadro de pesquisas por instituto, fontes e registros separado da apuração TSE.")
+
+# Identidade visual presidencial consistente em todas as abas, sem colorir outros cargos.
+color_css = ROOT / "presidential-colors.css"
+color_js = ROOT / "presidential-colors.js"
+assert color_css.is_file() and color_js.is_file()
+assert (ROOT / "scripts/check_candidate_colors.js").is_file()
+assert css_balanced(color_css.read_text(encoding="utf-8"))
+assert html.index('href="presidential-colors.css"') > html.index('href="apuracao-2t.css"')
+assert html.index('src="data.js"') < html.index('src="presidential-colors.js"') < html.index('src="presidential-surveys.js"')
+assert "PresidentialColors.classFor" in (ROOT / "presidential-surveys.js").read_text(encoding="utf-8")
+assert "PresidentialColors.classFor" in poll_js
+assert "PresidentialColors.classFor" in app_js
+assert "PresidentialColors.classFor" in resultados
+assert "PresidentialColors.classFor" in runoff
+print("OK: cores dos presidenciáveis em todos os módulos, sem alteração na contagem de votos.")

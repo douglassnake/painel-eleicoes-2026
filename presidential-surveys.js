@@ -81,13 +81,13 @@
   const date = iso => iso.split('-').reverse().join('/');
   function face(name,numero,partido) {
     const initials=name.split(/\s+/).filter(Boolean).slice(0,2).map(a=>a[0]).join('');
-    return '<div class="s2-face">'+
+    return '<div class="s2-face '+window.PresidentialColors.classFor(name,numero,1)+'">'+
       '<div class="candidate-photo photo-sm" data-candidate-photo data-name="'+esc(name)+
       '" data-number="'+esc(numero)+'" data-cargo="1" data-uf="BR" data-photo-alt="Retrato de '+esc(name)+'"><span>'+esc(initials)+'</span></div>'+
       '<div><strong>'+esc(name)+'</strong><small>'+esc(partido)+' · '+esc(numero)+'</small></div></div>';
   }
-  function result(name,val) {
-    return '<div class="s2-result"><span>'+esc(name)+'</span><strong>'+decimal(val)+'%</strong>'+
+  function result(name,val,numero) {
+    return '<div class="s2-result '+window.PresidentialColors.classFor(name,numero,1)+'"><span>'+esc(name)+'</span><strong>'+decimal(val)+'%</strong>'+
       '<div class="s2-progress" aria-hidden="true"><i style="width:'+Math.max(0,Math.min(100,val))+'%"></i></div></div>';
   }
   function surveyRow(s) {
@@ -95,7 +95,7 @@
       '<div class="s2-meta"><strong>'+esc(s.instituto)+'</strong><span>Divulgação: '+date(s.divulgacao)+'</span>'+
       '<span>Entrevistas: '+date(s.coletaInicio)+' a '+date(s.coletaFim)+'</span>'+
       '<span>Amostra: '+number(s.amostra)+' · margem: ±'+decimal(s.margemErroPp)+' p.p. · confiança: '+s.confianca+'%</span></div>'+
-      '<div class="s2-values">'+result('Flávio Bolsonaro (PL)',s.flavio)+result('Lula (PT)',s.lula)+'</div>'+
+      '<div class="s2-values">'+result('Flávio Bolsonaro (PL)',s.flavio,'22')+result('Lula (PT)',s.lula,'13')+'</div>'+
       '<div class="s2-source"><span>'+esc(s.metodo)+'</span><small>Registro informado: '+esc(s.registroInformado)+'</small>'+
       '<a href="'+esc(s.fonteUrl)+'" target="_blank" rel="noopener noreferrer">'+esc(s.fonteTitulo)+' ↗</a></div>'+
       '</article>';

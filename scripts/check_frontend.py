@@ -141,8 +141,12 @@ assert (ROOT / "presidential-surveys.js").is_file()
 assert (ROOT / "scripts/check_surveys.js").is_file()
 assert html.index('src="data.js"') < html.index('src="presidential-surveys.js"') < html.index('src="presidential-poll.js"')
 assert "SecondRoundPolls?.full()" in poll_js and "SecondRoundPolls?.compact()" in poll_js
-assert "SecondRoundPolls?.compact()" in app_js
-assert "SecondRoundPolls?.compact()" in resultados
+assert "SecondRoundPolls?.compact()" not in app_js
+assert "SecondRoundPolls?.compact()" not in resultados
+assert poll_js.count("SecondRoundPolls?.compact()") == 1
+assert 'presidentialSpotlightCard' in poll_js
+assert "PresidentialSimulationUI?.teaser()" in app_js
+print("OK: pesquisas em quadro compacto somente no destaque inicial, sem duplicação na Visão geral ou em Resultados ao vivo.")
 assert "body.theme-craft .s2-board" in css
 print("OK: quadro de pesquisas por instituto, fontes e registros separado da apuração TSE.")
 

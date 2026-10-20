@@ -1,0 +1,121 @@
+/* Evolução das pesquisas presidenciais 20/08–20/10/2026 — estilo Craft. */
+body.theme-craft .presidential-evolution{
+ margin:22px 0 26px;padding:23px;
+ border:1px solid rgba(157,187,255,.35);
+ background:linear-gradient(150deg,#17233b,#0e182b 80%)
+}
+body.theme-craft .evo-heading{
+ display:flex;justify-content:space-between;align-items:flex-start;gap:14px;margin-bottom:22px
+}
+body.theme-craft .evo-heading h3{
+ font-size:clamp(22px,2.4vw,31px);font-weight:900;color:#f6f8ff;
+ letter-spacing:-.04em;line-height:1.15;margin:0 0 8px
+}
+body.theme-craft .evo-heading p{color:#b2c4df;font-size:12px;max-width:780px;line-height:1.6;margin:0}
+body.theme-craft .evo-stamp{
+ flex:0 0 auto;background:#2a3f69;color:#cfe0ff;
+ border:1px solid #5774ab;border-radius:7px;font-size:10px;
+ font-weight:830;letter-spacing:.07em;padding:9px 10px
+}
+body.theme-craft .evo-controls{
+ display:flex;align-items:flex-end;justify-content:space-between;
+ flex-wrap:wrap;gap:15px;margin-bottom:16px
+}
+body.theme-craft .evo-controls>label{
+ flex:1 1 300px;display:flex;flex-direction:column;gap:7px;
+ color:#c2d0e8;font-size:11px;font-weight:770
+}
+body.theme-craft .evo-controls select{
+ width:100%;padding:11px 12px;min-height:43px;
+ background:#121e34;color:#f6f9ff;border:1px solid #526a9b;
+ border-radius:8px;font-size:13px;font-weight:760
+}
+body.theme-craft .evo-filter-set{
+ display:flex;flex:2 1 390px;flex-wrap:wrap;gap:8px;
+ min-width:0;margin:0;padding:0;border:none
+}
+body.theme-craft .evo-filter-set legend{
+ color:#b9c9e6;font-size:11px;font-weight:770;padding:0 0 7px
+}
+body.theme-craft .evo-filter-set label{
+ display:inline-flex;align-items:center;gap:7px;
+ border:1px solid rgba(144,167,221,.32);border-radius:8px;
+ padding:9px 12px;background:#14223a;cursor:pointer;
+ color:#d6e1f3;font-size:11px;font-weight:770
+}
+body.theme-craft .evo-filter-set input{accent-color:#89a9f0;width:15px;height:15px;margin:0}
+body.theme-craft .evo-legend{
+ display:flex;gap:17px;align-items:center;flex-wrap:wrap;margin-bottom:10px
+}
+body.theme-craft .evo-legend span{
+ display:inline-flex;align-items:center;gap:7px;font-size:12px;
+ color:#d5e0f5;font-weight:800
+}
+body.theme-craft .evo-legend i{height:4px;width:23px;border-radius:4px;display:inline-block}
+body.theme-craft .evo-green{background:#35d47d}
+body.theme-craft .evo-red{background:#ff6269}
+body.theme-craft .evo-summary{font-size:11px;color:#aabfdd;margin-bottom:17px}
+body.theme-craft .evo-graphs{
+ display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px
+}
+body.theme-craft .evo-institute-card{
+ min-width:0;border:1px solid rgba(156,182,239,.22);
+ border-radius:10px;background:rgba(9,19,36,.7);padding:14px
+}
+body.theme-craft .evo-card-head{
+ display:flex;align-items:flex-start;justify-content:space-between;gap:12px;
+ flex-wrap:wrap;min-height:56px
+}
+body.theme-craft .evo-card-head h4{
+ margin:0 0 4px;font-size:17px;letter-spacing:-.025em;color:#f5f8ff
+}
+body.theme-craft .evo-card-head small{display:block;font-size:10px;color:#abbcdc}
+body.theme-craft .evo-latest{
+ display:flex;flex-direction:column;align-items:flex-end;gap:2px;white-space:nowrap
+}
+body.theme-craft .evo-latest span{font-size:9px;color:#9baed0}
+body.theme-craft .evo-latest strong{font-size:11px}
+body.theme-craft .evo-latest .candidate-flavio{color:#35d47d}
+body.theme-craft .evo-latest .candidate-lula{color:#ff6269}
+body.theme-craft .evo-chart-scroller{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;margin-top:9px}
+body.theme-craft .evo-chart-scroller svg{display:block;min-width:490px;width:100%;height:auto;overflow:visible}
+body.theme-craft .evo-grid-line{
+ stroke:#34425d;stroke-width:1;stroke-dasharray:3 5
+}
+body.theme-craft .evo-tick{stroke:#7082a5;stroke-width:1}
+body.theme-craft .evo-axis-text{
+ font-size:12px;fill:#aec2e1;font-family:Arial,sans-serif
+}
+body.theme-craft .evo-plot-caveat,
+body.theme-craft .evo-none{font-size:11px;color:#a9bbd9;line-height:1.6;margin:8px 0 0}
+body.theme-craft .evo-details{margin-top:20px;border:1px solid var(--c-line);border-radius:9px}
+body.theme-craft .evo-details summary{
+ cursor:pointer;padding:14px 16px;color:#d6e4ff;font-size:12px;font-weight:790
+}
+body.theme-craft .evo-table-scroller{width:100%;overflow:auto;-webkit-overflow-scrolling:touch}
+body.theme-craft .evo-table-scroller table{
+ border-collapse:collapse;width:100%;min-width:660px;font-size:11px
+}
+body.theme-craft .evo-table-scroller th,
+body.theme-craft .evo-table-scroller td{
+ border-top:1px solid var(--c-line);padding:10px;text-align:left;color:#dce7f7
+}
+body.theme-craft .evo-table-scroller th{font-weight:850}
+body.theme-craft .evo-table-scroller td.candidate-flavio{color:#35d47d;font-weight:850}
+body.theme-craft .evo-table-scroller td.candidate-lula{color:#ff6269;font-weight:850}
+body.theme-craft .evo-table-scroller td a{color:#b4c9ff;text-decoration:underline}
+body.theme-craft .evo-method{
+ color:#b0c1df;font-size:11px;line-height:1.68;margin:17px 0 0
+}
+@media(max-width:1020px){
+ body.theme-craft .evo-graphs{grid-template-columns:1fr}
+}
+@media(max-width:590px){
+ body.theme-craft .presidential-evolution{padding:12px}
+ body.theme-craft .evo-heading{flex-direction:column;gap:10px}
+ body.theme-craft .evo-filter-set{flex-basis:100%}
+ body.theme-craft .evo-filter-set label{padding:8px 9px}
+ body.theme-craft .evo-institute-card{padding:10px}
+ body.theme-craft .evo-latest{align-items:flex-start}
+ body.theme-craft .evo-legend span{font-size:11px}
+}

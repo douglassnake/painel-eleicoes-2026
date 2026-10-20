@@ -180,3 +180,16 @@ assert 'DEFAULT_DRAWS=200000' in sim_engine and 'SEED=20261019' in sim_engine
 assert 'não' in sim_ui.lower() and 'probabilidade de vitória' in sim_ui.lower()
 assert 'window.Runoff2026' not in sim_engine
 print("OK: MC-2T separado da apuração oficial e do Monte Carlo v3/ITR.")
+
+# Evolução histórica por instituto de 20/08 a 20/10/2026.
+evo_assets=("presidential-evolution-data.js","presidential-evolution-ui.js","presidential-evolution.css","scripts/check_presidential_evolution.js")
+assert all((ROOT / f).is_file() for f in evo_assets)
+assert css_balanced((ROOT / "presidential-evolution.css").read_text(encoding="utf-8"))
+assert html.index('src="presidential-surveys.js"') < html.index('src="presidential-evolution-data.js"') < html.index('src="presidential-evolution-ui.js"') < html.index('src="presidential-poll.js"')
+assert 'PresidentialEvolutionUI?.mount(' in poll_js
+assert 'poll-evolution-mount' in poll_js
+assert 'PresidentialSimulationUI?.mount(' in poll_js
+assert html.count('id="presidentialSpotlightCard"') == 1
+assert 'SecondRoundPolls?.compact()' not in app_js
+assert 'SecondRoundPolls?.compact()' not in resultados
+print("OK: histórico de quatro institutos por base independente, sem duplicar o destaque de pesquisas.")

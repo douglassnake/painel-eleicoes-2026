@@ -33,6 +33,7 @@ jobs:
           node scripts/check_surveys.js
           node scripts/check_candidate_colors.js
           node scripts/check_president_simulation.js
+          node scripts/check_presidential_evolution.js
           for file in *.js; do node --check "$file"; done
 
       - name: Configure Pages

@@ -1,0 +1,66 @@
+#!/usr/bin/env node
+'use strict';
+const fs=require('node:fs');
+const vm=require('node:vm');
+const assert=require('node:assert/strict');
+const context={window:{}};
+vm.createContext(context);
+vm.runInContext(fs.readFileSync('presidential-evolution-data.js','utf8'),context);
+const ev=context.window.PresidentialPollEvolution;
+assert.ok(ev,'Histórico não exportado');
+assert.equal(ev.metadata.windowStart,'2026-08-20');
+assert.equal(ev.metadata.windowEnd,'2026-10-20');
+assert.equal(ev.metadata.firstTurn,'2026-10-04');
+assert.equal(ev.records.length,32);
+const ins=['Veritá','PoderData/AYA','GERP','Datafolha'];
+assert.deepEqual([...new Set(ev.records.map(p=>p.instituto))].sort(),ins.sort());
+const keys=new Set();
+for(const p of ev.records) {
+  assert.ok(p.data>=ev.metadata.windowStart&&p.data<=ev.metadata.windowEnd);
+  assert.ok(/^\d{4}-\d\d-\d\d$/.test(p.data));
+  assert.ok(p.base==='totais'||p.base==='validos');
+  assert.ok(p.flavio>=0&&p.flavio<=100&&p.lula>=0&&p.lula<=100);
+  assert.ok(p.flavio+p.lula<=100.15);
+  assert.ok(p.fonteUrl.startsWith('https://'),'Ponto sem fonte: '+p.instituto);
+  assert.ok(p.amostra>=1000,'Amostra ausente: '+p.instituto);
+  assert.ok(p.margemErroPp>0);
+  const key=p.data+':'+p.instituto+':'+p.base;
+  assert.ok(!keys.has(key),'Duplicação: '+key);
+  keys.add(key);
+}
+assert.equal(ev.records.filter(p=>p.base==='totais').length,22);
+assert.equal(ev.records.filter(p=>p.base==='validos').length,10);
+function find(inst,base,date) {
+ const x=ev.records.find(p=>p.instituto===inst&&p.base===base&&p.data===date);
+ assert.ok(x,'Ausente: '+inst+' '+date+' '+base);
+ return [x.flavio,x.lula];
+}
+assert.deepEqual(find('Veritá','totais','2026-08-21'),[47.3,42]);
+assert.deepEqual(find('PoderData/AYA','totais','2026-09-24'),[46,45]);
+assert.deepEqual(find('GERP','totais','2026-09-17'),[50,43]);
+assert.deepEqual(find('Datafolha','totais','2026-09-21'),[44,46]);
+assert.deepEqual(find('Datafolha','totais','2026-09-28'),[45,47]);
+assert.deepEqual(find('Datafolha','validos','2026-10-08'),[52,48]);
+assert.deepEqual(find('Datafolha','validos','2026-10-15'),[51,49]);
+assert.deepEqual(find('PoderData/AYA','validos','2026-10-19'),[52,48]);
+assert.deepEqual(find('GERP','validos','2026-10-13'),[55,45]);
+assert.deepEqual(find('GERP','validos','2026-10-16'),[52,48]);
+assert.deepEqual(find('Veritá','validos','2026-10-17'),[51.1,48.9]);
+assert.ok(!ev.records.some(p=>p.instituto==='Veritá'&&p.base==='totais'&&p.data==='2026-10-17'),'Base de votos não deve ser inventada.');
+const html=fs.readFileSync('index.html','utf8');
+assert.ok(html.indexOf('src="presidential-evolution-data.js"')<html.indexOf('src="presidential-evolution-ui.js"'));
+assert.ok(html.indexOf('src="presidential-evolution-ui.js"')<html.indexOf('src="presidential-poll.js"'));
+assert.ok(html.includes('href="presidential-evolution.css"'));
+const code=fs.readFileSync('presidential-evolution-ui.js','utf8');
+assert.ok(code.includes('window.PresidentialEvolutionUI={mount}'));
+assert.ok(code.includes("mode==='totais'"));
+assert.ok(code.includes("mode==='totais'?'2026-08-20"));
+assert.ok(code.includes("p.base===base"));
+assert.ok(code.includes("data-evo-inst"));
+assert.ok(code.includes('evoTableBody'));
+assert.ok(!code.includes("Math.random"));
+assert.ok(!code.includes("window.Runoff2026"));
+const parent=fs.readFileSync('presidential-poll.js','utf8');
+assert.ok(parent.includes('PresidentialEvolutionUI?.mount('));
+assert.ok(parent.includes('poll-evolution-mount'));
+console.log('OK: evolução 20/08–20/10 com 32 registros, 4 institutos, votos totais/válidos separados, gráficos e fontes.');

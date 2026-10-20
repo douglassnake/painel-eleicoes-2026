@@ -27,6 +27,7 @@
     const prior=(window.DASH_DATA?.presidente||[]).filter(x=>x.poll!=null);
     target.innerHTML=`<div class="section-title"><div><h2>Presidência da República · 2º turno</h2><p>Levantamentos nacionais divulgados em 17 e 19 de outubro de 2026, organizados por instituto e metodologia.</p></div><span class="model-pill">SONDAGEM · NÃO APURAÇÃO</span></div>
       ${window.SecondRoundPolls?.full()||card()}
+      <div id="poll-evolution-mount"></div>
       <div id="presidential-simulation-mount"></div>
       <details class="verita-archive"><summary>Ver o detalhamento do Instituto Veritá — 17/10/2026</summary>${card()}</details>
       <details class="verita-archive"><summary>Ver pesquisa anterior do primeiro turno (setembro de 2026)</summary>
@@ -34,6 +35,7 @@
         <div class="poll">${prior.map(x=>`<div class="poll-line ${window.PresidentialColors.classFor(x.nome,x.numero,1)}"><div class="poll-name"><strong>${safe(x.nome)}</strong><small>${safe(x.partido)} · ${safe(x.numero)}</small></div><div class="poll-track"><div class="poll-fill" style="width:${Number(x.poll)}%"></div></div><div class="poll-value">${Number(x.poll)}%</div></div>`).join('')}</div>
         <p class="source-line">${safe(window.DASH_DATA?.pollSources?.presidente)}</p></div>
       </details>`;
+    window.PresidentialEvolutionUI?.mount(target.querySelector("#poll-evolution-mount"));
     window.PresidentialSimulationUI?.mount(target.querySelector("#presidential-simulation-mount"));
     window.CandidatePhotos?.hydrate(target);
   }

@@ -11,7 +11,7 @@ assert.ok(ev,'Histórico não exportado');
 assert.equal(ev.metadata.windowStart,'2026-08-20');
 assert.equal(ev.metadata.windowEnd,'2026-10-21');
 assert.equal(ev.metadata.firstTurn,'2026-10-04');
-assert.equal(ev.records.length,39);
+assert.equal(ev.records.length,41);
 const ins=['Veritá','PoderData/AYA','GERP','Datafolha','Real Time Big Data','Alfa Inteligência','Meio/Ideia','Palver'];
 assert.deepEqual([...new Set(ev.records.map(p=>p.instituto))].sort(),ins.sort());
 const keys=new Set();
@@ -28,8 +28,8 @@ for(const p of ev.records) {
   assert.ok(!keys.has(key),'Duplicação: '+key);
   keys.add(key);
 }
-assert.equal(ev.records.filter(p=>p.base==='totais').length,26);
-assert.equal(ev.records.filter(p=>p.base==='validos').length,13);
+assert.equal(ev.records.filter(p=>p.base==='totais').length,27);
+assert.equal(ev.records.filter(p=>p.base==='validos').length,14);
 function find(inst,base,date) {
  const x=ev.records.find(p=>p.instituto===inst&&p.base===base&&p.data===date);
  assert.ok(x,'Ausente: '+inst+' '+date+' '+base);
@@ -52,6 +52,9 @@ assert.deepEqual(find('Alfa Inteligência','validos','2026-10-20'),[51.5,48.5]);
 assert.deepEqual(find('Meio/Ideia','validos','2026-10-21'),[51.1,48.9]);
 assert.deepEqual(find('Meio/Ideia','totais','2026-10-21'),[48,46]);
 assert.deepEqual(find('Palver','totais','2026-10-21'),[50,48]);
+assert.deepEqual(find('GERP','totais','2026-10-20'),[50,45]);
+assert.deepEqual(find('GERP','validos','2026-10-20'),[53,47]);
+assert.ok(!ev.records.some(p=>p.instituto==='GERP'&&p.data==='2026-10-21'));
 assert.ok(!ev.records.some(p=>p.instituto==='Palver'&&p.base==='validos'));
 assert.ok(!ev.records.some(p=>p.instituto==='Veritá'&&p.base==='totais'&&p.data==='2026-10-17'),'Base de votos não deve ser inventada.');
 const html=fs.readFileSync('index.html','utf8');
@@ -70,4 +73,4 @@ assert.ok(!code.includes("window.Runoff2026"));
 const parent=fs.readFileSync('presidential-poll.js','utf8');
 assert.ok(parent.includes('PresidentialEvolutionUI?.mount('));
 assert.ok(parent.includes('poll-evolution-mount'));
-console.log('OK: evolução até 21/10 com 39 registros, 8 institutos, votos totais/válidos separados, gráficos e fontes.');
+console.log('OK: evolução até 21/10 com 41 registros, 8 institutos, votos totais/válidos separados, gráficos e fontes.');

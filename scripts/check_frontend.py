@@ -204,3 +204,17 @@ assert "2026-10-21-palver" in survey_file
 assert "totalEntries" in survey_file and "entra no MC-2T" in survey_file
 assert '"windowEnd":"2026-10-21"' in evolution_file
 print("OK: pesquisas de 20–21/10 com denominadores separados.")
+
+# Tracking GERP de 20/10 sem atribuir registro de 21/10 e Polymarket separada.
+assert "2026-10-20-gerp-tracking" in (ROOT / "presidential-surveys.js").read_text(encoding="utf-8")
+assert "Não informado para esta rodada" in (ROOT / "presidential-surveys.js").read_text(encoding="utf-8")
+assert all((ROOT / name).is_file() for name in ("polymarket-election.js","polymarket-election.css","scripts/check_polymarket.js"))
+assert css_balanced((ROOT / "polymarket-election.css").read_text(encoding="utf-8"))
+assert html.index('src="polymarket-election.js"') < html.index('src="presidential-poll.js"')
+assert 'PolymarketElection?.mount(' in poll_js
+assert 'polymarket-president-detail' in poll_js and 'polymarket-president-spotlight' in poll_js
+poly = (ROOT / "polymarket-election.js").read_text(encoding="utf-8")
+assert "gamma-api.polymarket.com/events/slug/brazil-presidential-election" in poly
+assert "Não são intenção de voto" in poly
+assert "Nenhum preço anterior foi apresentado como atual" in poly
+print("OK: mercado preditivo isolado do TSE e pesquisas, GERP rastreável.")

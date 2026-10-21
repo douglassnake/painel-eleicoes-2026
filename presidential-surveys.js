@@ -41,6 +41,23 @@
     "fonteUrl": "https://www.cnnbrasil.com.br/eleicoes/alfa-flavio-tem-515-dos-votos-validos-no-2o-turno-lula-485/"
   },
   {
+    "id": "2026-10-20-gerp-tracking",
+    "instituto": "GERP Mercadologia",
+    "divulgacao": "2026-10-20",
+    "coletaInicio": "2026-10-15",
+    "coletaFim": "2026-10-19",
+    "amostra": 2400,
+    "margemErroPp": 2,
+    "confianca": 95.55,
+    "metodo": "Tracking com média móvel de três dias; divulgação Times Brasil/CNBC. Registro desta janela de coleta não informado na reportagem.",
+    "registroInformado": "Não informado para esta rodada",
+    "registroConferidoNoPesqEle": false,
+    "flavio": 53,
+    "lula": 47,
+    "fonteTitulo": "Times Brasil/CNBC, 20/10/2026",
+    "fonteUrl": "https://timesbrasil.com.br/eleicoes-2026/bolsonaro-lula-2-gerp-segundo-turno-votos-validos/"
+  },
+  {
     "id": "2026-10-20-realtime",
     "instituto": "Real Time Big Data",
     "divulgacao": "2026-10-20",

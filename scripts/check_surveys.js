@@ -9,7 +9,7 @@ const p=sandbox.window.SecondRoundPolls;
 assert.ok(p&&typeof p.compact==='function'&&typeof p.full==='function');
 const rows=p.entries;
 assert.equal(rows.length,7);
-assert.equal(new Set(rows.map(r=>r.id)).size,4);
+assert.equal(new Set(rows.map(r=>r.id)).size,7);
 assert.equal(rows.filter(r=>r.divulgacao==='2026-10-19').length,3);
 assert.equal(rows.filter(r=>r.divulgacao==='2026-10-17').length,1);
 assert.equal(rows.filter(r=>r.divulgacao==='2026-10-20').length,2);

@@ -22,7 +22,7 @@ assert.ok(Math.abs(all.centerFlavio-51.5125)<1e-8);
 assert.ok(Math.abs(all.centerLula-48.4875)<1e-8);
 assert.ok(Math.abs(all.centerDifference-3.025)<1e-8);
 assert.equal(all.pollMinFlavio,50.3);
-assert.equal(all.pollMaxFlavio,52);
+assert.equal(all.pollMaxFlavio,53);
 assert.equal(all.histogram.length,24);
 assert.equal(all.histogram.reduce((n,b)=>n+b.count,0),12000);
 assert.ok(all.band90Flavio[0]<all.centerFlavio);

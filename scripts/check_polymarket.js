@@ -16,7 +16,7 @@ const fixture={slug:'brazil-presidential-election',closed:false,markets:[
 ]};
 const d=poly.extract(fixture);
 assert.equal(d.entries.length,2);
-assert.deepEqual(d.entries.map(x=>[x.id,x.price]),[['flavio',.8],['lula',.19]]);
+assert.equal(JSON.stringify(d.entries.map(x=>[x.id,x.price])),JSON.stringify([['flavio',.8],['lula',.19]]));
 assert.equal(d.slug,'brazil-presidential-election');
 const noLula=JSON.parse(JSON.stringify(fixture));noLula.markets=noLula.markets.filter(x=>!x.groupItemTitle.includes('Luiz'));
 assert.throws(()=>poly.extract(noLula));

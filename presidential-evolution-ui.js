@@ -3,7 +3,7 @@
  */
 (() => {
   'use strict';
-  const institutes=['Veritá','PoderData/AYA','GERP','Datafolha'];
+  const institutes=['Veritá','PoderData/AYA','GERP','Datafolha','Real Time Big Data','Alfa Inteligência','Meio/Ideia','Palver'];
   const colors={flavio:'#35d47d',lula:'#ff6269'};
   const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const dateLabel=iso=>iso.split('-').reverse().join('/');
@@ -13,10 +13,10 @@
   function buildChart(inst,rows,mode){
     const W=720,H=260,offsetX=52,offsetY=27,plotWidth=626,plotHeight=182;
     const ymin=40,ymax=56,low=Date.parse(mode==='totais'?'2026-08-20T12:00:00Z':'2026-10-01T12:00:00Z');
-    const high=Date.parse('2026-10-20T12:00:00Z');
+    const high=Date.parse('2026-10-21T12:00:00Z');
     const ticks=mode==='totais'
-      ?[['2026-08-20','20/08'],['2026-09-01','01/09'],['2026-09-15','15/09'],['2026-10-01','01/10'],['2026-10-20','20/10']]
-      :[['2026-10-01','01/10'],['2026-10-07','07/10'],['2026-10-13','13/10'],['2026-10-20','20/10']];
+      ?[['2026-08-20','20/08'],['2026-09-01','01/09'],['2026-09-15','15/09'],['2026-10-01','01/10'],['2026-10-21','21/10']]
+      :[['2026-10-01','01/10'],['2026-10-07','07/10'],['2026-10-13','13/10'],['2026-10-21','21/10']];
     const x=date=>offsetX+(Date.parse(date+'T12:00:00Z')-low)/(high-low)*plotWidth;
     const y=val=>offsetY+plotHeight-(val-ymin)/(ymax-ymin)*plotHeight;
     const axis=[40,44,48,52,56].map(value=>
@@ -58,7 +58,7 @@
   function shell(){
     const d=source();
     return '<section class="card presidential-evolution" aria-labelledby="pollEvolutionTitle">'+
-      '<div class="evo-heading"><div><span class="sim-eyebrow">20 AGO – 20 OUT 2026 / PESQUISAS DE SEGUNDO TURNO</span>'+
+      '<div class="evo-heading"><div><span class="sim-eyebrow">20 AGO – 21 OUT 2026 / PESQUISAS DE SEGUNDO TURNO</span>'+
       '<h3 id="pollEvolutionTitle">Evolução das pesquisas por instituto</h3>'+
       '<p>Veritá, PoderData/AYA, GERP e Datafolha. Cada ponto é um levantamento divulgado, com data e fonte identificadas. Sem médias entre institutos.</p></div>'+
       '<span class="evo-stamp">HISTÓRICO · 2 MESES</span></div>'+

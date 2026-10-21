@@ -193,3 +193,14 @@ assert html.count('id="presidentialSpotlightCard"') == 1
 assert 'SecondRoundPolls?.compact()' not in app_js
 assert 'SecondRoundPolls?.compact()' not in resultados
 print("OK: histórico de quatro institutos por base independente, sem duplicar o destaque de pesquisas.")
+
+# Atualização de 20 e 21 de outubro — votos válidos e totais segregados.
+survey_file=(ROOT / "presidential-surveys.js").read_text(encoding="utf-8")
+evolution_file=(ROOT / "presidential-evolution-data.js").read_text(encoding="utf-8")
+assert "2026-10-21-meio-ideia" in survey_file
+assert "2026-10-20-realtime" in survey_file
+assert "2026-10-20-alfa" in survey_file
+assert "2026-10-21-palver" in survey_file
+assert "totalEntries" in survey_file and "não entra no MC-2T" in survey_file
+assert '"windowEnd":"2026-10-21"' in evolution_file
+print("OK: pesquisas de 20–21/10 com denominadores separados.")

@@ -16,7 +16,7 @@ assert.equal(api.SEED,20261019);
 assert.equal(polls.length,7);
 assert.ok(!polls.some(p=>p.id.includes('palver')));
 const all=api.simulate(polls,{draws:12000,commonShock95:2});
-assert.equal(all.studies,4);
+assert.equal(all.studies,7);
 assert.equal(all.draws,12000);
 assert.ok(Math.abs(all.centerFlavio-51.3)<1e-8);
 assert.ok(Math.abs(all.centerLula-48.7)<1e-8);

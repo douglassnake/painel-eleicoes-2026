@@ -60,18 +60,18 @@ window.DASH_DATA = {
   // Sondagem do 2º turno: nunca misturar com resultados oficiais ou pesquisas de 1º turno.
   presidenciaSegundoTurno: {
     tipo:'pesquisa', turno:2, instituto:'Instituto Veritá', abrangencia:'Brasil',
-    coletaInicio:'2026-10-12', coletaFim:'2026-10-16', divulgacao:'2026-10-17',
+    coletaInicio:'2026-10-18', coletaFim:'2026-10-22', divulgacao:'2026-10-23',
     base:'votos válidos', amostra:15554, margemErro:1.0, confianca:95,
     metodo:'Entrevistas automatizadas com reconhecimento de voz',
-    registroInformado:'BR-01107/2026', registroConferidoNaFontePrimaria:false,
-    fonte:'Exame, 17/10/2026',
-    fonteUrl:'https://exame.com/brasil/pesquisa-que-mais-acertou-no-1o-turno-mostra-flavio-bolsonaro-com-511-e-lula-489-no-2o/',
+    registroInformado:'BR-06070/2026', registroConferidoNaFontePrimaria:false,
+    fonte:'Exame, 23/10/2026',
+    fonteUrl:'https://exame.com/brasil/pesquisa-verita-flavio-bolsonaro-tem-513-e-lula-487-dos-votos-validos/',
     candidatos:[
-      {nome:'Flávio Bolsonaro',numero:'22',partido:'PL',poll:51.1,
+      {nome:'Flávio Bolsonaro',numero:'22',partido:'PL',poll:51.3,
        fotoUrl:'https://upload.wikimedia.org/wikipedia/commons/3/30/2026_FLAVIO_BOLSONARO_CANDIDATO_PRESIDENTE_TSE_%28280002551544%29.jpg',
        fotoAutor:'Tribunal Superior Eleitoral (TSE)',fotoLicenca:'CC BY 4.0',
        fotoFonte:'https://commons.wikimedia.org/wiki/File:2026_FLAVIO_BOLSONARO_CANDIDATO_PRESIDENTE_TSE_(280002551544).jpg'},
-      {nome:'Lula',numero:'13',partido:'PT',poll:48.9,
+      {nome:'Lula',numero:'13',partido:'PT',poll:48.7,
        fotoUrl:'https://thumb.wikimedia.org/wikipedia/commons/thumb/b/be/08.08.2026_-_FOTOS_OFICIAIS_-_55450293419.jpg/500px-08.08.2026_-_FOTOS_OFICIAIS_-_55450293419.jpg',
        fotoAutor:'Ricardo Stuckert / Lula Oficial',fotoLicenca:'CC BY-SA 4.0',
        fotoFonte:'https://commons.wikimedia.org/wiki/File:08.08.2026_-_FOTOS_OFICIAIS_-_55450293419.jpg'}

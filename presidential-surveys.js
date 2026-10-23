@@ -7,6 +7,23 @@
   'use strict';
   const entries = [
   {
+    "id": "2026-10-23-verita",
+    "instituto": "Instituto Veritá",
+    "divulgacao": "2026-10-23",
+    "coletaInicio": "2026-10-18",
+    "coletaFim": "2026-10-22",
+    "amostra": 15554,
+    "margemErroPp": 1,
+    "confianca": 95,
+    "metodo": "Entrevistas automatizadas com reconhecimento de voz e transcrição",
+    "registroInformado": "BR-06070/2026",
+    "registroConferidoNoPesqEle": false,
+    "flavio": 51.3,
+    "lula": 48.7,
+    "fonteTitulo": "Exame, 23/10/2026",
+    "fonteUrl": "https://exame.com/brasil/pesquisa-verita-flavio-bolsonaro-tem-513-e-lula-487-dos-votos-validos/"
+},
+  {
     "id": "2026-10-21-meio-ideia",
     "instituto": "Meio/Ideia",
     "divulgacao": "2026-10-21",

@@ -54,3 +54,55 @@ body.theme-craft .craft-action-secondary{border-radius:3px!important}
  body.theme-craft table{display:block;overflow-x:auto;max-width:100%}
 }
 @media(prefers-reduced-motion:reduce){body.theme-craft *,body.theme-craft *::before,body.theme-craft *::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+/* V2: uniform treatment for every dashboard module, including mobile. */
+body.theme-craft{
+ color-scheme:dark;
+ --pres-flavio-green:#37c989;--pres-lula-red:#ef5350;
+}
+body.theme-craft :is(.poly-election,.presidential-evolution,.runoff-panel,.poly-candidate,.evo-stamp,.evo-controls select,.runoff-portal,.poly-label,.poly-prices,.s2-face,.s2-result,.verita-person,.poll-line,.poll-card,.poll-institute,.research-card,.polls-panel,.research-panel,.data-section,.result-panel,.results-panel,.simulation-panel,.map-panel,.chart-panel,.chart-card,.info-panel,.metric-card,.candidate-card,.stat-card,.result-card,.region-card,.territory-card,.official-card,.forecast-card,.election-status,.market-card,.model-card,.section-panel,.dashboard-card,.glass-card,.summary-card,.overview-card,.news-card,.history-card){
+ background:#141a21!important;
+ background-image:none!important;
+ border:1px solid #35404c!important;
+ border-radius:3px!important;
+ box-shadow:none!important;
+ backdrop-filter:none!important;
+}
+body.theme-craft :is(.poly-election,.presidential-evolution,.runoff-panel){padding:16px!important;margin-block:10px!important}
+body.theme-craft :is(.poly-candidate,.s2-face,.s2-result,.verita-person,.poll-line,.poll-card){padding:10px!important}
+body.theme-craft :is(.poly-kicker,.evo-heading h3,.runoff-eyebrow,.poly-label,.evo-stamp,.craft-topline,.data-kicker){color:#ffaa26!important}
+body.theme-craft :is(.poly-heading h3,.poly-candidate-label strong,.evo-heading h3,.runoff-source strong){color:#e5eaf0!important}
+body.theme-craft :is(.poly-heading p,.poly-message,.evo-heading p,.runoff-source small){color:#a0adbb!important}
+body.theme-craft :is(.poly-label,.evo-stamp,.runoff-portal){
+ background:#1c252e!important;border-color:#46525e!important;border-radius:3px!important;
+}
+body.theme-craft :is(input,select,textarea,.top-data-nav-select select,.evo-controls select){
+ background:#10161d!important;color:#e5eaf0!important;border:1px solid #46525e!important;
+ border-radius:3px!important;box-shadow:none!important;
+}
+body.theme-craft :is(button,.tab,.craft-action-primary,.craft-action-secondary){
+ box-shadow:none!important;border-radius:3px!important;
+}
+body.theme-craft :is(.poly-candidate,.s2-result,.verita-person,.poll-line).candidate-flavio{
+ border-left:3px solid #37c989!important;
+}
+body.theme-craft :is(.poly-candidate,.s2-result,.verita-person,.poll-line).candidate-lula{
+ border-left:3px solid #ef5350!important;
+}
+body.theme-craft :is(.poly-candidate,.s2-result,.verita-person,.poll-line).candidate-flavio :is(strong,.poll-value,.verita-percent){color:#37c989!important}
+body.theme-craft :is(.poly-candidate,.s2-result,.verita-person,.poll-line).candidate-lula :is(strong,.poll-value,.verita-percent){color:#ef5350!important}
+body.theme-craft :is(.poly-election,.presidential-evolution,.runoff-panel,.poll-card,.chart-card,.dashboard-card) :is(svg,canvas){max-width:100%}
+body.theme-craft :is(.poly-election,.presidential-evolution,.runoff-panel,.poll-card,.chart-card,.dashboard-card) :is(p,small){overflow-wrap:anywhere}
+body.theme-craft :is(.poly-prices,.evo-controls,.runoff-toolbar){min-width:0}
+body.theme-craft :is(.top-data-nav,.top-data-nav-inner){border-radius:0!important}
+body.theme-craft :is(.hero-badge,.craft-topline,.evo-stamp){text-transform:uppercase;letter-spacing:.06em}
+body.theme-craft :is(.poly-election,.presidential-evolution,.runoff-panel,.poll-card,.research-panel,.data-section) a{color:#ffbf62!important}
+@media(max-width:760px){
+ body.theme-craft :is(.poly-election,.presidential-evolution,.runoff-panel){padding:12px!important}
+ body.theme-craft :is(.poly-prices){grid-template-columns:repeat(2,minmax(0,1fr));gap:7px!important}
+ body.theme-craft :is(.poly-candidate,.s2-face,.s2-result,.verita-person,.poll-line){padding:8px!important}
+ body.theme-craft :is(.poly-heading,.evo-heading,.runoff-toolbar){flex-wrap:wrap!important}
+ body.theme-craft :is(.poly-label,.evo-stamp){white-space:normal!important}
+ body.theme-craft :is(.top-data-nav-select,select){max-width:100%}
+ body.theme-craft :is(.top-data-nav-inner,.top-data-nav){min-width:0}
+}

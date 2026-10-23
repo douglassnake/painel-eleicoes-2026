@@ -106,3 +106,91 @@ body.theme-craft :is(.poly-election,.presidential-evolution,.runoff-panel,.poll-
  body.theme-craft :is(.top-data-nav-select,select){max-width:100%}
  body.theme-craft :is(.top-data-nav-inner,.top-data-nav){min-width:0}
 }
+
+/* V3: cover the original Craft, regional, simulator, charts and tables. */
+body.theme-craft :is(
+ .kpi,.audit-kpi,.result-summary-card,.audit-card,.result-major-card,.result-group,
+ .election-map-card,.br-election-card,.map-detail,.br-map-panel,.independence-notice,
+ .presidential-spotlight,.verita-card,.verita-archive,.s2-board,.s2-survey,
+ .pres-sim,.pres-sim-poll,.pres-sim-settings,.pres-sim-metrics,.pres-sim-intervals,
+ .pres-sim-chart-wrap,.pres-sim-method,.pres-sim-formulas,.sim-teaser,
+ .evo-institute-card,.evo-summary,.evo-details,.evo-method,
+ .imd-metric,.imd-card-heading,.imd-brazil-card,.imd-data-panel,.imd-chart,.imd-methodology,.imd-teaser,
+ .territorial-row,.territorial-card-kpis,.territorial-method,.territorial-pending,
+ .result-major-row,.result-candidate,.result-status-live,.result-status-ok,
+ .election-filters,.election-filter,.election-filter-context,.result-major-grid,
+ .election-map-stage,.br-map-stage,.map-detail-grid,.br-detail-grid,
+ .history-chart,.table-wrap,.audit-table-wrap,.cargo-counts,.pager,.toolbar,
+ .evo-chart-scroller,.evo-table-scroller,.imd-table-scroll,.s2-archive-label
+){
+ background:#141a21!important;background-image:none!important;
+ border-color:#35404c!important;border-radius:3px!important;
+ box-shadow:none!important;backdrop-filter:none!important;
+}
+body.theme-craft :is(.kpi,.audit-kpi,.result-summary-card,.verita-card,.s2-board,.pres-sim,.imd-brazil-card,.evo-institute-card){
+ border:1px solid #35404c!important;
+}
+body.theme-craft :is(.craft-section-heading,.craft-workspace-heading,.section-title,.result-major-head,.result-group-head,.election-map-head,.br-election-head,.pres-sim-heading,.imd-section-title,.imd-data-heading,.s2-title,.s2-eyebrow,.verita-kicker,.sim-eyebrow,.imd-eyebrow,.spotlight-index){
+ color:#ffaa26!important;
+}
+body.theme-craft :is(.section-subtitle,.muted,.note,.audit-note,.source-line,.photo-credit,.map-source-note,.br-map-source,.territorial-method,.verita-warning,.s2-disclaimer,.pres-sim-disclaimer,.evo-method){
+ color:#a0adbb!important;
+}
+body.theme-craft :is(.verita-person,.snapshot-candidate,.s2-face,.s2-result,.pres-sim-poll,.pres-sim-band,.evo-institute-card,.imd-metric,.imd-chart-row){
+ background:#1c252e!important;background-image:none!important;
+ border-radius:3px!important;box-shadow:none!important;
+}
+body.theme-craft :is(.model-pill,.badge,.number-chip,.monitored-chip,.data-pending,.craft-period,.pres-sim-stamp,.evo-stamp,.imd-index-tag,.imd-br-tag,.s2-count){
+ border-radius:3px!important;background:#202b36!important;
+ border:1px solid #46525e!important;box-shadow:none!important;
+}
+body.theme-craft :is(.audit-table,.imd-table,.evo-table-scroller table,.table-wrap table){
+ background:#10161d!important;color:#e5eaf0!important;
+ border-collapse:collapse!important;font-variant-numeric:tabular-nums;
+}
+body.theme-craft :is(.audit-table,.imd-table,.evo-table-scroller table,.table-wrap table) :is(th,td){
+ border-bottom:1px solid #35404c!important;
+}
+body.theme-craft :is(.audit-table,.imd-table,.evo-table-scroller table,.table-wrap table) th{
+ background:#202b36!important;color:#ffaa26!important;
+}
+body.theme-craft :is(.toolbar,.official-toolbar,.territorial-toolbar,.election-filters,.evo-controls,.pres-sim-form,.imd-controls){
+ background:#141a21!important;background-image:none!important;
+ border-radius:3px!important;
+}
+body.theme-craft :is(.kpi,.audit-kpi,.result-summary-card,.verita-percent,.s2-result,.pres-sim-metrics,.evo-latest,.imd-metric,.territorial-score,.metric){
+ font-variant-numeric:tabular-nums;
+}
+body.theme-craft :is(.verita-percent,.s2-result strong,.pres-sim-metrics strong,.evo-latest strong,.imd-metric strong,.kpi strong){
+ font-family:ui-monospace,SFMono-Regular,Consolas,monospace;
+}
+body.theme-craft :is(.poll-track,.verita-track,.s2-progress,.result-progress,.territorial-track,.audit-band-track,.map-progress-track,.imd-chart-track,.imd-brazil-track){
+ background:#28323c!important;border-radius:2px!important;
+}
+body.theme-craft :is(.craft-actions,.toolbar,.election-filters,.evo-controls,.pres-sim-form,.imd-controls) :is(button,select,input){
+ border-radius:3px!important;box-shadow:none!important;
+}
+body.theme-craft :is(.verita-person,.s2-face,.s2-result,.snapshot-candidate).candidate-flavio{
+ border-left:3px solid #37c989!important;
+}
+body.theme-craft :is(.verita-person,.s2-face,.s2-result,.snapshot-candidate).candidate-lula{
+ border-left:3px solid #ef5350!important;
+}
+body.theme-craft :is(.verita-person,.s2-face,.s2-result,.snapshot-candidate).candidate-flavio :is(strong,.verita-percent){color:#37c989!important}
+body.theme-craft :is(.verita-person,.s2-face,.s2-result,.snapshot-candidate).candidate-lula :is(strong,.verita-percent){color:#ef5350!important}
+body.theme-craft .flag-symbol{opacity:.28!important}
+body.theme-craft :is(.craft-hero-footer,.footer-inner,.independence-notice){
+ background:#10161d!important;background-image:none!important;
+ border-color:#35404c!important;
+}
+@media(max-width:760px){
+ body.theme-craft :is(.kpis,.major-grid,.s2-portraits,.s2-rows,.pres-sim-metrics,.evo-graphs,.imd-metrics){
+ min-width:0;max-width:100%;
+ }
+ body.theme-craft :is(.table-wrap,.audit-table-wrap,.imd-table-scroll,.evo-table-scroller,.evo-chart-scroller){
+ max-width:100%;overflow-x:auto;
+ }
+ body.theme-craft :is(.pres-sim,.verita-card,.s2-board,.presidential-spotlight,.imd-data-panel,.imd-brazil-card){
+ padding:12px!important;
+ }
+}

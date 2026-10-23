@@ -1,0 +1,56 @@
+/* Terminal-inspired original theme. Presentation only; no election data changes. */
+body.theme-craft{
+ --c-bg:#090c10;--c-deep:#07090c;--c-panel:#141a21;--c-panel2:#1c252e;
+ --c-line:#35404c;--c-line2:#46525e;--c-text:#e5eaf0;--c-muted:#a0adbb;
+ --c-blue:#ffaa26;--c-blue2:#ffbf62;--c-green:#37c989;--c-orange:#ffaa26;--c-red:#ef5350;
+ --bg:#090c10;--bg-deep:#07090c;--panel:#141a21;--panel2:#1c252e;
+ --panel3:#202b36;--text:#e5eaf0;--muted:#a0adbb;--line:#35404c;
+ --line-strong:#46525e;--accent:#ffaa26;--accent-2:#ffbf62;
+ --good:#37c989;--warn:#ffaa26;--bad:#ef5350;
+ --shadow:none;background:#090c10;color:#e5eaf0;font-size:13px;line-height:1.42;
+}
+body.theme-craft .page-atmosphere,body.theme-craft .vice-scene{display:none!important}
+body.theme-craft .topbar.hero-shell{
+ background:#10151b!important;border:1px solid #35404c!important;
+ border-radius:3px!important;box-shadow:none!important;padding:16px 22px!important;
+ margin-top:8px!important;gap:14px!important;
+}
+body.theme-craft .hero-shell::before{display:none!important}
+body.theme-craft .brand-block{padding:8px 0 12px!important}
+body.theme-craft .topbar h1{font-size:clamp(28px,3.2vw,43px)!important;letter-spacing:-.025em!important}
+body.theme-craft .subtitle{font-size:12px!important;line-height:1.45!important}
+body.theme-craft .craft-topline,body.theme-craft .eyebrow,body.theme-craft .top-data-nav-caption{color:#ffaa26!important}
+body.theme-craft .top-data-nav{background:#0d1218!important;border-bottom:1px solid #35404c!important;box-shadow:none!important}
+body.theme-craft .top-data-nav-brand{color:#ffaa26!important}
+body.theme-craft .tabs{gap:3px!important}
+body.theme-craft .tab,body.theme-craft button,body.theme-craft select{border-radius:3px}
+body.theme-craft .tab.active{background:#ffaa26!important;color:#090c10!important}
+body.theme-craft .container{max-width:1800px!important;padding:12px 16px 40px!important}
+body.theme-craft :is(.card,.panel,.stat-card,.data-card,.update-box,.brasil-data-card,.hero-badge){
+ background:#141a21!important;border:1px solid #35404c!important;border-radius:3px!important;
+ box-shadow:none!important;backdrop-filter:none!important;
+}
+body.theme-craft :is(.card,.panel,.stat-card):hover{border-color:#596878!important}
+body.theme-craft :is(h2,h3,.section-title,.data-kicker){letter-spacing:.035em}
+body.theme-craft :is(.section-title,.data-kicker){color:#ffaa26!important}
+body.theme-craft :is(table,th,td){font-variant-numeric:tabular-nums}
+body.theme-craft table{border-collapse:collapse}
+body.theme-craft th{background:#1c252e!important;color:#ffaa26!important;text-transform:uppercase;font-size:11px}
+body.theme-craft td,body.theme-craft th{border-bottom:1px solid #35404c!important}
+body.theme-craft tr:hover td{background:#1c252e}
+body.theme-craft :is(.update-box strong,.poll-value,.verita-percent){font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-variant-numeric:tabular-nums}
+body.theme-craft a{color:#ffbf62}
+body.theme-craft :focus-visible{outline:2px solid #ffaa26!important;outline-offset:2px}
+body.theme-craft .candidate-flavio{--candidate-main:#37c989;--candidate-soft:rgba(55,201,137,.11);--candidate-line:rgba(55,201,137,.45)}
+body.theme-craft .candidate-lula{--candidate-main:#ef5350;--candidate-soft:rgba(239,83,80,.11);--candidate-line:rgba(239,83,80,.45)}
+body.theme-craft .craft-action-primary{background:#ffaa26!important;color:#090c10!important;border-radius:3px!important}
+body.theme-craft .craft-action-secondary{border-radius:3px!important}
+@media(max-width:760px){
+ body.theme-craft .topbar.hero-shell{padding:12px!important;grid-template-columns:1fr!important}
+ body.theme-craft .container{padding:10px 8px 30px!important}
+ body.theme-craft .top-data-nav-inner{gap:6px!important}
+ body.theme-craft .tabs{overflow-x:auto;flex-wrap:nowrap;scrollbar-width:thin}
+ body.theme-craft .tab{white-space:nowrap}
+ body.theme-craft table{display:block;overflow-x:auto;max-width:100%}
+}
+@media(prefers-reduced-motion:reduce){body.theme-craft *,body.theme-craft *::before,body.theme-craft *::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}

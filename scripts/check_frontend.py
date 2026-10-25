@@ -206,7 +206,8 @@ assert "2026-10-20-realtime" in survey_file
 assert "2026-10-20-alfa" in survey_file
 assert "2026-10-21-palver" in survey_file
 assert "totalEntries" in survey_file and "entra no MC-2T" in survey_file
-assert '"windowEnd":"2026-10-21"' in evolution_file
+assert '"windowEnd":"2026-10-23"' in evolution_file
+assert '"lastVerified":"2026-10-23"' in evolution_file
 print("OK: pesquisas de 20–21/10 com denominadores separados.")
 
 # Tracking GERP de 20/10 sem atribuir registro de 21/10 e Polymarket separada.

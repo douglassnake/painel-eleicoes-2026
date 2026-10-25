@@ -8,7 +8,7 @@
   const PORTAL='https://resultados.tse.jus.br/oficial/app/index.html#/eleicao/6258/uf/br/cargo/1/vis/nominal/resultados';
   const ELECTION_DATE='2026-10-25';
   const STATES={
-    br:'Brasil',ac:'Acre',al:'Alagoas',ap:'Amapá',am:'Amazonas',
+    br:'Brasil',zz:'Exterior',ac:'Acre',al:'Alagoas',ap:'Amapá',am:'Amazonas',
     ba:'Bahia',ce:'Ceará',df:'Distrito Federal',es:'Espírito Santo',
     go:'Goiás',ma:'Maranhão',mt:'Mato Grosso',ms:'Mato Grosso do Sul',
     mg:'Minas Gerais',pa:'Pará',pb:'Paraíba',pr:'Paraná',pe:'Pernambuco',

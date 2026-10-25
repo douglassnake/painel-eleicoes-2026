@@ -62,7 +62,11 @@ print(f"OK: {len(parser.paths)} recursos vinculados, {len(parser.ids)} IDs e CSS
 # Pesquisas são armazenadas separadamente da apuração TSE.
 data = (ROOT / "data.js").read_text(encoding="utf-8")
 assert "presidenciaSegundoTurno:" in data
-assert "BR-01107/2026" in data and "51.1" in data and "48.9" in data
+# Confere o recorte atual sem modificar a pesquisa nem seus valores.
+assert "registroInformado:'BR-06070/2026'" in data
+assert "registroConferidoNaFontePrimaria:false" in data
+assert "divulgacao:'2026-10-23'" in data
+assert "poll:51.3" in data and "poll:48.7" in data
 assert (ROOT / "presidential-poll.js").is_file()
 assert "PresidentialPoll.render(view)" in (ROOT / "app.js").read_text(encoding="utf-8")
 assert "PresidentialPoll?.card()" not in (ROOT / "resultados-ui.js").read_text(encoding="utf-8")  # Quadro compacto somente no primeiro destaque

@@ -197,7 +197,7 @@
     if(window.RunoffMap2026?.render)startMap();
     else {
       const script=document.createElement('script');
-      script.src='runoff-map-2026.js?v=20261025-3';
+      script.src='runoff-map-2026.js?v=20261025-12';
       script.onload=startMap;
       script.onerror=()=>{const el=mapHost.querySelector('#runoffMapBootStatus');if(el)el.textContent='Falha no download do módulo do mapa. Tente atualizar a página.';};
       document.head.appendChild(script);

@@ -177,7 +177,31 @@
     if(!root)return;
     clearTimeout(timer);controller?.abort();token++;
     uf='br';failed=false;root.innerHTML=shell();
-    window.RunoffMap2026?.render(root);
+    // O mapa deve ser visível mesmo quando o script auxiliar falha ou está em cache antigo.
+    const mapHost=document.createElement('div');
+    mapHost.id='runoffMapHost';
+    mapHost.innerHTML='<section class="runoff-map-panel"><h3>Mapa interativo da apuração do segundo turno</h3><p id="runoffMapBootStatus" role="status">Carregando mapa do Brasil e dados oficiais do TSE…</p></section>';
+    root.appendChild(mapHost);
+    const startMap=()=>{
+      if(!root.isConnected)return;
+      if(window.RunoffMap2026?.render){
+        mapHost.replaceChildren();
+        Promise.resolve(window.RunoffMap2026.render(mapHost)).catch(err=>{
+          mapHost.innerHTML='<section class="runoff-map-panel"><h3>Mapa do Brasil indisponível</h3><p>Falha ao carregar a geometria ou os dados. Atualize a página para tentar novamente.</p></section>';
+          console.error('Mapa segundo turno:',err);
+        });
+      }else{
+        mapHost.querySelector('#runoffMapBootStatus').textContent='Não foi possível carregar o módulo do mapa. Verifique a conexão e atualize a página.';
+      }
+    };
+    if(window.RunoffMap2026?.render)startMap();
+    else {
+      const script=document.createElement('script');
+      script.src='runoff-map-2026.js?v=20261025-3';
+      script.onload=startMap;
+      script.onerror=()=>{const el=mapHost.querySelector('#runoffMapBootStatus');if(el)el.textContent='Falha no download do módulo do mapa. Tente atualizar a página.';};
+      document.head.appendChild(script);
+    }
     root.querySelector('#runoffUf').addEventListener('change',e=>{uf=e.target.value;load();});
     root.querySelector('#runoffReload').addEventListener('click',()=>load());
     if(!electionStarted())root.querySelector('#runoffStatus').textContent='Aguardando apuração: 25/10/2026, 17h (Brasília)';

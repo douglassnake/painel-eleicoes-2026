@@ -9,6 +9,7 @@ const api=sandbox.window.Runoff2026;
 assert.ok(api&&api.render&&api.parseOfficial&&api.sourceUrl);
 assert.equal(api.sourceUrl('br'),'https://resultados.tse.jus.br/oficial/ele2026/6258/dados/br/br-c0001-e006258-u.json');
 assert.equal(api.sourceUrl('mg'),'https://resultados.tse.jus.br/oficial/ele2026/6258/dados/mg/mg-c0001-e006258-u.json');
+assert.equal(api.sourceUrl('zz'),'https://resultados.tse.jus.br/oficial/ele2026/6258/dados/zz/zz-c0001-e006258-u.json');
 assert.throws(()=>api.sourceUrl('invalid'));
 const fixture={
  ele:'6258',t:'2',cdabr:'br',dg:'15/10/2026',hg:'09:38:12',idg:'3535426',tf:'n',and:'n',

@@ -13,8 +13,8 @@ export default {
     const cors=origin===allowed?{'Access-Control-Allow-Origin':origin,'Vary':'Origin'}:{};
     if(request.method==='OPTIONS')return new Response(null,{status:204,headers:{...cors,'Access-Control-Allow-Methods':'GET, OPTIONS','Access-Control-Allow-Headers':'Content-Type'}});
     if(request.method!=='GET')return new Response('Method not allowed',{status:405});
-    if(origin&&origin!==allowed)return new Response('Origin not allowed',{status:403});
-    const u=new URL(request.url),path=u.pathname.replace(/^\/+/, '');
+    if(!allowed)return new Response('Proxy not configured',{status:503});if(origin&&origin!==allowed)return new Response('Origin not allowed',{status:403});
+    const u=new URL(request.url),path=u.pathname.replace(/^\/+/, '');if(u.search)return new Response('Query not allowed',{status:400,headers:cors});
     if(path!==CONFIG&&!MUNICIPAL.test(path))return new Response('Not found',{status:404,headers:cors});
     const upstream=new URL(path,TSE);
     const cacheKey=new Request(upstream.toString(),{method:'GET'});

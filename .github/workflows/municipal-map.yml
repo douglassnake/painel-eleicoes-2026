@@ -17,3 +17,5 @@ jobs:
       - run: node --check runoff-municipal-2026.js
       - run: node scripts/check_municipal_map.js
       - run: node scripts/check_runoff.js
+      - name: Validate live TSE and IBGE sources
+        run: python3 scripts/check_municipal_live.py

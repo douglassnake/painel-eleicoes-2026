@@ -177,6 +177,7 @@
     if(!root)return;
     clearTimeout(timer);controller?.abort();token++;
     uf='br';failed=false;root.innerHTML=shell();
+    window.RunoffMap2026?.render(root);
     root.querySelector('#runoffUf').addEventListener('change',e=>{uf=e.target.value;load();});
     root.querySelector('#runoffReload').addEventListener('click',()=>load());
     if(!electionStarted())root.querySelector('#runoffStatus').textContent='Aguardando apuração: 25/10/2026, 17h (Brasília)';

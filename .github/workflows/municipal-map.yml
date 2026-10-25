@@ -1,0 +1,23 @@
+name: Validate municipal map
+on:
+  pull_request:
+    paths:
+      - 'runoff-municipal-2026.js'
+      - 'runoff-map-2026.js'
+      - 'worker/**'
+      - 'scripts/check_municipal_map.js'
+      - '.github/workflows/municipal-map.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: node --check runoff-municipal-2026.js
+      - run: node --check worker/tse-municipal-proxy.mjs
+      - run: node scripts/check_municipal_map.js
+      - run: node scripts/check_runoff.js
+      - name: Validate live TSE and IBGE sources
+        run: python3 scripts/check_municipal_live.py

@@ -45,7 +45,7 @@ assert all((ROOT / name).exists() for name in ("vice-theme.css", "atari-theme.cs
 
 parser = Assets()
 parser.feed(html)
-missing = [path for path in parser.paths if not (ROOT / path).is_file()]
+missing = [path for path in parser.paths if not (ROOT / path.split("?", 1)[0]).is_file()]
 assert not missing, f"Recursos HTML ausentes: {missing}"
 assert {"navegacao", "view", "kpis", "independencia"} <= parser.ids
 

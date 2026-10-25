@@ -9,9 +9,9 @@ vm.runInContext(fs.readFileSync('presidential-evolution-data.js','utf8'),context
 const ev=context.window.PresidentialPollEvolution;
 assert.ok(ev,'Histórico não exportado');
 assert.equal(ev.metadata.windowStart,'2026-08-20');
-assert.equal(ev.metadata.windowEnd,'2026-10-21');
+assert.equal(ev.metadata.windowEnd,'2026-10-23');
 assert.equal(ev.metadata.firstTurn,'2026-10-04');
-assert.equal(ev.records.length,41);
+assert.equal(ev.records.length,42);
 const ins=['Veritá','PoderData/AYA','GERP','Datafolha','Real Time Big Data','Alfa Inteligência','Meio/Ideia','Palver'];
 assert.deepEqual([...new Set(ev.records.map(p=>p.instituto))].sort(),ins.sort());
 const keys=new Set();
@@ -29,12 +29,13 @@ for(const p of ev.records) {
   keys.add(key);
 }
 assert.equal(ev.records.filter(p=>p.base==='totais').length,27);
-assert.equal(ev.records.filter(p=>p.base==='validos').length,14);
+assert.equal(ev.records.filter(p=>p.base==='validos').length,15);
 function find(inst,base,date) {
  const x=ev.records.find(p=>p.instituto===inst&&p.base===base&&p.data===date);
  assert.ok(x,'Ausente: '+inst+' '+date+' '+base);
  return [x.flavio,x.lula];
 }
+assert.deepEqual(find('Veritá','validos','2026-10-23'),[51.3,48.7]);
 assert.deepEqual(find('Veritá','totais','2026-08-21'),[47.3,42]);
 assert.deepEqual(find('PoderData/AYA','totais','2026-09-24'),[46,45]);
 assert.deepEqual(find('GERP','totais','2026-09-17'),[50,43]);

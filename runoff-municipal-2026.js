@@ -6,7 +6,7 @@ const safe=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'
 const fmt=n=>Number(n||0).toLocaleString('pt-BR');
 const pct=n=>Number(n||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})+'%';
 let seq=0,refresh=null,selectedUF='',selectedCity='',features=[],data=new Map(),activeHost=null;
-function project(fs){let xs=[],ys=[];function visit(a){if(!Array.isArray(a))return;if(typeof a[0]==='number'){xs.push(a[0]);ys.push(a[1]);return;}a.forEach(visit);}fs.forEach(f=>visit(f.geometry.coordinates));const minX=Math.min(...xs),maxX=Math.max(...xs),minY=Math.min(...ys),maxY=Math.max(...ys);const s=Math.min(850/(maxX-minX||1),650/(maxY-minY||1));return (x,y)=>[25+(x-minX)*s,690-(y-minY)*s];}
+function project(fs){let minX=Infinity,maxX=-Infinity,minY=Infinity,maxY=-Infinity;function visit(a){if(!Array.isArray(a))return;if(typeof a[0]==='number'){minX=Math.min(minX,a[0]);maxX=Math.max(maxX,a[0]);minY=Math.min(minY,a[1]);maxY=Math.max(maxY,a[1]);return;}a.forEach(visit);}fs.forEach(f=>visit(f.geometry.coordinates));const s=Math.min(850/(maxX-minX||1),650/(maxY-minY||1));return (x,y)=>[25+(x-minX)*s,690-(y-minY)*s];}
 function path(g,p){const ring=r=>r.map(([x,y],i)=>{const [a,b]=p(x,y);return(i?'L':'M')+a.toFixed(1)+','+b.toFixed(1)}).join(' ')+'Z';return(g.type==='Polygon'?[g.coordinates]:g.type==='MultiPolygon'?g.coordinates:[]).flatMap(poly=>poly.map(ring)).join(' ');}
 function id(f){return String(f.properties?.codarea||f.properties?.CD_MUN||f.properties?.codigo||f.id||'');}
 function name(f){return String(f.properties?.nome||f.properties?.NM_MUN||f.properties?.name||id(f));}

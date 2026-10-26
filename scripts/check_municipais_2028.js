@@ -12,7 +12,16 @@ const css=fs.readFileSync(path.join(dir,'styles.css'),'utf8');
 const ctx={window:{},URL,Intl,Date,console};
 vm.createContext(ctx);
 vm.runInContext(fs.readFileSync(path.join(dir,'data.js'),'utf8'),ctx);
+vm.runInContext(fs.readFileSync(path.join(dir,'history-six.js'),'utf8'),ctx);
 vm.runInContext(fs.readFileSync(path.join(dir,'app.js'),'utf8'),ctx);
+const history=ctx.window.MunicipalHistorySix;
+assert.equal(typeof history.mount,'function');
+assert.equal(history.elected({status:'MÉDIA'}),true);
+assert.equal(history.elected({status:'NÃO ELEITO'}),false);
+const htmlRows=history.table([{office:'vereador',ballotName:'Exemplo',ballotNumber:'12345',party:'TESTE',votes:152,status:'MÉDIA',fullName:'Exemplo Completo',zones:[]}],'vereador','Exem',true);
+assert.ok(htmlRows.includes('Exemplo'));
+const emptyRows=history.table([{office:'vereador',ballotName:'Exemplo',party:'TESTE',votes:152,status:'SUPLENTE'}],'vereador','',true);
+assert.ok(emptyRows.includes('Nenhum registro'));
 const db=ctx.window.Municipal2028Data;
 const app=ctx.window.Municipal2028;
 

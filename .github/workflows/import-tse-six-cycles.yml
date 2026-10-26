@@ -8,6 +8,7 @@ on:
       - 'scripts/import_tse_municipal_6cycles.py'
       - 'scripts/analyze_tse_municipal_6cycles.py'
       - 'scripts/test_tse_municipal_6cycles.py'
+      - 'scripts/check_tse_municipal_six_data.js'
       - '.github/workflows/import-tse-six-cycles.yml'
   pull_request:
     paths:
@@ -66,6 +67,8 @@ jobs:
           merge-multiple: true
       - name: Check all official winner statuses and summarize
         run: python3 -u scripts/analyze_tse_municipal_6cycles.py
+      - name: Audit all 18 municipal elections and council seats
+        run: node scripts/check_tse_municipal_six_data.js
       - name: Commit ONLY on feature branch, not public site
         shell: bash
         run: |

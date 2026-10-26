@@ -7,7 +7,7 @@
   const fmt=n=>n==null?'—':Number(n).toLocaleString('pt-BR');
   const percent=n=>n==null?'—':Number(n).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})+'%';
   const label=r=>r.ballotName||r.fullName||('Candidatura '+r.ballotNumber);
-  const elected=r=>String(r.status||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase().startsWith('ELEITO');
+  const elected=r=>{const s=String(r.status||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase();return s.startsWith('ELEITO')||s==='MEDIA';};
   const load=async file=>{
     if(!cache.has(file)){
       cache.set(file,fetch('./historico/'+file,{cache:'no-store'}).then(r=>{
@@ -42,7 +42,7 @@
         '<td>'+esc(c.office)+'</td><td>'+esc(c.party)+'</td><td>'+fmt(c.votes)+'</td>'+
         '<td><span class="'+(elected(c)?'elected-flag':'')+'">'+esc(c.status||'Não informado')+'</span></td>'+
         '<td><details><summary>Detalhes</summary><dl class="candidate-details">'+
-        [['Nome completo',c.fullName],['Identificador TSE',c.tseCandidateId],['Federação',c.federation],['Coligação',c.coalition],['Composição da coligação',c.coalitionParties],['Gênero declarado',c.gender],['Escolaridade',c.education],['Ocupação',c.occupation],['Idade na posse',c.ageAtTakingOffice],['Situação da candidatura',c.registrationStatus],['Votos nominais totais',c.votesNominal]].filter(x=>x[1]!=null).map(([a,b])=>'<dt>'+esc(a)+'</dt><dd>'+esc(b)+'</dd>').join('')+
+        [['Nome completo',c.fullName],['Identificador TSE',c.tseCandidateId],['Federação',c.federation],['Coligação',c.coalition],['Composição da coligação',c.coalitionParties],['Gênero declarado',c.gender],['Escolaridade',c.education],['Ocupação',c.occupation],['Idade na posse',c.ageAtTakingOffice],['Situação da candidatura',c.registrationStatus],['Votos nominais totais',c.votesNominal],['Votos não contados como válidos',c.votesNotCountedValid],['Destinação de votos',Array.isArray(c.voteDestinations)?c.voteDestinations.join(', '):null]].filter(x=>x[1]!=null).map(([a,b])=>'<dt>'+esc(a)+'</dt><dd>'+esc(b)+'</dd>').join('')+
         '<dt>Votos por zona eleitoral</dt><dd>'+esc((c.zones||[]).map(z=>'Zona '+z.zone+': '+fmt(z.votes)).join(' · ')||'Indisponível')+'</dd></dl></details></td></tr>'
       ).join('')+'</tbody></table></div>';
   };

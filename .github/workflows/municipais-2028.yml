@@ -27,5 +27,9 @@ jobs:
           node --check scripts/check_municipais_2028.js
       - name: Validate municipal 2028 data model and UI
         run: node scripts/check_municipais_2028.js
+      - name: Inspect real historical TSE archive schemas (temporary research)
+        continue-on-error: true
+        timeout-minutes: 18
+        run: python3 -u scripts/diagnose_tse_municipal_6cycles.py
       - name: Confirm 2026 remains compatible
         run: python3 scripts/check_frontend.py

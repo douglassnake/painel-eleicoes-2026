@@ -30,25 +30,26 @@
           },
           "mayorCandidateCount": 2,
           "councilCandidateCount": 30,
-          "councilElectedCount": 8,
+          "councilElectedCount": 9,
           "councilParties": {
             "PDT": 1,
             "PP": 1,
             "PRTB": 1,
-            "PSDB": 3,
+            "PSDB": 4,
             "PTB": 2
           },
-          "councilLowestElectedVotes": 199,
-          "councilHighestNonElectedVotes": 175,
+          "councilLowestElectedVotes": 175,
+          "councilHighestNonElectedVotes": 166,
           "councilNonElectedOutpolledElected": false,
           "councilElectedByStatus": {
-            "ELEITO": 8
+            "ELEITO": 8,
+            "MÉDIA": 1
           },
           "councilGenderElected": {
-            "MASCULINO": 8
+            "MASCULINO": 9
           },
           "councilEducationElected": {
-            "FUNDAMENTAL INCOMPLETO": 1,
+            "FUNDAMENTAL INCOMPLETO": 2,
             "MÉDIO COMPLETO": 3,
             "MÉDIO INCOMPLETO": 1,
             "SUPERIOR COMPLETO": 3
@@ -69,29 +70,30 @@
           },
           "mayorCandidateCount": 2,
           "councilCandidateCount": 34,
-          "councilElectedCount": 8,
+          "councilElectedCount": 9,
           "councilParties": {
             "PMDB": 3,
             "PP": 1,
             "PRTB": 1,
-            "PSDB": 2,
+            "PSDB": 3,
             "PTB": 1
           },
-          "councilLowestElectedVotes": 161,
+          "councilLowestElectedVotes": 152,
           "councilHighestNonElectedVotes": 212,
           "councilNonElectedOutpolledElected": true,
           "councilElectedByStatus": {
-            "ELEITO": 8
+            "ELEITO": 8,
+            "MÉDIA": 1
           },
           "councilGenderElected": {
-            "MASCULINO": 8
+            "MASCULINO": 9
           },
           "councilEducationElected": {
             "ENSINO FUNDAMENTAL COMPLETO": 1,
             "ENSINO FUNDAMENTAL INCOMPLETO": 2,
             "ENSINO MÉDIO COMPLETO": 2,
             "ENSINO MÉDIO INCOMPLETO": 1,
-            "SUPERIOR COMPLETO": 2
+            "SUPERIOR COMPLETO": 3
           }
         },
         {
@@ -331,10 +333,10 @@
           },
           "mayorCandidateCount": 2,
           "councilCandidateCount": 40,
-          "councilElectedCount": 8,
+          "councilElectedCount": 9,
           "councilParties": {
             "PFL": 1,
-            "PMDB": 1,
+            "PMDB": 2,
             "PP": 3,
             "PPS": 2,
             "PTB": 1
@@ -343,13 +345,15 @@
           "councilHighestNonElectedVotes": 572,
           "councilNonElectedOutpolledElected": true,
           "councilElectedByStatus": {
-            "ELEITO": 8
+            "ELEITO": 8,
+            "MÉDIA": 1
           },
           "councilGenderElected": {
             "FEMININO": 1,
-            "MASCULINO": 7
+            "MASCULINO": 8
           },
           "councilEducationElected": {
+            "FUNDAMENTAL COMPLETO": 1,
             "FUNDAMENTAL INCOMPLETO": 2,
             "MÉDIO COMPLETO": 4,
             "MÉDIO INCOMPLETO": 1
@@ -370,27 +374,28 @@
           },
           "mayorCandidateCount": 3,
           "councilCandidateCount": 57,
-          "councilElectedCount": 7,
+          "councilElectedCount": 9,
           "councilParties": {
             "DEM": 1,
             "PMDB": 2,
             "PP": 2,
-            "PSB": 1,
-            "PSDB": 1
+            "PSB": 2,
+            "PSDB": 2
           },
-          "councilLowestElectedVotes": 392,
-          "councilHighestNonElectedVotes": 530,
+          "councilLowestElectedVotes": 335,
+          "councilHighestNonElectedVotes": 489,
           "councilNonElectedOutpolledElected": true,
           "councilElectedByStatus": {
-            "ELEITO": 7
+            "ELEITO": 7,
+            "MÉDIA": 2
           },
           "councilGenderElected": {
             "FEMININO": 1,
-            "MASCULINO": 6
+            "MASCULINO": 8
           },
           "councilEducationElected": {
             "ENSINO FUNDAMENTAL INCOMPLETO": 3,
-            "ENSINO MÉDIO COMPLETO": 2,
+            "ENSINO MÉDIO COMPLETO": 4,
             "SUPERIOR COMPLETO": 1,
             "SUPERIOR INCOMPLETO": 1
           }
@@ -637,28 +642,30 @@
           },
           "mayorCandidateCount": 2,
           "councilCandidateCount": 97,
-          "councilElectedCount": 6,
+          "councilElectedCount": 10,
           "councilParties": {
             "PDT": 1,
-            "PL": 1,
-            "PMDB": 1,
+            "PL": 2,
+            "PMDB": 2,
             "PSB": 1,
             "PSDB": 1,
-            "PTB": 1
+            "PT": 1,
+            "PTB": 2
           },
-          "councilLowestElectedVotes": 1210,
-          "councilHighestNonElectedVotes": 1371,
+          "councilLowestElectedVotes": 1046,
+          "councilHighestNonElectedVotes": 1347,
           "councilNonElectedOutpolledElected": true,
           "councilElectedByStatus": {
-            "ELEITO": 6
+            "ELEITO": 6,
+            "MÉDIA": 4
           },
           "councilGenderElected": {
-            "FEMININO": 1,
-            "MASCULINO": 5
+            "FEMININO": 2,
+            "MASCULINO": 8
           },
           "councilEducationElected": {
-            "FUNDAMENTAL INCOMPLETO": 3,
-            "MÉDIO COMPLETO": 1,
+            "FUNDAMENTAL INCOMPLETO": 5,
+            "MÉDIO COMPLETO": 3,
             "SUPERIOR COMPLETO": 1
           }
         },
@@ -677,30 +684,33 @@
           },
           "mayorCandidateCount": 4,
           "councilCandidateCount": 104,
-          "councilElectedCount": 7,
+          "councilElectedCount": 10,
           "councilParties": {
-            "DEM": 1,
+            "DEM": 2,
             "PDT": 1,
             "PMDB": 1,
             "PR": 1,
+            "PSB": 1,
             "PSDB": 1,
-            "PT": 1,
+            "PT": 2,
             "PTB": 1
           },
-          "councilLowestElectedVotes": 1002,
+          "councilLowestElectedVotes": 821,
           "councilHighestNonElectedVotes": 1333,
           "councilNonElectedOutpolledElected": true,
           "councilElectedByStatus": {
-            "ELEITO": 7
+            "ELEITO": 7,
+            "MÉDIA": 3
           },
           "councilGenderElected": {
-            "MASCULINO": 7
+            "FEMININO": 1,
+            "MASCULINO": 9
           },
           "councilEducationElected": {
             "ENSINO FUNDAMENTAL INCOMPLETO": 1,
             "ENSINO MÉDIO COMPLETO": 2,
-            "ENSINO MÉDIO INCOMPLETO": 1,
-            "SUPERIOR COMPLETO": 3
+            "ENSINO MÉDIO INCOMPLETO": 2,
+            "SUPERIOR COMPLETO": 5
           }
         },
         {

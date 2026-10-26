@@ -95,7 +95,7 @@ def election_status(raw):
     return safe_field(text)
 
 def elected(status):
-    return norm(status).startswith("ELEITO")
+    return norm(status).startswith("ELEITO") or norm(status) == "MEDIA"
 
 def get_url(kind, year):
     if year not in YEARS or kind not in ("consulta_cand", "votacao_candidato_munzona"):
@@ -216,6 +216,7 @@ def extract(year, out_dir):
                         "ballotName": safe_field(row.get("NM_URNA_CANDIDATO")),
                         "fullName": safe_field(row.get("NM_CANDIDATO")),
                         "party": safe_field(row.get("SG_PARTIDO")),
+                        "voteDestinations": [],
                         "office": office, "city": city,
                     })
                     total = int_or_zero(row.get("QT_VOTOS_NOMINAIS"))
@@ -225,6 +226,9 @@ def extract(year, out_dir):
                     zone = str(row.get("NR_ZONA", "")).strip()
                     vote_group["votes"] += valid
                     vote_group["votesNominal"] += total
+                    destination = safe_field(row.get("NM_TIPO_DESTINACAO_VOTOS"))
+                    if destination and destination not in vote_group["voteDestinations"]:
+                        vote_group["voteDestinations"].append(destination)
                     existing_zone = vote_group["zones"].setdefault(zone, {"zone": zone, "votes": 0, "nominal": 0})
                     existing_zone["votes"] += valid
                     existing_zone["nominal"] += total
@@ -258,6 +262,8 @@ def extract(year, out_dir):
         record["status"] = group["status"] or record["status"]
         record["votes"] = group["votes"]
         record["votesNominal"] = group["votesNominal"]
+        record["votesNotCountedValid"] = group["votesNominal"] - group["votes"]
+        record["voteDestinations"] = group["voteDestinations"]
         record["zones"] = sorted(group["zones"].values(), key=lambda row: row["zone"])
         if not record.get("ballotName"):
             record["ballotName"] = group["ballotName"]

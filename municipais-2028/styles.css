@@ -70,3 +70,24 @@ th{color:#b3cadd}
 .footer p{max-width:600px}
 @media(max-width:950px){.hero{grid-template-columns:1fr;gap:28px}.workspace{grid-template-columns:1fr;gap:20px}.sidebar{position:static}.sections{grid-template-columns:repeat(3,minmax(0,1fr))}.dashboard-grid{grid-template-columns:1fr}.source-grid{grid-template-columns:1fr}}
 @media(max-width:560px){.header{padding:17px 0 30px}.header-top{align-items:start}.archive-link{max-width:120px;font-size:11px;text-align:center}.hero{margin-top:35px}.election-dates{padding:23px}.workspace{padding-top:22px}.sections{grid-template-columns:repeat(2,minmax(0,1fr))}.sections button{font-size:12px}.status-rows>span{display:block}.status-rows small{text-align:left;display:block;margin-top:5px}.footer{display:block}h1{font-size:40px}}
+
+.historic-highlights{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:0 0 23px}
+.historic-highlights article{border:1px solid #345269;border-radius:14px;background:#13263b;padding:20px}
+.historic-highlights span{display:block;font-size:11px;line-height:1.5;letter-spacing:.7px;color:#8adcd7;font-weight:800}
+.historic-highlights strong{display:block;font-size:36px;margin:11px 0;color:#f2f7fb}
+.historic-highlights small{color:#a8bece;line-height:1.6}
+.history-explorer{border-top:1px solid #304456;margin-top:26px;padding-top:20px}
+.history-explorer h3{font-size:23px}
+.history-controls{display:grid;grid-template-columns:120px 120px minmax(170px,1fr) 140px;gap:12px;margin:21px 0}
+.history-controls label{font-size:12px;font-weight:700;color:#c1d3e1;display:flex;flex-direction:column;gap:9px}
+.history-controls select,.history-controls input[type="search"]{width:100%;padding:12px;border-radius:8px;border:1px solid #436075;background:#1b3043;color:#edf4f9;font-size:13px}
+.history-controls .checkbox-label{display:flex;align-items:start;justify-content:center;flex-direction:row;gap:7px;line-height:1.5;padding-top:20px}
+.history-controls input[type="checkbox"]{accent-color:#6ed7c2}
+.candidate-full-name{display:block;color:#90a7b9;line-height:1.7;font-size:11px}
+.candidate-details{min-width:210px;max-width:390px;display:grid;grid-template-columns:minmax(70px,1fr) 1.4fr;gap:8px;font-size:11px;line-height:1.5}
+.candidate-details dt{color:#8cd1c8}
+.candidate-details dd{margin:0;overflow-wrap:anywhere}
+details summary{cursor:pointer;color:#a2e4db;font-size:12px}
+.elected-flag{background:#1f4b4d;padding:4px 7px;border-radius:5px;color:#c6f5eb}
+@media(max-width:1050px){.history-controls{grid-template-columns:1fr 1fr}.historic-highlights{grid-template-columns:1fr}}
+@media(max-width:560px){.history-controls{grid-template-columns:1fr 1fr}.candidate-details{min-width:200px}}

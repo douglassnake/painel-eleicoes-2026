@@ -1,0 +1,72 @@
+:root{color-scheme:dark;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;background:#0a101b;color:#edf2f8}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:radial-gradient(ellipse 60% 28% at 70% 0%,#21455a50,transparent),#0a101b}
+a{color:#7ed5d4}
+button,select{font:inherit}
+button:focus-visible,select:focus-visible,a:focus-visible{outline:3px solid #7ee3d8;outline-offset:3px}
+.skip-link{position:absolute;left:-9999px;top:8px;z-index:5;padding:12px;background:#fff;color:#081522}.skip-link:focus{left:10px}
+.page-shell{max-width:1480px;margin:0 auto;padding:0 clamp(16px,3vw,46px)}
+.header{padding:30px 0 36px;border-bottom:1px solid #26374b}
+.header-top{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand{color:#f3f6fa;display:flex;align-items:center;gap:12px;text-decoration:none;font-size:12px;letter-spacing:1.8px;line-height:1.4}
+.brand strong{display:block;font-size:15px;letter-spacing:2px}
+.brand small{display:block;color:#8b9fb2;letter-spacing:.2px;font-size:11px}
+.brand-mark{background:#133c48;border:1px solid #326777;border-radius:12px;color:#8decdd;display:grid;place-items:center;height:46px;width:46px;font-size:17px;font-weight:900}
+.archive-link{padding:11px 16px;border:1px solid #415468;border-radius:999px;font-size:13px;text-decoration:none;color:#cce3e6}
+.hero{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(310px,.65fr);align-items:center;gap:50px;margin-top:58px}
+.eyebrow{color:#90e9d7;font-size:12px;letter-spacing:2px;font-weight:800}
+.pulse{display:inline-block;width:7px;height:7px;border-radius:50%;background:#78e2ca;margin-right:8px}
+h1{font-size:clamp(38px,5.1vw,76px);letter-spacing:-.055em;line-height:1.06;margin:22px 0 24px;font-weight:800}
+h1 em{font-style:normal;color:#86e3d2}
+.hero-description{font-size:clamp(16px,1.6vw,20px);color:#bbcbda;line-height:1.6;max-width:650px}
+.verification{font-size:12px;color:#819bb0;margin-top:22px}
+.election-dates{background:#132033;border:1px solid #2b4257;border-radius:20px;padding:30px;box-shadow:0 18px 60px #0003}
+.election-dates>div{padding:0 0 22px;margin:0 0 22px;border-bottom:1px solid #304254}
+.election-dates>div:last-of-type{border:0;padding:0;margin:0}
+.election-dates span,.sidebar-bottom span{display:block;color:#8cc8ca;font-weight:800;font-size:11px;letter-spacing:1.5px;margin-bottom:11px}
+.election-dates strong{display:block;font-size:clamp(17px,2vw,24px);letter-spacing:-.5px}
+.election-dates small{display:block;color:#a5b9c9;margin-top:8px}
+.election-dates>p{color:#879eae;font-size:11px;line-height:1.6;margin-top:23px}
+.workspace{display:grid;grid-template-columns:275px minmax(0,1fr);gap:34px;padding:38px 0 55px}
+.sidebar{align-self:start;position:sticky;top:16px;border:1px solid #2e4052;background:#101c2a;border-radius:16px;padding:20px}
+.sidebar label{display:block;font-size:12px;font-weight:800;color:#c2d4e0;margin-bottom:10px}
+.sidebar select{width:100%;background:#192c40;color:#f3f6fa;padding:13px;border:1px solid #456072;border-radius:9px}
+.scope{font-size:11px;color:#8da5b7;line-height:1.55;margin:12px 0 22px}
+.sections{display:grid;gap:7px}
+.sections button{text-align:left;background:transparent;color:#b7c8d7;padding:12px 14px;border:1px solid transparent;border-radius:9px;cursor:pointer}
+.sections button:hover{background:#23364a}
+.sections button.selected{background:#183e4b;border-color:#368b91;color:#a5f0e5;font-weight:700}
+.sidebar-bottom{border-top:1px solid #2f4050;margin-top:28px;padding-top:23px}
+.sidebar-bottom strong{display:block;font-size:17px}
+.sidebar-bottom small{color:#8ba7b9;display:block;margin-top:9px}
+.content{min-height:450px}
+.section-header{margin-bottom:26px}
+.section-header>p{margin:0 0 12px;color:#85d7cb;letter-spacing:1.5px;font-size:12px;font-weight:800}
+.section-header h2{font-size:clamp(28px,3vw,42px);letter-spacing:-.035em;margin:0 0 11px}
+.section-header>span{font-size:14px;color:#9cb1c3;line-height:1.6}
+.dashboard-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}
+.info-card,.data-status,.history-block{background:#122133;border:1px solid #2c4154;border-radius:15px;padding:23px}
+.info-card h3,.data-status h3,.history-block h3{font-size:19px;margin:10px 0 13px}
+.info-card p{font-size:14px;color:#b0c1d0;line-height:1.7;margin:0 0 15px}
+.info-card a{font-size:13px}
+.info-card .eyebrow{font-size:11px}
+.data-status{margin-top:18px}
+.status-rows{display:grid;gap:10px}
+.status-rows>span{display:flex;justify-content:space-between;gap:12px;border-top:1px solid #2f4459;padding-top:12px}
+.status-rows b{font-size:14px}
+.status-rows small{font-size:12px;color:#a5b8c9;text-align:right}
+.empty-state{background:#122133;border:1px dashed #446075;border-radius:15px;padding:30px 26px}
+.empty-state strong{font-size:18px}
+.empty-state p{color:#a5bccc;line-height:1.6;max-width:640px}
+.history-block{margin-bottom:17px}
+.history-block>.empty-state{background:#101b29}
+.footnote{font-size:12px;color:#a4b5c5;line-height:1.7;margin:20px 0}
+.source-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.table-scroller{overflow-x:auto}
+table{border-collapse:collapse;min-width:650px;width:100%}
+th,td{text-align:left;padding:12px;border-bottom:1px solid #334658;font-size:13px}
+th{color:#b3cadd}
+.footer{border-top:1px solid #283949;padding:23px 0 36px;display:flex;justify-content:space-between;gap:40px;font-size:12px;line-height:1.7;color:#8299aa}
+.footer p{max-width:600px}
+@media(max-width:950px){.hero{grid-template-columns:1fr;gap:28px}.workspace{grid-template-columns:1fr;gap:20px}.sidebar{position:static}.sections{grid-template-columns:repeat(3,minmax(0,1fr))}.dashboard-grid{grid-template-columns:1fr}.source-grid{grid-template-columns:1fr}}
+@media(max-width:560px){.header{padding:17px 0 30px}.header-top{align-items:start}.archive-link{max-width:120px;font-size:11px;text-align:center}.hero{margin-top:35px}.election-dates{padding:23px}.workspace{padding-top:22px}.sections{grid-template-columns:repeat(2,minmax(0,1fr))}.sections button{font-size:12px}.status-rows>span{display:block}.status-rows small{text-align:left;display:block;margin-top:5px}.footer{display:block}h1{font-size:40px}}

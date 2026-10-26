@@ -61,10 +61,9 @@
       '<div class="dashboard-grid">' +
       '<article class="info-card"><span class="eyebrow">EXECUTIVO MUNICIPAL</span><h3>Prefeito e vice-prefeito</h3><p>Eleição majoritária. A possibilidade de segundo turno depende do eleitorado e do resultado do primeiro turno.</p></article>' +
       '<article class="info-card"><span class="eyebrow">LEGISLATIVO MUNICIPAL</span><h3>Vereadores</h3><p>Eleição proporcional: a distribuição das cadeiras considera a votação dos partidos e federações, além das regras legais.</p></article>' +
-      '<article class="info-card"><span class="eyebrow">SÉRIE HISTÓRICA</span><h3>2020 → 2024 → 2028</h3><p>Importação prevista de votos oficiais por candidato, partido, município e zona, sem misturar pesquisas com resultados.</p></article>' +
+      '<article class="info-card"><span class="eyebrow">SÉRIE HISTÓRICA</span><h3>2004 → 2024 → 2028</h3><p>Seis eleições municipais históricas já coletadas e auditadas, com todos os candidatos a prefeito e vereador e seus votos por zona.</p></article>' +
       '</div><div class="data-status"><h3>Situação das bases eleitorais</h3><div class="status-rows">' +
-      '<span><b>2020</b><small>Aguardando importação oficial do TSE</small></span>' +
-      '<span><b>2024</b><small>Aguardando importação oficial do TSE</small></span>' +
+      '<span><b>2004–2024</b><small>Dados oficiais disponíveis na seção Histórico, com identificação dos eleitos e fontes</small></span>' +
       '<span><b>2028</b><small>Eleição futura: não existem resultados apurados</small></span></div></div>';
   }
 

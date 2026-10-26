@@ -34,7 +34,7 @@ def make_zip(kind,year):
         ):
             writer.writerow({
                 "SG_UF":"MG","SG_UE":code,"NM_UE":city["name"],"CD_MUNICIPIO":code,
-                "NM_MUNICIPIO":city["name"],"NR_TURNO":"1","CD_TIPO_ELEICAO":"1",
+                "NM_MUNICIPIO":city["name"],"NR_TURNO":"1","CD_TIPO_ELEICAO":"2",
                 "DS_ELEICAO":"Eleições Municipais","CD_CARGO":office,
                 "DS_CARGO":"Prefeito" if office=="11" else "Vereador",
                 "SQ_CANDIDATO":str(sq),"NR_CANDIDATO":str(100+sq),
@@ -56,9 +56,9 @@ def fake_download(kind,year):
     return store,{"url":mod.get_url(kind,year),"sha256":hashlib.sha256(data).hexdigest(),"bytes":len(data)}
 
 def main():
-    assert mod.ordinary({"NR_TURNO":"1","CD_TIPO_ELEICAO":"1"})
-    assert not mod.ordinary({"NR_TURNO":"2","CD_TIPO_ELEICAO":"1"})
-    assert not mod.ordinary({"NR_TURNO":"1","CD_TIPO_ELEICAO":"2"})
+    assert mod.ordinary({"NR_TURNO":"1","CD_TIPO_ELEICAO":"2"})
+    assert not mod.ordinary({"NR_TURNO":"2","CD_TIPO_ELEICAO":"2"})
+    assert not mod.ordinary({"NR_TURNO":"1","CD_TIPO_ELEICAO":"1"})
     assert mod.norm("Guarda-Mor")=="GUARDAMOR"
     assert mod.city_code({"SG_UF":"MG","SG_UE":"45713","NM_UE":"Guarda-Mor"})=="45713"
     assert mod.elected("ELEITO POR MÉDIA")

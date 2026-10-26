@@ -14,7 +14,7 @@ def canonical(name):
     return re.sub(r"[^A-Z0-9]","",''.join(ch for ch in value if not unicodedata.combining(ch)).upper())
 
 def is_elected(status):
-    return canonical(status).startswith("ELEITO")
+    return canonical(status).startswith("ELEITO") or canonical(status)=="MEDIA"
 
 def safe_ratio(n,d):
     return round(100*n/d,2) if d>0 else None

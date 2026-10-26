@@ -1,0 +1,960 @@
+{
+  "schemaVersion": 1,
+  "source": "TSE / resultado oficial; análise descritiva não preditiva",
+  "sourceYears": [
+    2004,
+    2008,
+    2012,
+    2016,
+    2020,
+    2024
+  ],
+  "municipalities": [
+    {
+      "ibge": "3128600",
+      "name": "Guarda-Mor",
+      "uf": "MG",
+      "cycles": [
+        {
+          "year": 2004,
+          "mayor": {
+            "candidateId": "21",
+            "fullName": "CLÊNIO ANTÔNIO DE RESENDE",
+            "ballotName": "DOUTOR CLÊNIO",
+            "party": "PSDB",
+            "votes": 2225,
+            "shareValidPct": 51.58,
+            "runnerUpVotes": 2089,
+            "marginVotes": 136,
+            "hasOpponent": true
+          },
+          "mayorCandidateCount": 2,
+          "councilCandidateCount": 30,
+          "councilElectedCount": 8,
+          "councilParties": {
+            "PDT": 1,
+            "PP": 1,
+            "PRTB": 1,
+            "PSDB": 3,
+            "PTB": 2
+          },
+          "councilLowestElectedVotes": 199,
+          "councilHighestNonElectedVotes": 175,
+          "councilNonElectedOutpolledElected": false,
+          "councilElectedByStatus": {
+            "ELEITO": 8
+          },
+          "councilGenderElected": {
+            "MASCULINO": 8
+          },
+          "councilEducationElected": {
+            "FUNDAMENTAL INCOMPLETO": 1,
+            "MÉDIO COMPLETO": 3,
+            "MÉDIO INCOMPLETO": 1,
+            "SUPERIOR COMPLETO": 3
+          }
+        },
+        {
+          "year": 2008,
+          "mayor": {
+            "candidateId": "22078",
+            "fullName": "GILMAR FERREIRA DOS SANTOS",
+            "ballotName": "GILMAR DA COOPERATIVA",
+            "party": "PMDB",
+            "votes": 2721,
+            "shareValidPct": 60.97,
+            "runnerUpVotes": 1742,
+            "marginVotes": 979,
+            "hasOpponent": true
+          },
+          "mayorCandidateCount": 2,
+          "councilCandidateCount": 34,
+          "councilElectedCount": 8,
+          "councilParties": {
+            "PMDB": 3,
+            "PP": 1,
+            "PRTB": 1,
+            "PSDB": 2,
+            "PTB": 1
+          },
+          "councilLowestElectedVotes": 161,
+          "councilHighestNonElectedVotes": 212,
+          "councilNonElectedOutpolledElected": true,
+          "councilElectedByStatus": {
+            "ELEITO": 8
+          },
+          "councilGenderElected": {
+            "MASCULINO": 8
+          },
+          "councilEducationElected": {
+            "ENSINO FUNDAMENTAL COMPLETO": 1,
+            "ENSINO FUNDAMENTAL INCOMPLETO": 2,
+            "ENSINO MÉDIO COMPLETO": 2,
+            "ENSINO MÉDIO INCOMPLETO": 1,
+            "SUPERIOR COMPLETO": 2
+          }
+        },
+        {
+          "year": 2012,
+          "mayor": {
+            "candidateId": "130000023554",
+            "fullName": "EDGAR JOSÉ DE LIMA",
+            "ballotName": "EDGAR",
+            "party": "PSDB",
+            "votes": 2462,
+            "shareValidPct": 50.67,
+            "runnerUpVotes": 2397,
+            "marginVotes": 65,
+            "hasOpponent": true
+          },
+          "mayorCandidateCount": 2,
+          "councilCandidateCount": 34,
+          "councilElectedCount": 9,
+          "councilParties": {
+            "PDT": 1,
+            "PMDB": 3,
+            "PSDB": 3,
+            "PT": 1,
+            "PTB": 1
+          },
+          "councilLowestElectedVotes": 173,
+          "councilHighestNonElectedVotes": 164,
+          "councilNonElectedOutpolledElected": false,
+          "councilElectedByStatus": {
+            "ELEITO POR MÉDIA": 1,
+            "ELEITO POR QP": 8
+          },
+          "councilGenderElected": {
+            "MASCULINO": 9
+          },
+          "councilEducationElected": {
+            "ENSINO FUNDAMENTAL COMPLETO": 2,
+            "ENSINO FUNDAMENTAL INCOMPLETO": 2,
+            "ENSINO MÉDIO COMPLETO": 1,
+            "SUPERIOR COMPLETO": 3,
+            "SUPERIOR INCOMPLETO": 1
+          }
+        },
+        {
+          "year": 2016,
+          "mayor": {
+            "candidateId": "130000022027",
+            "fullName": "EDGAR JOSÉ DE LIMA",
+            "ballotName": "EDGAR",
+            "party": "PSDB",
+            "votes": 3752,
+            "shareValidPct": 100.0,
+            "runnerUpVotes": 0,
+            "marginVotes": 3752,
+            "hasOpponent": false
+          },
+          "mayorCandidateCount": 1,
+          "councilCandidateCount": 34,
+          "councilElectedCount": 9,
+          "councilParties": {
+            "PATRIOTA": 1,
+            "PMDB": 2,
+            "PSDB": 5,
+            "PT": 1
+          },
+          "councilLowestElectedVotes": 185,
+          "councilHighestNonElectedVotes": 183,
+          "councilNonElectedOutpolledElected": false,
+          "councilElectedByStatus": {
+            "ELEITO POR MÉDIA": 1,
+            "ELEITO POR QP": 8
+          },
+          "councilGenderElected": {
+            "FEMININO": 1,
+            "MASCULINO": 8
+          },
+          "councilEducationElected": {
+            "ENSINO FUNDAMENTAL COMPLETO": 2,
+            "ENSINO FUNDAMENTAL INCOMPLETO": 1,
+            "ENSINO MÉDIO COMPLETO": 1,
+            "ENSINO MÉDIO INCOMPLETO": 2,
+            "SUPERIOR COMPLETO": 3
+          }
+        },
+        {
+          "year": 2020,
+          "mayor": {
+            "candidateId": "130000891141",
+            "fullName": "JOSÉ DIAS DE OLIVEIRA",
+            "ballotName": "ZÉ BETIO",
+            "party": "PSDB",
+            "votes": 2882,
+            "shareValidPct": 63.19,
+            "runnerUpVotes": 1052,
+            "marginVotes": 1830,
+            "hasOpponent": true
+          },
+          "mayorCandidateCount": 3,
+          "councilCandidateCount": 55,
+          "councilElectedCount": 9,
+          "councilParties": {
+            "PL": 3,
+            "PSDB": 3,
+            "PSL": 2,
+            "PTB": 1
+          },
+          "councilLowestElectedVotes": 134,
+          "councilHighestNonElectedVotes": 159,
+          "councilNonElectedOutpolledElected": true,
+          "councilElectedByStatus": {
+            "ELEITO POR MÉDIA": 4,
+            "ELEITO POR QP": 5
+          },
+          "councilGenderElected": {
+            "MASCULINO": 9
+          },
+          "councilEducationElected": {
+            "ENSINO FUNDAMENTAL INCOMPLETO": 4,
+            "ENSINO MÉDIO COMPLETO": 3,
+            "ENSINO MÉDIO INCOMPLETO": 1,
+            "SUPERIOR INCOMPLETO": 1
+          }
+        },
+        {
+          "year": 2024,
+          "mayor": {
+            "candidateId": "130002227674",
+            "fullName": "JOSÉ DIAS DE OLIVEIRA",
+            "ballotName": "ZÉ BETIO",
+            "party": "PSD",
+            "votes": 2576,
+            "shareValidPct": 48.34,
+            "runnerUpVotes": 1095,
+            "marginVotes": 1481,
+            "hasOpponent": true
+          },
+          "mayorCandidateCount": 4,
+          "councilCandidateCount": 86,
+          "councilElectedCount": 9,
+          "councilParties": {
+            "NOVO": 1,
+            "PL": 2,
+            "PP": 1,
+            "PSB": 2,
+            "PSD": 3
+          },
+          "councilLowestElectedVotes": 115,
+          "councilHighestNonElectedVotes": 166,
+          "councilNonElectedOutpolledElected": true,
+          "councilElectedByStatus": {
+            "ELEITO POR MÉDIA": 5,
+            "ELEITO POR QP": 4
+          },
+          "councilGenderElected": {
+            "FEMININO": 2,
+            "MASCULINO": 7
+          },
+          "councilEducationElected": {
+            "ENSINO MÉDIO COMPLETO": 2,
+            "SUPERIOR COMPLETO": 3,
+            "SUPERIOR INCOMPLETO": 4
+          }
+        }
+      ],
+      "historicalPatterns": {
+        "consecutiveMayorWinnerSameFullName": 2,
+        "consecutiveMayorWinnerSameParty": 2,
+        "mayorWinnerSameNamePairs": [
+          {
+            "from": 2004,
+            "to": 2008,
+            "sameFullName": false,
+            "sameParty": false,
+            "partyBefore": "PSDB",
+            "partyAfter": "PMDB",
+            "winnerMarginShiftVotes": 843
+          },
+          {
+            "from": 2008,
+            "to": 2012,
+            "sameFullName": false,
+            "sameParty": false,
+            "partyBefore": "PMDB",
+            "partyAfter": "PSDB",
+            "winnerMarginShiftVotes": -914
+          },
+          {
+            "from": 2012,
+            "to": 2016,
+            "sameFullName": true,
+            "sameParty": true,
+            "partyBefore": "PSDB",
+            "partyAfter": "PSDB",
+            "winnerMarginShiftVotes": 3687
+          },
+          {
+            "from": 2016,
+            "to": 2020,
+            "sameFullName": false,
+            "sameParty": true,
+            "partyBefore": "PSDB",
+            "partyAfter": "PSDB",
+            "winnerMarginShiftVotes": -1922
+          },
+          {
+            "from": 2020,
+            "to": 2024,
+            "sameFullName": true,
+            "sameParty": false,
+            "partyBefore": "PSDB",
+            "partyAfter": "PSD",
+            "winnerMarginShiftVotes": -349
+          }
+        ],
+        "councilNonElectedOutpolledElectedCycles": 3,
+        "uncontestedMayorCycles": 1,
+        "averageMayorWinningVoteSharePct": 62.46
+      }
+    },
+    {
+      "ibge": "3171006",
+      "name": "Vazante",
+      "uf": "MG",
+      "cycles": [
+        {
+          "year": 2004,
+          "mayor": {
+            "candidateId": "16",
+            "fullName": "JACQUES SOARES GUIMARÃES",
+            "ballotName": "DR JACQUES",
+            "party": "PP",
+            "votes": 8421,
+            "shareValidPct": 67.58,
+            "runnerUpVotes": 4039,
+            "marginVotes": 4382,
+            "hasOpponent": true
+          },
+          "mayorCandidateCount": 2,
+          "councilCandidateCount": 40,
+          "councilElectedCount": 8,
+          "councilParties": {
+            "PFL": 1,
+            "PMDB": 1,
+            "PP": 3,
+            "PPS": 2,
+            "PTB": 1
+          },
+          "councilLowestElectedVotes": 393,
+          "councilHighestNonElectedVotes": 572,
+          "councilNonElectedOutpolledElected": true,
+          "councilElectedByStatus": {
+            "ELEITO": 8
+          },
+          "councilGenderElected": {
+            "FEMININO": 1,
+            "MASCULINO": 7
+          },
+          "councilEducationElected": {
+            "FUNDAMENTAL INCOMPLETO": 2,
+            "MÉDIO COMPLETO": 4,
+            "MÉDIO INCOMPLETO": 1
+          }
+        },
+        {
+          "year": 2008,
+          "mayor": {
+            "candidateId": "55452",
+            "fullName": "ORLANDO CAIXETA FIALHO",
+            "ballotName": "ORLANDO FIALHO",
+            "party": "PP",
+            "votes": 6450,
+            "shareValidPct": 52.22,
+            "runnerUpVotes": 5901,
+            "marginVotes": 549,
+            "hasOpponent": true
+          },
+          "mayorCandidateCount": 3,
+          "councilCandidateCount": 57,
+          "councilElectedCount": 7,
+          "councilParties": {
+            "DEM": 1,
+            "PMDB": 2,
+            "PP": 2,
+            "PSB": 1,
+            "PSDB": 1
+          },
+          "councilLowestElectedVotes": 392,
+          "councilHighestNonElectedVotes": 530,
+          "councilNonElectedOutpolledElected": true,
+          "councilElectedByStatus": {
+            "ELEITO": 7
+          },
+          "councilGenderElected": {
+            "FEMININO": 1,
+            "MASCULINO": 6
+          },
+          "councilEducationElected": {
+            "ENSINO FUNDAMENTAL INCOMPLETO": 3,
+            "ENSINO MÉDIO COMPLETO": 2,
+            "SUPERIOR COMPLETO": 1,
+            "SUPERIOR INCOMPLETO": 1
+          }
+        },
+        {
+          "year": 2012,
+          "mayor": {
+            "candidateId": "130000044812",
+            "fullName": "JOSE BENEDITO DOS REIS CALCADO",
+            "ballotName": "DR. JOSE BENEDITO",
+            "party": "PHS",
+            "votes": 6719,
+            "shareValidPct": 51.78,
+            "runnerUpVotes": 6256,
+            "marginVotes": 463,
+            "hasOpponent": true
+          },
+          "mayorCandidateCount": 2,
+          "councilCandidateCount": 113,
+          "councilElectedCount": 11,
+          "councilParties": {
+            "DEM": 1,
+            "PMDB": 2,
+            "PRB": 1,
+            "PSB": 3,
+            "PSD": 3,
+            "PSDB": 1
+          },
+          "councilLowestElectedVotes": 337,
+          "councilHighestNonElectedVotes": 436,
+          "councilNonElectedOutpolledElected": true,
+          "councilElectedByStatus": {
+            "ELEITO POR MÉDIA": 4,
+            "ELEITO POR QP": 7
+          },
+          "councilGenderElected": {
+            "FEMININO": 1,
+            "MASCULINO": 10
+          },
+          "councilEducationElected": {
+            "ENSINO FUNDAMENTAL COMPLETO": 1,
+            "ENSINO FUNDAMENTAL INCOMPLETO": 4,
+            "ENSINO MÉDIO COMPLETO": 4,
+            "SUPERIOR COMPLETO": 2
+          }
+        },
+        {
+          "year": 2016,
+          "mayor": {
+            "candidateId": "130000060820",
+            "fullName": "JACQUES SOARES GUIMARAES",
+            "ballotName": "JACQUES SOARES GUIMARÃES",
+            "party": "PSD",
+            "votes": 7860,
+            "shareValidPct": 58.22,
+            "runnerUpVotes": 5641,
+            "marginVotes": 2219,
+            "hasOpponent": true
+          },
+          "mayorCandidateCount": 2,
+          "councilCandidateCount": 85,
+          "councilElectedCount": 11,
+          "councilParties": {
+            "PMDB": 2,
+            "PP": 1,
+            "PPS": 2,
+            "PRTB": 1,
+            "PSB": 1,
+            "PSD": 3,
+            "PT do B": 1
+          },
+          "councilLowestElectedVotes": 320,
+          "councilHighestNonElectedVotes": 425,
+          "councilNonElectedOutpolledElected": true,
+          "councilElectedByStatus": {
+            "ELEITO POR MÉDIA": 1,
+            "ELEITO POR QP": 10
+          },
+          "councilGenderElected": {
+            "MASCULINO": 11
+          },
+          "councilEducationElected": {
+            "ENSINO FUNDAMENTAL COMPLETO": 1,
+            "ENSINO FUNDAMENTAL INCOMPLETO": 3,
+            "ENSINO MÉDIO COMPLETO": 3,
+            "SUPERIOR COMPLETO": 4
+          }
+        },
+        {
+          "year": 2020,
+          "mayor": {
+            "candidateId": "130000962295",
+            "fullName": "JACQUES SOARES GUIMARÃES",
+            "ballotName": "JACQUES SOARES GUIMARÃES",
+            "party": "PSD",
+            "votes": 7742,
+            "shareValidPct": 64.28,
+            "runnerUpVotes": 4303,
+            "marginVotes": 3439,
+            "hasOpponent": true
+          },
+          "mayorCandidateCount": 2,
+          "councilCandidateCount": 101,
+          "councilElectedCount": 11,
+          "councilParties": {
+            "AVANTE": 3,
+            "CIDADANIA": 1,
+            "PATRIOTA": 1,
+            "PSD": 4,
+            "PSDB": 1,
+            "PV": 1
+          },
+          "councilLowestElectedVotes": 207,
+          "councilHighestNonElectedVotes": 391,
+          "councilNonElectedOutpolledElected": true,
+          "councilElectedByStatus": {
+            "ELEITO POR MÉDIA": 4,
+            "ELEITO POR QP": 7
+          },
+          "councilGenderElected": {
+            "FEMININO": 1,
+            "MASCULINO": 10
+          },
+          "councilEducationElected": {
+            "ENSINO FUNDAMENTAL COMPLETO": 1,
+            "ENSINO FUNDAMENTAL INCOMPLETO": 1,
+            "ENSINO MÉDIO COMPLETO": 4,
+            "SUPERIOR COMPLETO": 5
+          }
+        },
+        {
+          "year": 2024,
+          "mayor": {
+            "candidateId": "130002271020",
+            "fullName": "GABRIEL AFRANIO ROSA DE FARIA BARRA",
+            "ballotName": "GABRIEL ROSA",
+            "party": "PSD",
+            "votes": 9487,
+            "shareValidPct": 85.38,
+            "runnerUpVotes": 1624,
+            "marginVotes": 7863,
+            "hasOpponent": true
+          },
+          "mayorCandidateCount": 4,
+          "councilCandidateCount": 93,
+          "councilElectedCount": 11,
+          "councilParties": {
+            "PODE": 2,
+            "PP": 1,
+            "PSD": 4,
+            "REPUBLICANOS": 1,
+            "UNIÃO": 3
+          },
+          "councilLowestElectedVotes": 289,
+          "councilHighestNonElectedVotes": 333,
+          "councilNonElectedOutpolledElected": true,
+          "councilElectedByStatus": {
+            "ELEITO POR MÉDIA": 3,
+            "ELEITO POR QP": 8
+          },
+          "councilGenderElected": {
+            "FEMININO": 1,
+            "MASCULINO": 10
+          },
+          "councilEducationElected": {
+            "ENSINO MÉDIO COMPLETO": 5,
+            "ENSINO MÉDIO INCOMPLETO": 1,
+            "SUPERIOR COMPLETO": 5
+          }
+        }
+      ],
+      "historicalPatterns": {
+        "consecutiveMayorWinnerSameFullName": 1,
+        "consecutiveMayorWinnerSameParty": 3,
+        "mayorWinnerSameNamePairs": [
+          {
+            "from": 2004,
+            "to": 2008,
+            "sameFullName": false,
+            "sameParty": true,
+            "partyBefore": "PP",
+            "partyAfter": "PP",
+            "winnerMarginShiftVotes": -3833
+          },
+          {
+            "from": 2008,
+            "to": 2012,
+            "sameFullName": false,
+            "sameParty": false,
+            "partyBefore": "PP",
+            "partyAfter": "PHS",
+            "winnerMarginShiftVotes": -86
+          },
+          {
+            "from": 2012,
+            "to": 2016,
+            "sameFullName": false,
+            "sameParty": false,
+            "partyBefore": "PHS",
+            "partyAfter": "PSD",
+            "winnerMarginShiftVotes": 1756
+          },
+          {
+            "from": 2016,
+            "to": 2020,
+            "sameFullName": true,
+            "sameParty": true,
+            "partyBefore": "PSD",
+            "partyAfter": "PSD",
+            "winnerMarginShiftVotes": 1220
+          },
+          {
+            "from": 2020,
+            "to": 2024,
+            "sameFullName": false,
+            "sameParty": true,
+            "partyBefore": "PSD",
+            "partyAfter": "PSD",
+            "winnerMarginShiftVotes": 4424
+          }
+        ],
+        "councilNonElectedOutpolledElectedCycles": 6,
+        "uncontestedMayorCycles": 0,
+        "averageMayorWinningVoteSharePct": 63.24
+      }
+    },
+    {
+      "ibge": "3147006",
+      "name": "Paracatu",
+      "uf": "MG",
+      "cycles": [
+        {
+          "year": 2004,
+          "mayor": {
+            "candidateId": "17",
+            "fullName": "VASCO PRAÇA FILHO",
+            "ballotName": "VASQUINHO",
+            "party": "PMDB",
+            "votes": 25669,
+            "shareValidPct": 60.27,
+            "runnerUpVotes": 16918,
+            "marginVotes": 8751,
+            "hasOpponent": true
+          },
+          "mayorCandidateCount": 2,
+          "councilCandidateCount": 97,
+          "councilElectedCount": 6,
+          "councilParties": {
+            "PDT": 1,
+            "PL": 1,
+            "PMDB": 1,
+            "PSB": 1,
+            "PSDB": 1,
+            "PTB": 1
+          },
+          "councilLowestElectedVotes": 1210,
+          "councilHighestNonElectedVotes": 1371,
+          "councilNonElectedOutpolledElected": true,
+          "councilElectedByStatus": {
+            "ELEITO": 6
+          },
+          "councilGenderElected": {
+            "FEMININO": 1,
+            "MASCULINO": 5
+          },
+          "councilEducationElected": {
+            "FUNDAMENTAL INCOMPLETO": 3,
+            "MÉDIO COMPLETO": 1,
+            "SUPERIOR COMPLETO": 1
+          }
+        },
+        {
+          "year": 2008,
+          "mayor": {
+            "candidateId": "14546",
+            "fullName": "VASCO PRAÇA FILHO",
+            "ballotName": "VASQUINHO",
+            "party": "PMDB",
+            "votes": 26334,
+            "shareValidPct": 57.23,
+            "runnerUpVotes": 12806,
+            "marginVotes": 13528,
+            "hasOpponent": true
+          },
+          "mayorCandidateCount": 4,
+          "councilCandidateCount": 104,
+          "councilElectedCount": 7,
+          "councilParties": {
+            "DEM": 1,
+            "PDT": 1,
+            "PMDB": 1,
+            "PR": 1,
+            "PSDB": 1,
+            "PT": 1,
+            "PTB": 1
+          },
+          "councilLowestElectedVotes": 1002,
+          "councilHighestNonElectedVotes": 1333,
+          "councilNonElectedOutpolledElected": true,
+          "councilElectedByStatus": {
+            "ELEITO": 7
+          },
+          "councilGenderElected": {
+            "MASCULINO": 7
+          },
+          "councilEducationElected": {
+            "ENSINO FUNDAMENTAL INCOMPLETO": 1,
+            "ENSINO MÉDIO COMPLETO": 2,
+            "ENSINO MÉDIO INCOMPLETO": 1,
+            "SUPERIOR COMPLETO": 3
+          }
+        },
+        {
+          "year": 2012,
+          "mayor": {
+            "candidateId": "130000071596",
+            "fullName": "OLAVO REMIGIO CONDE",
+            "ballotName": "OLAVO CONDE",
+            "party": "PSDB",
+            "votes": 21162,
+            "shareValidPct": 43.38,
+            "runnerUpVotes": 13891,
+            "marginVotes": 7271,
+            "hasOpponent": true
+          },
+          "mayorCandidateCount": 4,
+          "councilCandidateCount": 193,
+          "councilElectedCount": 17,
+          "councilParties": {
+            "DEM": 1,
+            "PDT": 1,
+            "PHS": 2,
+            "PMDB": 4,
+            "PRB": 1,
+            "PSD": 1,
+            "PSDB": 2,
+            "PT": 2,
+            "PTB": 3
+          },
+          "councilLowestElectedVotes": 472,
+          "councilHighestNonElectedVotes": 938,
+          "councilNonElectedOutpolledElected": true,
+          "councilElectedByStatus": {
+            "ELEITO POR MÉDIA": 4,
+            "ELEITO POR QP": 13
+          },
+          "councilGenderElected": {
+            "FEMININO": 2,
+            "MASCULINO": 15
+          },
+          "councilEducationElected": {
+            "ENSINO FUNDAMENTAL COMPLETO": 1,
+            "ENSINO FUNDAMENTAL INCOMPLETO": 2,
+            "ENSINO MÉDIO COMPLETO": 4,
+            "ENSINO MÉDIO INCOMPLETO": 3,
+            "SUPERIOR COMPLETO": 6,
+            "SUPERIOR INCOMPLETO": 1
+          }
+        },
+        {
+          "year": 2016,
+          "mayor": {
+            "candidateId": "130000038691",
+            "fullName": "OLAVO REMIGIO CONDE",
+            "ballotName": "OLAVO CONDE",
+            "party": "PSDB",
+            "votes": 24584,
+            "shareValidPct": 54.32,
+            "runnerUpVotes": 17812,
+            "marginVotes": 6772,
+            "hasOpponent": true
+          },
+          "mayorCandidateCount": 3,
+          "councilCandidateCount": 232,
+          "councilElectedCount": 17,
+          "councilParties": {
+            "DEM": 1,
+            "PC do B": 3,
+            "PHS": 2,
+            "PMDB": 1,
+            "PMN": 1,
+            "PRTB": 1,
+            "PSB": 1,
+            "PSC": 1,
+            "PSDB": 3,
+            "PT": 1,
+            "PTB": 1,
+            "SD": 1
+          },
+          "councilLowestElectedVotes": 593,
+          "councilHighestNonElectedVotes": 744,
+          "councilNonElectedOutpolledElected": true,
+          "councilElectedByStatus": {
+            "ELEITO POR MÉDIA": 4,
+            "ELEITO POR QP": 13
+          },
+          "councilGenderElected": {
+            "FEMININO": 2,
+            "MASCULINO": 15
+          },
+          "councilEducationElected": {
+            "ENSINO FUNDAMENTAL COMPLETO": 3,
+            "ENSINO FUNDAMENTAL INCOMPLETO": 2,
+            "ENSINO MÉDIO COMPLETO": 7,
+            "ENSINO MÉDIO INCOMPLETO": 1,
+            "SUPERIOR COMPLETO": 4
+          }
+        },
+        {
+          "year": 2020,
+          "mayor": {
+            "candidateId": "130000845367",
+            "fullName": "IGOR PEREIRA DOS SANTOS",
+            "ballotName": "IGOR SANTOS",
+            "party": "DEM",
+            "votes": 14614,
+            "shareValidPct": 32.29,
+            "runnerUpVotes": 13704,
+            "marginVotes": 910,
+            "hasOpponent": true
+          },
+          "mayorCandidateCount": 8,
+          "councilCandidateCount": 308,
+          "councilElectedCount": 17,
+          "councilParties": {
+            "DEM": 2,
+            "MDB": 1,
+            "PC do B": 1,
+            "PDT": 1,
+            "PODE": 1,
+            "PP": 1,
+            "PSB": 1,
+            "PSC": 1,
+            "PSD": 3,
+            "PSDB": 3,
+            "REPUBLICANOS": 1,
+            "SOLIDARIEDADE": 1
+          },
+          "councilLowestElectedVotes": 414,
+          "councilHighestNonElectedVotes": 667,
+          "councilNonElectedOutpolledElected": true,
+          "councilElectedByStatus": {
+            "ELEITO POR MÉDIA": 10,
+            "ELEITO POR QP": 7
+          },
+          "councilGenderElected": {
+            "FEMININO": 5,
+            "MASCULINO": 12
+          },
+          "councilEducationElected": {
+            "ENSINO FUNDAMENTAL COMPLETO": 1,
+            "ENSINO MÉDIO COMPLETO": 5,
+            "SUPERIOR COMPLETO": 10,
+            "SUPERIOR INCOMPLETO": 1
+          }
+        },
+        {
+          "year": 2024,
+          "mayor": {
+            "candidateId": "130001935501",
+            "fullName": "IGOR PEREIRA DOS SANTOS",
+            "ballotName": "IGOR SANTOS",
+            "party": "UNIÃO",
+            "votes": 40976,
+            "shareValidPct": 82.34,
+            "runnerUpVotes": 7263,
+            "marginVotes": 33713,
+            "hasOpponent": true
+          },
+          "mayorCandidateCount": 3,
+          "councilCandidateCount": 266,
+          "councilElectedCount": 17,
+          "councilParties": {
+            "MOBILIZA": 1,
+            "NOVO": 2,
+            "PDT": 1,
+            "PL": 2,
+            "PP": 2,
+            "PSD": 1,
+            "PSDB": 3,
+            "PT": 1,
+            "REPUBLICANOS": 2,
+            "UNIÃO": 2
+          },
+          "councilLowestElectedVotes": 577,
+          "councilHighestNonElectedVotes": 855,
+          "councilNonElectedOutpolledElected": true,
+          "councilElectedByStatus": {
+            "ELEITO POR MÉDIA": 8,
+            "ELEITO POR QP": 9
+          },
+          "councilGenderElected": {
+            "FEMININO": 5,
+            "MASCULINO": 12
+          },
+          "councilEducationElected": {
+            "ENSINO FUNDAMENTAL INCOMPLETO": 1,
+            "ENSINO MÉDIO COMPLETO": 4,
+            "SUPERIOR COMPLETO": 10,
+            "SUPERIOR INCOMPLETO": 2
+          }
+        }
+      ],
+      "historicalPatterns": {
+        "consecutiveMayorWinnerSameFullName": 3,
+        "consecutiveMayorWinnerSameParty": 2,
+        "mayorWinnerSameNamePairs": [
+          {
+            "from": 2004,
+            "to": 2008,
+            "sameFullName": true,
+            "sameParty": true,
+            "partyBefore": "PMDB",
+            "partyAfter": "PMDB",
+            "winnerMarginShiftVotes": 4777
+          },
+          {
+            "from": 2008,
+            "to": 2012,
+            "sameFullName": false,
+            "sameParty": false,
+            "partyBefore": "PMDB",
+            "partyAfter": "PSDB",
+            "winnerMarginShiftVotes": -6257
+          },
+          {
+            "from": 2012,
+            "to": 2016,
+            "sameFullName": true,
+            "sameParty": true,
+            "partyBefore": "PSDB",
+            "partyAfter": "PSDB",
+            "winnerMarginShiftVotes": -499
+          },
+          {
+            "from": 2016,
+            "to": 2020,
+            "sameFullName": false,
+            "sameParty": false,
+            "partyBefore": "PSDB",
+            "partyAfter": "DEM",
+            "winnerMarginShiftVotes": -5862
+          },
+          {
+            "from": 2020,
+            "to": 2024,
+            "sameFullName": true,
+            "sameParty": false,
+            "partyBefore": "DEM",
+            "partyAfter": "UNIÃO",
+            "winnerMarginShiftVotes": 32803
+          }
+        ],
+        "councilNonElectedOutpolledElectedCycles": 6,
+        "uncontestedMayorCycles": 0,
+        "averageMayorWinningVoteSharePct": 54.97
+      }
+    }
+  ],
+  "methodNotes": [
+    "Votos válidos nominais de prefeito: soma de votos válidos informados para os candidatos; não equipara votos brancos, nulos ou anulados a votos válidos.",
+    "Eleitos somente por situação oficial de totalização ('ELEITO', 'ELEITO POR QP', 'ELEITO POR MÉDIA'); não pela maior votação individual.",
+    "Correspondências históricas de nomes completos são apenas indicadores de recorrência nominal; não identificam de forma conclusiva pessoas, mandatos ou alterações de nome.",
+    "O universo consiste em seis eleições ordinárias para três municípios. Proporções não preveem eleições futuras.",
+    "Mudanças de sigla podem decorrer de reorganizações, fusões, incorporações ou filiações. Diferenças nominais não bastam para atribuir mudança de filiação."
+  ]
+}

@@ -5,6 +5,8 @@ on:
     paths:
       - 'municipais-2028/**'
       - 'scripts/check_municipais_2028.js'
+      - 'scripts/check_tse_municipal_six_data.js'
+      - 'docs/analise-municipal-2004-2024.md'
       - 'docs/municipais-2028-roadmap.md'
       - '.github/workflows/municipais-2028.yml'
       - 'index.html'
@@ -30,5 +32,7 @@ jobs:
         run: node scripts/check_municipais_2028.js
       - name: Validate TSE historical importer without network
         run: python3 scripts/test_tse_municipal_6cycles.py
+      - name: Audit TSE imported elections and winners
+        run: node scripts/check_tse_municipal_six_data.js
       - name: Confirm 2026 remains compatible
         run: python3 scripts/check_frontend.py

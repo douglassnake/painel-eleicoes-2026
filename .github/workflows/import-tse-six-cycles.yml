@@ -9,6 +9,12 @@ on:
       - 'scripts/analyze_tse_municipal_6cycles.py'
       - 'scripts/test_tse_municipal_6cycles.py'
       - '.github/workflows/import-tse-six-cycles.yml'
+  pull_request:
+    paths:
+      - 'scripts/import_tse_municipal_6cycles.py'
+      - 'scripts/analyze_tse_municipal_6cycles.py'
+      - 'scripts/test_tse_municipal_6cycles.py'
+      - '.github/workflows/import-tse-six-cycles.yml'
   workflow_dispatch:
 
 permissions:

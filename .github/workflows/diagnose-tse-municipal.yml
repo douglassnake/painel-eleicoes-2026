@@ -1,0 +1,18 @@
+name: Diagnose TSE historical archives
+on:
+  push:
+    branches: ['feature/observatorio-municipal-2028']
+    paths:
+      - 'scripts/diagnose_tse_municipal_6cycles.py'
+      - '.github/workflows/diagnose-tse-municipal.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check official TSE 2004 and 2024 archive formats
+        run: python3 -u scripts/diagnose_tse_municipal_6cycles.py

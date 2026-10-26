@@ -69,9 +69,9 @@ def city_code(row):
 def ordinary(row):
     if str(row.get("NR_TURNO", "1")).strip() != "1":
         return False
-    if str(row.get("CD_TIPO_ELEICAO", "1")).strip() not in ("", "1"):
+    if str(row.get("CD_TIPO_ELEICAO", "2")).strip() not in ("", "2"):
         return False
-    if "SUPLEMENTAR" in norm(row.get("DS_ELEICAO", "")):
+    if "SUPLEMENTAR" in norm(row.get("DS_ELEICAO", "")) or "SUPLEMENTAR" in norm(row.get("NM_TIPO_ELEICAO", "")):
         return False
     return True
 

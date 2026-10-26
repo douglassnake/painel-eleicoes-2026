@@ -69,22 +69,9 @@
   }
 
   function historical(city) {
-    const years = [2024, 2020];
-    return '<div class="section-header"><p>DOCUMENTAÇÃO ELEITORAL</p><h2>Histórico de ' + esc(city.name) +
-      '</h2><span>Resultados anteriores somente quando acompanhados de fonte oficial.</span></div>' +
-      years.map(year => {
-        const rows = availableResults(city.ibge, year);
-        const body = !rows.length
-          ? notice('Base de ' + year + ' ainda não importada', 'Nenhuma votação é exibida até conferir e importar os arquivos oficiais do TSE.')
-          : '<div class="table-scroller"><table><thead><tr><th>Cargo</th><th>Turno</th><th>Candidatura</th><th>Partido</th><th>Votos</th><th>Fonte</th></tr></thead><tbody>' +
-            rows.slice().sort((a,b) => b.votes-a.votes).map(row =>
-              '<tr><td>' + esc(row.office) + '</td><td>' + row.round + 'º</td><td>' +
-              esc(row.candidate) + '</td><td>' + esc(row.party) + '</td><td>' +
-              fmt(row.votes) + '</td><td>' + sourceLink(row.sourceUrl,'TSE/TRE') + '</td></tr>'
-            ).join('') + '</tbody></table></div>';
-        return '<section class="history-block"><h3>Eleições ' + year + '</h3>' + body + '</section>';
-      }).join('') +
-      '<p class="footnote">Dados históricos de prefeito e vereador devem ser processados separadamente. O código IBGE identifica o município, mas não substitui o código eleitoral do TSE.</p>';
+    return '<div class="section-header"><p>2004–2024 / ARQUIVOS OFICIAIS DO TSE</p><h2>Histórico de ' +
+      esc(city.name) + '</h2><span>Todos os candidatos a prefeito e vereador nas seis eleições municipais mais recentes, com suas votações, situações oficiais e padrões descritivos.</span></div>' +
+      '<div id="historySixMount" aria-live="polite"><p role="status">Carregando os dados oficiais…</p></div>';
   }
 
   function office(city, kind) {
@@ -150,6 +137,7 @@
     function repaint() {
       const city = db.municipalities.find(m => m.ibge === picker.value);
       viewport.innerHTML = renderPage(city.ibge, section);
+      if (section === 'historico') window.MunicipalHistorySix?.mount(viewport.querySelector('#historySixMount'), city.ibge);
       document.getElementById('selectedMunicipality').textContent = cityLabel(city);
       document.querySelectorAll('[data-section]').forEach(btn => {
         const selected = btn.dataset.section === section;

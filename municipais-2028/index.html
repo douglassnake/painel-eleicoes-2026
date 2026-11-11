@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Observatório independente das eleições municipais de 2028. Informações públicas, histórico eleitoral e dados oficiais por município.">
+  <meta name="theme-color" content="#0d1422">
+  <title>Eleições Municipais 2028 | Observatório Eleitoral</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#municipal2028View">Ir para o conteúdo</a>
+  <div class="page-shell" id="municipal2028App">
+    <header class="header">
+      <div class="header-top">
+        <a class="brand" href="../index.html" aria-label="Voltar ao arquivo eleitoral de 2026">
+          <span class="brand-mark">PE</span>
+          <span>OBSERVATÓRIO <strong>ELEITORAL</strong><small>Arquivo 2026 e eleições municipais 2028</small></span>
+        </a>
+        <a class="archive-link" href="../index.html">Consultar arquivo de 2026 ↗</a>
+      </div>
+      <div class="hero">
+        <div>
+          <p class="eyebrow"><span class="pulse" aria-hidden="true"></span> ELEIÇÕES MUNICIPAIS · BRASIL · 2028</p>
+          <h1>O futuro das <em>cidades.</em><br>Em dados públicos.</h1>
+          <p class="hero-description">Acompanhe prefeitos, vereadores, informações oficiais e o histórico das eleições de 2020 e 2024, município por município.</p>
+          <p class="verification">Plataforma independente e apartidária. Não atribuímos candidaturas, pesquisas ou resultados inexistentes.</p>
+        </div>
+        <div class="election-dates" aria-label="Datas de referência das eleições de 2028">
+          <div><span>PRIMEIRO TURNO</span><strong id="firstRoundDate">1º de outubro de 2028</strong><small>Prefeitura e Câmara Municipal</small></div>
+          <div><span>SEGUNDO TURNO, ONDE HOUVER</span><strong id="secondRoundDate">29 de outubro de 2028</strong><small>Apenas para prefeito, nas condições legais</small></div>
+          <p>Datas conforme a regra legal vigente; prazos e resoluções de 2028 devem ser confirmados no TSE.</p>
+        </div>
+      </div>
+    </header>
+
+    <div class="workspace">
+      <aside class="sidebar" aria-label="Filtros e navegação">
+        <label for="municipalityPicker">Município</label>
+        <select id="municipalityPicker" aria-label="Selecionar município"></select>
+        <p class="scope">Recorte inicial: Noroeste de Minas. Expansão gradual para outros municípios.</p>
+        <nav aria-label="Áreas do observatório" class="sections">
+          <button type="button" data-section="visao-geral" aria-pressed="true" class="selected">Visão geral</button>
+          <button type="button" data-section="historico" aria-pressed="false">Histórico 2020 e 2024</button>
+          <button type="button" data-section="prefeito" aria-pressed="false">Prefeito e vice</button>
+          <button type="button" data-section="vereadores" aria-pressed="false">Vereadores</button>
+          <button type="button" data-section="fontes" aria-pressed="false">Fontes e metodologia</button>
+        </nav>
+        <div class="sidebar-bottom">
+          <span>SELEÇÃO ATUAL</span>
+          <strong id="selectedMunicipality">Guarda-Mor · MG</strong>
+          <small>Fontes: TSE e IBGE</small>
+        </div>
+      </aside>
+      <main class="content" id="municipal2028View" tabindex="-1" aria-live="polite">
+        <p>Preparando observatório municipal…</p>
+      </main>
+    </div>
+    <footer class="footer">
+      <p>Dados de 2028 serão publicados somente quando existirem fontes verificáveis. Resultados históricos, pesquisas e projeções são categorias distintas.</p>
+      <p>Observatório Eleitoral · Projeto independente, sem vínculo institucional com o TSE.</p>
+    </footer>
+  </div>
+  <script src="data.js"></script>
+  <script src="history-six.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -30,6 +30,7 @@ jobs:
           python3 scripts/check_frontend.py
           node scripts/check_competitiveness.js
           node scripts/check_runoff.js
+          node scripts/check_municipal_map.js
           node scripts/check_surveys.js
           node scripts/check_candidate_colors.js
           node scripts/check_president_simulation.js

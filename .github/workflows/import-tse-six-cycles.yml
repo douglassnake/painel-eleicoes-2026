@@ -1,0 +1,83 @@
+name: Import six official municipal election cycles
+
+on:
+  push:
+    branches:
+      - 'feature/observatorio-municipal-2028'
+    paths:
+      - 'scripts/import_tse_municipal_6cycles.py'
+      - 'scripts/analyze_tse_municipal_6cycles.py'
+      - 'scripts/test_tse_municipal_6cycles.py'
+      - 'scripts/check_tse_municipal_six_data.js'
+      - '.github/workflows/import-tse-six-cycles.yml'
+  pull_request:
+    paths:
+      - 'scripts/import_tse_municipal_6cycles.py'
+      - 'scripts/analyze_tse_municipal_6cycles.py'
+      - 'scripts/test_tse_municipal_6cycles.py'
+      - '.github/workflows/import-tse-six-cycles.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: tse-six-cycles-2028
+  cancel-in-progress: false
+
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        year: [2004, 2008, 2012, 2016, 2020, 2024]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify importer with local synthetic TSE fixtures
+        run: python3 scripts/test_tse_municipal_6cycles.py
+      - name: Download official TSE files and extract three cities
+        run: |
+          python3 -u scripts/import_tse_municipal_6cycles.py \
+            --year ${{ matrix.year }} --output municipal-history-output
+      - name: Preserve year output and manifest
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: tse-history-${{ matrix.year }}
+          path: municipal-history-output/*.json
+          if-no-files-found: ignore
+          retention-days: 14
+
+  consolidate:
+    needs: extract
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feature/observatorio-municipal-2028
+          persist-credentials: true
+      - name: Download all six audited years
+        uses: actions/download-artifact@v4
+        with:
+          pattern: tse-history-*
+          path: municipais-2028/historico
+          merge-multiple: true
+      - name: Check all official winner statuses and summarize
+        run: python3 -u scripts/analyze_tse_municipal_6cycles.py
+      - name: Audit all 18 municipal elections and council seats
+        run: node scripts/check_tse_municipal_six_data.js
+      - name: Commit ONLY on feature branch, not public site
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git branch --show-current)" = "feature/observatorio-municipal-2028"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add municipais-2028/historico/
+          if ! git diff --cached --quiet; then
+            git commit -m "data(2028): import six election cycles from official TSE archives [skip ci]"
+            git push origin HEAD:refs/heads/feature/observatorio-municipal-2028
+          fi

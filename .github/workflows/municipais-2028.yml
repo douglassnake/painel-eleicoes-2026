@@ -1,0 +1,38 @@
+name: Validate municipal elections 2028
+
+on:
+  pull_request:
+    paths:
+      - 'municipais-2028/**'
+      - 'scripts/check_municipais_2028.js'
+      - 'scripts/check_tse_municipal_six_data.js'
+      - 'docs/analise-municipal-2004-2024.md'
+      - 'docs/municipais-2028-roadmap.md'
+      - '.github/workflows/municipais-2028.yml'
+      - 'index.html'
+  push:
+    branches:
+      - 'feature/observatorio-municipal-2028'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check JS syntax
+        run: |
+          node --check municipais-2028/data.js
+          node --check municipais-2028/app.js
+          node --check municipais-2028/history-six.js
+          node --check scripts/check_municipais_2028.js
+      - name: Validate municipal 2028 data model and UI
+        run: node scripts/check_municipais_2028.js
+      - name: Validate TSE historical importer without network
+        run: python3 scripts/test_tse_municipal_6cycles.py
+      - name: Audit TSE imported elections and winners
+        run: node scripts/check_tse_municipal_six_data.js
+      - name: Confirm 2026 remains compatible
+        run: python3 scripts/check_frontend.py
